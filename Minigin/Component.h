@@ -1,25 +1,32 @@
 #pragma once
-#include "GameObject.h"
+#include <memory>
 
+#include "GameObject.h"
 namespace dae
 {
+	class GameObject;
+
 	class Component
 	{
 
 	public:
-		Component() {};
+
+		Component();
 
 		virtual ~Component() {};
 
 
 
-		void Render() const {};
-		void Update() {};
+		virtual void Render() const {};
+		virtual void Update() {};
+
+		void SetOwner(std::weak_ptr<GameObject> owner);
+
+	protected:
+
 
 	private:
-
-
-		std::shared_ptr<GameObject> m_Owner;
+		std::weak_ptr<GameObject> m_Owner;
 	};
 
 }

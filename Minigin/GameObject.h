@@ -1,36 +1,77 @@
 #pragma once
 #include <memory>
-#include "Transform.h"
+#include <vector>
+#include "Component.h"
 
 namespace dae
 {
-	class Texture2D;
+	class Component;
 
-	// todo: this should become final.
-	class GameObject 
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
-		virtual void Update();
-		virtual void Render() const;
-
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
 
 		GameObject() = default;
-		virtual ~GameObject();
-		GameObject(const GameObject& other) = delete;
-		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
-		GameObject& operator=(GameObject&& other) = delete;
-
 
 		template <typename T> T* AddComponent();
 		template <typename T> T* GetComponent();
 		template <typename T> void RemoveComponent();
 
+		void Update();
+
 	private:
-		Transform m_transform{};
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		std::shared_ptr<Texture2D> m_texture{};
+		std::vector<std::shared_ptr<Component>> m_Components{};
 	};
+
+
+
+	template<typename T>
+	inline T* dae::GameObject::AddComponent()
+	{
+		T* foundComponent = GetComponent<T>();
+		if (foundComponent)
+		{
+			return foundComponent;
+		}
+
+		static_assert(std::is_base_of<Component, T>::value && "T must inherit from Compnent");
+
+		auto component = std::make_shared<T>();
+
+		component->SetOwner(shared_from_this());
+
+		m_Components.push_back(component);
+
+
+		return component.get();
+	}
+
+	template<typename T>
+	inline T* dae::GameObject::GetComponent()
+	{
+		for (auto& component : m_Components)
+		{
+			std::shared_ptr<T> castComponent = std::dynamic_pointer_cast<T>(component);
+			if (castComponent)
+				return castComponent.get();
+		}
+
+		return nullptr;
+	}
+
+	template<typename T>
+	inline void dae::GameObject::RemoveComponent()
+	{
+		auto remove = [&](const auto& component) { return std::is_same<T, decltype(component)>::value; };
+		m_Components.erase(
+			std::remove_if
+			(
+				begin(m_Components),
+				end(m_Components),
+				remove,
+				end(m_Components)
+			));
+	}
+
 }
+

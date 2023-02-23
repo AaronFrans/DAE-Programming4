@@ -10,13 +10,15 @@ namespace dae
 
 		void Update();
 
-		int GetFPS();
+		float GetFPS();
+		float GetDeltaTime();
 
 	private:
 
 		std::chrono::steady_clock::time_point first_tp;
 
-		int m_FPS;
+		float m_FPS{};
+		float m_DeltaTime{};
 
 		std::chrono::time_point<std::chrono::steady_clock> m_LastTimestamp;
 
