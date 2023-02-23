@@ -23,6 +23,11 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+
+		template <typename T> T* AddComponent();
+		template <typename T> T* GetComponent();
+		template <typename T> void RemoveComponent();
+
 	private:
 		Transform m_transform{};
 		// todo: mmm, every gameobject has a texture? Is that correct?
