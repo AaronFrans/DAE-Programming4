@@ -14,3 +14,12 @@ void dae::GameObject::Update()
 		component->Update();
 	}
 }
+
+void dae::GameObject::Render() const
+{
+	for (auto& component : m_Components)
+	{
+		component->Render();
+	}
+}
+

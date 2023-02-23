@@ -22,10 +22,10 @@ namespace dae
 
 		void SetOwner(std::weak_ptr<GameObject> owner);
 
+
+
 	protected:
 
-
-	private:
 		std::weak_ptr<GameObject> m_Owner;
 	};
 

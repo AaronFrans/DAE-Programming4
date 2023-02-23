@@ -13,11 +13,12 @@ namespace dae
 
 		GameObject() = default;
 
-		template <typename T> T* AddComponent();
-		template <typename T> T* GetComponent();
+		template <typename T> std::shared_ptr <T> AddComponent();
+		template <typename T> std::shared_ptr <T> GetComponent();
 		template <typename T> void RemoveComponent();
 
 		void Update();
+		void Render() const;
 
 	private:
 		std::vector<std::shared_ptr<Component>> m_Components{};
@@ -26,13 +27,14 @@ namespace dae
 
 
 	template<typename T>
-	inline T* dae::GameObject::AddComponent()
+	inline std::shared_ptr <T> dae::GameObject::AddComponent()
 	{
-		T* foundComponent = GetComponent<T>();
+		std::shared_ptr <T> foundComponent = GetComponent<T>();
 		if (foundComponent)
 		{
 			return foundComponent;
 		}
+
 
 		static_assert(std::is_base_of<Component, T>::value && "T must inherit from Compnent");
 
@@ -43,17 +45,17 @@ namespace dae
 		m_Components.push_back(component);
 
 
-		return component.get();
+		return component;
 	}
 
 	template<typename T>
-	inline T* dae::GameObject::GetComponent()
+	inline std::shared_ptr <T> dae::GameObject::GetComponent()
 	{
 		for (auto& component : m_Components)
 		{
 			std::shared_ptr<T> castComponent = std::dynamic_pointer_cast<T>(component);
 			if (castComponent)
-				return castComponent.get();
+				return castComponent;
 		}
 
 		return nullptr;

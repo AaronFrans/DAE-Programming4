@@ -10,7 +10,7 @@ namespace dae
 
 		void Update();
 
-		float GetFPS();
+		int GetFPS();
 		float GetDeltaTime();
 
 	private:
