@@ -29,7 +29,6 @@ namespace dae
 
 		void SetupRequiredComponents();
 		std::weak_ptr<TextComponent> m_Text;
-		std::weak_ptr<TransformComponent> m_Transform;
 
 	};
 

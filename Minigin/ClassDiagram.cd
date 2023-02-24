@@ -1,38 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="dae::GameObject" Collapsed="true">
-    <Position X="4.25" Y="4.25" Width="1.5" />
+  <Class Name="dae::FpsCounterComponent" Collapsed="true">
+    <Position X="14" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABQAAAAAAAAIAAAAAAAABAAAAACAAAAEABAgAAIEAAA=</HashCode>
-      <FileName>GameObject.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="dae::Component">
-    <Position X="6.75" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAgAAAIAAAAAAAAAAAAAAAAAAAAAAAAABBgAACAAAA=</HashCode>
-      <FileName>Component.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="dae::FpsCounterComponent">
-    <Position X="0.75" Y="8" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAIAAAAAgAAAAAAIAAACgAAAAAAABAgAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAIAAAAAgAAAAAAIAAACgAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>FpsCounterComponent.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="dae::UpdatingComponent">
-    <Position X="6.5" Y="7.25" Width="1.5" />
+  <Class Name="dae::UpdatingComponent" Collapsed="true">
+    <Position X="14" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAgAAAAAAA=</HashCode>
       <FileName>UpdatingComponent.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="dae::Component" Collapsed="true">
+    <Position X="15" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAABgAACAAAA=</HashCode>
+      <FileName>Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dae::TextRendererComponent" Collapsed="true">
+    <Position X="16.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACIAAAAAgAAAAAAAAAAAgABAAAAABAgAAAAAAA=</HashCode>
+      <FileName>TextRendererComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dae::RenderComponent" Collapsed="true">
+    <Position X="16.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAABAgAAAAgAA=</HashCode>
+      <FileName>RenderComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="dae::TransformComponent" Collapsed="true">
-    <Position X="6.75" Y="2.5" Width="1.5" />
+    <Position X="17" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAHAAAAAAAAAAAAAAAAAAAgAAAAAgAAAAAAA=</HashCode>
       <FileName>TransformComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="dae::TextComponent" Collapsed="true">
+    <Position X="13.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIEAIAAAAgAAAIAAAACAACAAAgAAAAAgAAAAAAA=</HashCode>
+      <FileName>TextComponent.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
