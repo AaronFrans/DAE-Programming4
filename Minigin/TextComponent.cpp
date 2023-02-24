@@ -6,6 +6,14 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 
+
+
+
+dae::TextComponent::TextComponent(std::weak_ptr<GameObject> owner)
+	:Component(owner)
+{
+}
+
 void dae::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
@@ -40,6 +48,7 @@ void dae::TextComponent::SetTexture()
 	m_Texture = std::make_shared<Texture2D>(texture);
 
 }
+
 
 void dae::TextComponent::SetFont(std::shared_ptr<Font> font)
 {

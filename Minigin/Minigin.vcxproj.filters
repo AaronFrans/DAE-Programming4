@@ -13,6 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{7aea5b87-9999-47fd-afed-10ad5b77d632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{7f357482-0fda-469f-9462-959eafb9b37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Render">
+      <UniqueIdentifier>{30eb0248-9ddf-4fee-82fa-72c5d5139699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Update">
+      <UniqueIdentifier>{eca1553a-694f-4369-8726-16e1e6aeb63f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Render">
+      <UniqueIdentifier>{e6099ce0-146a-421c-acd5-35b33c37a010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Updating">
+      <UniqueIdentifier>{91505a2a-afa7-4efb-931d-dea2e6f6570f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Data">
+      <UniqueIdentifier>{c44d8abe-85f5-4ffd-888c-6cf0c7df3527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Data">
+      <UniqueIdentifier>{1f5980e4-b087-4392-8adb-784aafb5ae12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -33,16 +57,10 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
@@ -51,14 +69,29 @@
     <ClInclude Include="Minigin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendererComponent.h">
+      <Filter>Header Files\Components\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Header Files\Components\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdatingComponent.h">
+      <Filter>Header Files\Components\Update</Filter>
+    </ClInclude>
     <ClInclude Include="FpsCounterComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Header Files\Components\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Header Files\Components\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -77,16 +110,10 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
@@ -98,14 +125,32 @@
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FpsCounterComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Source Files\Components\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendererComponent.cpp">
+      <Filter>Source Files\Components\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatingComponent.cpp">
+      <Filter>Source Files\Components\Updating</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsCounterComponent.cpp">
+      <Filter>Source Files\Components\Updating</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Source Files\Components\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source Files\Components\Data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

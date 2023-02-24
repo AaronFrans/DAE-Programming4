@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Component.h"
+#include "UpdatingComponent.h"
 #include "TextComponent.h"
 #include "TransformComponent.h"
 #include "Renderer.h"
@@ -8,18 +8,26 @@
 namespace dae
 {
 	class FpsCounterComponent final :
-		public Component
+		public UpdatingComponent
 	{
 
 	public:
 		FpsCounterComponent();
+		FpsCounterComponent(std::weak_ptr<GameObject> owner);
+
+		~FpsCounterComponent() = default;
+		FpsCounterComponent(const FpsCounterComponent& other) = delete;
+		FpsCounterComponent(FpsCounterComponent&& other) = delete;
+		FpsCounterComponent& operator=(const FpsCounterComponent& other) = delete;
+		FpsCounterComponent& operator=(FpsCounterComponent&& other) = delete;
 
 		void CheckForRequiredComponents() const;
 		void Update() override;
 
-		void Render() const override;
 
 	private:
+
+		void SetupRequiredComponents();
 		std::weak_ptr<TextComponent> m_Text;
 		std::weak_ptr<TransformComponent> m_Transform;
 

@@ -4,8 +4,14 @@
 #include "Timer.h"
 
 dae::FpsCounterComponent::FpsCounterComponent()
-	:Component()
+	:UpdatingComponent()
 {}
+
+dae::FpsCounterComponent::FpsCounterComponent(std::weak_ptr<GameObject> owner)
+	:UpdatingComponent(owner)
+{
+	SetupRequiredComponents();
+}
 
 void dae::FpsCounterComponent::CheckForRequiredComponents() const
 {
@@ -20,6 +26,14 @@ void dae::FpsCounterComponent::Update()
 {
 	CheckForRequiredComponents();
 
+	SetupRequiredComponents();
+
+	m_Text.lock()->SetText(std::to_string(Timer::GetInstance().GetFPS()));
+
+}
+
+void dae::FpsCounterComponent::SetupRequiredComponents()
+{
 	if (m_Text.expired())
 	{
 		m_Text = m_Owner.lock()->GetComponent<TextComponent>();
@@ -29,16 +43,6 @@ void dae::FpsCounterComponent::Update()
 	{
 		m_Transform = m_Owner.lock()->GetComponent<TransformComponent>();
 	}
-
-	m_Text.lock()->SetText(std::to_string(Timer::GetInstance().GetFPS()));
-
 }
 
-void dae::FpsCounterComponent::Render() const
-{
-	CheckForRequiredComponents();
-	const auto& pos = m_Transform.lock()->GetPosition();
 
-	Renderer::GetInstance().RenderTexture(*m_Text.lock()->GetTexture(), pos.x, pos.y);
-
-}

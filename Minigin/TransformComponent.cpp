@@ -7,6 +7,11 @@ dae::TransformComponent::TransformComponent()
 {
 }
 
+dae::TransformComponent::TransformComponent(std::weak_ptr<GameObject> owner)
+	:Component(owner)
+{
+}
+
 void dae::TransformComponent::SetPosition(const float x, const float y, const float z)
 {
 	m_position.x = x;
