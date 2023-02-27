@@ -2,7 +2,6 @@
 #include <memory>
 #include "UpdatingComponent.h"
 #include "TextComponent.h"
-#include "TransformComponent.h"
 #include "Renderer.h"
 
 namespace dae

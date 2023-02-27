@@ -1,5 +1,6 @@
 #include "TextRendererComponent.h"
 #include "Renderer.h"
+#include "UpdatingComponent.h"
 
 dae::TextRendererComponent::TextRendererComponent(std::weak_ptr<GameObject> owner)
 	:RenderComponent(owner)
@@ -29,13 +30,24 @@ void dae::TextRendererComponent::CheckForRequiredComponents() const
 
 void dae::TextRendererComponent::SetupRequiredComponents() 
 {
+		auto lockedOwner = m_Owner.lock();
 	if (m_Text.expired())
 	{
-		m_Text = m_Owner.lock()->GetComponent<TextComponent>();
+		m_Text = lockedOwner->GetComponent<TextComponent>();
+
+		if (m_Text.expired())
+		{
+			m_Text = lockedOwner->AddComponent<TextComponent>();
+		}
 	}
 
 	if (m_Transform.expired())
 	{
-		m_Transform = m_Owner.lock()->GetComponent<TransformComponent>();
+		m_Transform = lockedOwner->GetComponent<TransformComponent>();
+
+		if (m_Transform.expired())
+		{
+			m_Transform = lockedOwner->AddComponent<TransformComponent>();
+		}
 	}
 }

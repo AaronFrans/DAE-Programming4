@@ -1,5 +1,6 @@
 #include <cassert>
 #include "FpsCounterComponent.h"
+#include "RenderComponent.h"
 #include "GameObject.h"
 #include "Timer.h"
 
@@ -29,7 +30,13 @@ void dae::FpsCounterComponent::SetupRequiredComponents()
 {
 	if (m_Text.expired())
 	{
-		m_Text = m_Owner.lock()->GetComponent<TextComponent>();
+		auto lockedOwner = m_Owner.lock();
+		m_Text = lockedOwner->GetComponent<TextComponent>();
+
+		if (m_Text.expired())
+		{
+			m_Text = lockedOwner->AddComponent<TextComponent>();
+		}
 	}
 }
 
