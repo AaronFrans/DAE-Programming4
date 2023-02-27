@@ -12,7 +12,6 @@ namespace dae
 	{
 
 	public:
-		FpsCounterComponent();
 		FpsCounterComponent(std::weak_ptr<GameObject> owner);
 
 		~FpsCounterComponent() = default;

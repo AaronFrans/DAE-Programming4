@@ -1,11 +1,6 @@
 #include "TextRendererComponent.h"
 #include "Renderer.h"
 
-dae::TextRendererComponent::TextRendererComponent()
-	:RenderComponent()
-{
-}
-
 dae::TextRendererComponent::TextRendererComponent(std::weak_ptr<GameObject> owner)
 	:RenderComponent(owner)
 {

@@ -12,8 +12,6 @@ namespace dae
 	class TextComponent final : public Component
 	{
 	public:
-		TextComponent() = default;
-
 		TextComponent(std::weak_ptr<GameObject> owner);
 
 

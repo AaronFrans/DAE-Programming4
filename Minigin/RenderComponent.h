@@ -8,7 +8,6 @@ namespace dae
 	{
 
 	public:
-		RenderComponent();
 		RenderComponent(std::weak_ptr<GameObject> owner);
 
 		virtual ~RenderComponent() = default;

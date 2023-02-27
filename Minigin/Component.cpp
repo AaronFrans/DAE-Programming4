@@ -3,10 +3,6 @@
 
 namespace dae {
 
-	Component::Component()
-	{
-	}
-
 	Component::Component(std::weak_ptr<GameObject> owner)
 	{
 		m_Owner = owner;

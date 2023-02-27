@@ -1,11 +1,6 @@
 #include "TransformComponent.h"
 
 
-dae::TransformComponent::TransformComponent()
-	: Component()
-	, m_position{}
-{
-}
 
 dae::TransformComponent::TransformComponent(std::weak_ptr<GameObject> owner)
 	:Component(owner)

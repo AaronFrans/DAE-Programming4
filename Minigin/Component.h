@@ -11,7 +11,6 @@ namespace dae
 
 	public:
 
-		Component();
 		Component(std::weak_ptr<GameObject> owner);
 
 		virtual ~Component() = default;

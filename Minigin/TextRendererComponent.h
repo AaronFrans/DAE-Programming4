@@ -10,7 +10,6 @@ namespace dae
 	{
 
 	public:
-		TextRendererComponent();
 		TextRendererComponent(std::weak_ptr<GameObject> owner);
 
 		~TextRendererComponent() = default;

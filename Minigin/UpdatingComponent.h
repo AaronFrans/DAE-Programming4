@@ -9,8 +9,7 @@ namespace dae {
 	{
 
 	public:
-
-		UpdatingComponent();
+		
 		UpdatingComponent(std::weak_ptr<GameObject> owner);
 
 		virtual ~UpdatingComponent() = default;

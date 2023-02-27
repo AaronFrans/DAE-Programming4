@@ -3,10 +3,6 @@
 #include "GameObject.h"
 #include "Timer.h"
 
-dae::FpsCounterComponent::FpsCounterComponent()
-	:UpdatingComponent()
-{}
-
 dae::FpsCounterComponent::FpsCounterComponent(std::weak_ptr<GameObject> owner)
 	:UpdatingComponent(owner)
 {
