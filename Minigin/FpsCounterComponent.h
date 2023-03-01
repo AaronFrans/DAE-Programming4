@@ -27,6 +27,7 @@ namespace dae
 
 		void SetupRequiredComponents();
 		std::weak_ptr<TextComponent> m_Text;
+		int m_LastFps{};
 
 	};
 

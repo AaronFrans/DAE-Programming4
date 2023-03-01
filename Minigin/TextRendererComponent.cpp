@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "TextRendererComponent.h"
 #include "Renderer.h"
 #include "UpdatingComponent.h"
@@ -22,15 +23,19 @@ void dae::TextRendererComponent::Render() const
 
 void dae::TextRendererComponent::CheckForRequiredComponents() const
 {
-	assert(m_Owner.lock()->GetComponent<TextComponent>()
-		&& "TextRendererComponent needs a text component");
-	assert(m_Owner.lock()->GetComponent<TransformComponent>()
-		&& "TextRendererComponent needs a text component");
+	if (!m_Owner.lock()->GetComponent<TextComponent>())
+	{
+		throw std::invalid_argument("TextRendererComponent needs a TextComponent");
+	}
+	if (!m_Owner.lock()->GetComponent<TransformComponent>())
+	{
+		throw std::invalid_argument("TextRendererComponent needs a TransformComponent");
+	}
 }
 
 void dae::TextRendererComponent::SetupRequiredComponents() 
 {
-		auto lockedOwner = m_Owner.lock();
+	auto lockedOwner = m_Owner.lock();
 	if (m_Text.expired())
 	{
 		m_Text = lockedOwner->GetComponent<TextComponent>();

@@ -1,4 +1,4 @@
-#include <cassert>
+#include <stdexcept>
 #include "FpsCounterComponent.h"
 #include "RenderComponent.h"
 #include "GameObject.h"
@@ -13,17 +13,23 @@ dae::FpsCounterComponent::FpsCounterComponent(std::weak_ptr<GameObject> owner)
 
 void dae::FpsCounterComponent::CheckForRequiredComponents() const
 {
-	assert(m_Owner.lock()->GetComponent<TextComponent>()
-		&& "FpsCounterComponent needs a text component");
+	if (!m_Owner.lock()->GetComponent<TextComponent>())
+	{
+		throw std::invalid_argument("FpsCounter needs a Textcomponent");
+	}
 }
 
 void dae::FpsCounterComponent::Update()
 {
 	CheckForRequiredComponents();
 
-	SetupRequiredComponents();
+	int newFps = static_cast<int>(1.0f / Timer::GetInstance().GetTimeStep());
 
-	m_Text.lock()->SetText(std::to_string(Timer::GetInstance().GetFPS()));
+	if (newFps != m_LastFps)
+	{
+		m_LastFps = newFps;
+		m_Text.lock()->SetText(std::to_string(newFps));
+	}
 }
 
 void dae::FpsCounterComponent::SetupRequiredComponents()

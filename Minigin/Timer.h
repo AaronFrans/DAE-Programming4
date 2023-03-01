@@ -10,17 +10,16 @@ namespace dae
 
 		void Update();
 
-		int GetFPS();
 		float GetDeltaTime();
+		float GetTimeStep();
 
 	private:
 
-		std::chrono::steady_clock::time_point first_tp;
-
-		float m_FPS{};
 		float m_DeltaTime{};
+		int m_TargetFps;
+		float m_Timestep{ 1.f / m_TargetFps };
 
-		std::chrono::time_point<std::chrono::steady_clock> m_LastTimestamp;
+		std::chrono::time_point<std::chrono::steady_clock> m_LastTimestamp{ std::chrono::high_resolution_clock::now() };
 
 
 	};
