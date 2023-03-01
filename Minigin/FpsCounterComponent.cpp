@@ -23,7 +23,7 @@ void dae::FpsCounterComponent::Update()
 {
 	CheckForRequiredComponents();
 
-	int newFps = static_cast<int>(1.0f / Timer::GetInstance().GetTimeStep());
+	int newFps = static_cast<int>(1.0f / Timer::GetInstance().GetDeltaTime());
 
 	if (newFps != m_LastFps)
 	{

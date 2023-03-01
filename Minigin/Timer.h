@@ -16,7 +16,7 @@ namespace dae
 	private:
 
 		float m_DeltaTime{};
-		int m_TargetFps;
+		int m_TargetFps{ 144 };
 		float m_Timestep{ 1.f / m_TargetFps };
 
 		std::chrono::time_point<std::chrono::steady_clock> m_LastTimestamp{ std::chrono::high_resolution_clock::now() };
