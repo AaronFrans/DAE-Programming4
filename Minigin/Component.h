@@ -18,12 +18,6 @@ namespace dae
 		Component(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
-
-
-		void SetOwner(std::weak_ptr<GameObject> owner);
-
-
-
 	protected:
 
 		std::weak_ptr<GameObject> m_Owner;
