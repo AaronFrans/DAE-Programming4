@@ -7,9 +7,41 @@ dae::TransformComponent::TransformComponent(std::weak_ptr<GameObject> owner)
 {
 }
 
-void dae::TransformComponent::SetPosition(const float x, const float y, const float z)
+const glm::vec3& dae::TransformComponent::GetWorldPosition()
 {
-	m_position.x = x;
-	m_position.y = y;
-	m_position.z = z;
+	if (m_IsDirty)
+		UpdateWorldPosition();
+	return m_WorldPostition;
+}
+
+const glm::vec3& dae::TransformComponent::GetLocalPosition() const
+{
+	return m_LocalPostition;
+}
+
+void dae::TransformComponent::UpdateWorldPosition()
+{
+	if (m_IsDirty)
+	{
+		auto lockedOwner = GetOwner().lock();
+		if (lockedOwner->GetParent().expired())
+			m_WorldPostition = m_LocalPostition;
+		else
+		{
+			const auto parentTransform = lockedOwner->GetParent().lock()->GetComponent<TransformComponent>();
+			m_WorldPostition = parentTransform.get()->GetWorldPosition() + m_LocalPostition;
+		}
+	}
+	m_IsDirty = false;
+}
+
+void dae::TransformComponent::SetLocalPosition(const glm::vec3& newPos)
+{
+	m_LocalPostition = newPos;
+	SetPositionDirty();
+}
+
+void dae::TransformComponent::SetPositionDirty()
+{
+	m_IsDirty = true;
 }

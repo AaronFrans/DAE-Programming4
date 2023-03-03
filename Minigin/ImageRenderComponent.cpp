@@ -17,7 +17,7 @@ void dae::ImageRenderComponent::Render() const
 {
 	CheckForRequiredComponents();
 
-	const auto& pos = m_Transform.lock()->GetPosition();
+	const auto& pos = m_Transform.lock()->GetWorldPosition();
 
 	Renderer::GetInstance().RenderTexture(*m_Image.lock()->GetTexture(), pos.x, pos.y);
 }

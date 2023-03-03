@@ -99,6 +99,9 @@
     <ClInclude Include="ImageComponent.h">
       <Filter>Header Files\Components\Data</Filter>
     </ClInclude>
+    <ClInclude Include="RotatorComponent.h">
+      <Filter>Header Files\Components\Update</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="ImageComponent.cpp">
       <Filter>Source Files\Components\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
+      <Filter>Source Files\Components\Updating</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

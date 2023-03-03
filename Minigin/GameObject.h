@@ -1,13 +1,15 @@
 #pragma once
 #include <memory>
 #include <vector>
-//#include "UpdatingComponent.h" when uncomment issues
+#include <stdexcept>
+//#include "UpdatingComponent.h" //when uncomment issues
 
 namespace dae
 {
 	class Component;
-	class UpdatingComponent;
 	class RenderComponent;
+	class UpdatingComponent;
+	class TransformComponent;
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
@@ -24,13 +26,28 @@ namespace dae
 		template <typename T> std::shared_ptr <T> GetComponent();
 		template <typename T> void RemoveComponent();
 
+		void Init();
 		void Update();
 		void Render() const;
 
+		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition);
+
+		const std::weak_ptr<GameObject>& GetParent() const;
+
 	private:
+
+		void RemoveChild(const std::shared_ptr<GameObject>& child);
+		void AddChild(const std::shared_ptr<GameObject>& child);
+
+		std::weak_ptr<GameObject> m_Parent;
+		std::vector<std::shared_ptr<GameObject>> m_Children;
+
 		std::vector<std::shared_ptr<Component>> m_Components{};
 		std::vector<std::shared_ptr<UpdatingComponent>> m_UpdatingComponents{};
 		std::vector<std::shared_ptr<RenderComponent>> m_RenderComponents{};
+
+		//All gameobjects have a transform
+		std::weak_ptr<TransformComponent> m_Transform{};
 	};
 
 
@@ -83,6 +100,12 @@ namespace dae
 	template<typename T>
 	inline void dae::GameObject::RemoveComponent()
 	{
+
+		if (typeid(T).name() == typeid(TransformComponent).name())
+		{
+			throw std::invalid_argument("Cannot remove the Transform from a gameobject");
+		}
+
 		auto remove = [&](const auto& component) {
 			auto castComponent = std::dynamic_pointer_cast<T>(component);
 
@@ -97,8 +120,6 @@ namespace dae
 				remove
 			),
 			end(m_Components));
-
-
 
 		m_UpdatingComponents.erase(
 			std::remove_if
