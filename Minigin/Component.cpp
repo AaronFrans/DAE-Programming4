@@ -7,4 +7,8 @@ namespace dae {
 	{
 		m_Owner = owner;
 	}
+	std::weak_ptr<GameObject> Component::GetOwner() const
+	{
+		return m_Owner;
+	}
 }

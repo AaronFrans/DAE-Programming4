@@ -36,7 +36,7 @@ void dae::TextRendererComponent::CheckForRequiredComponents() const
 
 void dae::TextRendererComponent::SetupRequiredComponents() 
 {
-	auto lockedOwner = m_Owner.lock();
+	auto lockedOwner = GetOwner().lock();
 	if (m_Text.expired())
 	{
 		m_Text = lockedOwner->GetComponent<TextComponent>();

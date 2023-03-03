@@ -20,6 +20,9 @@ namespace dae
 		Component& operator=(Component&& other) = delete;
 	protected:
 
+		std::weak_ptr<GameObject> GetOwner() const;
+
+	private:
 		std::weak_ptr<GameObject> m_Owner;
 	};
 

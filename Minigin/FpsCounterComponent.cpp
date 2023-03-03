@@ -14,9 +14,9 @@ dae::FpsCounterComponent::FpsCounterComponent(std::weak_ptr<GameObject> owner)
 
 void dae::FpsCounterComponent::CheckForRequiredComponents() const
 {
-	if (!m_Owner.lock()->GetComponent<TextComponent>())
+	if (m_Text.expired())
 	{
-		throw std::invalid_argument("FpsCounter needs a Textcomponent");
+		throw std::invalid_argument("FpsCounter needs a Textcomponent, currently expired");
 	}
 }
 
@@ -37,7 +37,7 @@ void dae::FpsCounterComponent::SetupRequiredComponents()
 {
 	if (m_Text.expired())
 	{
-		auto lockedOwner = m_Owner.lock();
+		auto lockedOwner = GetOwner().lock();
 		m_Text = lockedOwner->GetComponent<TextComponent>();
 
 		if (m_Text.expired())

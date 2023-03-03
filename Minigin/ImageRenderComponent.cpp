@@ -36,7 +36,7 @@ void dae::ImageRenderComponent::CheckForRequiredComponents() const
 
 void dae::ImageRenderComponent::SetupRequiredComponents()
 {
-	auto lockedOwner = m_Owner.lock();
+	auto lockedOwner = GetOwner().lock();
 	if (m_Image.expired())
 	{
 		m_Image = lockedOwner->GetComponent<ImageComponent>();
