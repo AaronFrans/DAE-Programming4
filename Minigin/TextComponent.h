@@ -2,7 +2,6 @@
 #include <string>
 #include <memory>
 #include "Component.h"
-#include "Texture2D.h"
 
 namespace dae
 {

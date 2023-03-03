@@ -179,6 +179,8 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FpsCounterComponent.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ImageComponent.h" />
+    <ClInclude Include="ImageRenderComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="RenderComponent.h" />
@@ -199,6 +201,8 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FpsCounterComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="ImageComponent.cpp" />
+    <ClCompile Include="ImageRenderComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />

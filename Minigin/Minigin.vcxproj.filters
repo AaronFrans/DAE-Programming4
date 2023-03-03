@@ -93,6 +93,12 @@
     <ClInclude Include="TextComponent.h">
       <Filter>Header Files\Components\Data</Filter>
     </ClInclude>
+    <ClInclude Include="ImageRenderComponent.h">
+      <Filter>Header Files\Components\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageComponent.h">
+      <Filter>Header Files\Components\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -147,6 +153,12 @@
       <Filter>Source Files\Components\Data</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source Files\Components\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRenderComponent.cpp">
+      <Filter>Source Files\Components\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageComponent.cpp">
       <Filter>Source Files\Components\Data</Filter>
     </ClCompile>
   </ItemGroup>

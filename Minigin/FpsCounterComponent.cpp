@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include "FpsCounterComponent.h"
 #include "RenderComponent.h"
+#include "TextComponent.h"
 #include "GameObject.h"
 #include "Timer.h"
 

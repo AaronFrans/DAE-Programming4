@@ -1,10 +1,11 @@
 #pragma once
 #include "RenderComponent.h"
-#include "TextComponent.h"
-#include "TransformComponent.h"
 
 namespace dae
 {
+	class TextComponent;
+	class TransformComponent;
+
 	class TextRendererComponent final :
 		public RenderComponent
 	{
@@ -19,9 +20,9 @@ namespace dae
 		TextRendererComponent& operator=(TextRendererComponent&& other) = delete;
 
 		void Render() const override;
-		void CheckForRequiredComponents() const;
 
 	private:
+		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
 
 		std::weak_ptr<TextComponent> m_Text;

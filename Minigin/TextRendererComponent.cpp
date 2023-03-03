@@ -1,12 +1,13 @@
 #include <stdexcept>
 #include "TextRendererComponent.h"
-#include "Renderer.h"
 #include "UpdatingComponent.h"
+#include "Renderer.h"
+#include "TextComponent.h"
+#include "TransformComponent.h"
 
 dae::TextRendererComponent::TextRendererComponent(std::weak_ptr<GameObject> owner)
 	:RenderComponent(owner)
 {
-
 	SetupRequiredComponents();
 	CheckForRequiredComponents();
 }
@@ -23,13 +24,13 @@ void dae::TextRendererComponent::Render() const
 
 void dae::TextRendererComponent::CheckForRequiredComponents() const
 {
-	if (!m_Owner.lock()->GetComponent<TextComponent>())
+	if (m_Text.expired())
 	{
-		throw std::invalid_argument("TextRendererComponent needs a TextComponent");
+		throw std::invalid_argument("TextRendererComponent needs a TextComponent, currently expired");
 	}
-	if (!m_Owner.lock()->GetComponent<TransformComponent>())
+	if (m_Transform.expired())
 	{
-		throw std::invalid_argument("TextRendererComponent needs a TransformComponent");
+		throw std::invalid_argument("TextRendererComponent needs a TransformComponent, currently expired");
 	}
 }
 

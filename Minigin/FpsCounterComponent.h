@@ -6,6 +6,7 @@
 
 namespace dae
 {
+	class TextComponent;
 	class FpsCounterComponent final :
 		public UpdatingComponent
 	{
