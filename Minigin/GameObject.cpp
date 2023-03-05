@@ -2,9 +2,6 @@
 #include <type_traits>
 #include "GameObject.h"
 #include "ResourceManager.h"
-#include "Renderer.h"
-#include "UpdatingComponent.h"
-#include "RenderComponent.h"
 #include "TransformComponent.h"
 
 
@@ -17,7 +14,7 @@ void dae::GameObject::Init()
 
 void dae::GameObject::Update()
 {
-	for (auto& component : m_UpdatingComponents)
+	for (auto& component : m_Components)
 	{
 		component->Update();
 	}
@@ -25,7 +22,7 @@ void dae::GameObject::Update()
 
 void dae::GameObject::Render() const
 {
-	for (auto& component : m_RenderComponents)
+	for (auto& component : m_Components)
 	{
 		component->Render();
 	}

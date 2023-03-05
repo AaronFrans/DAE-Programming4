@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderComponent.h"
+#include "Component.h"
 
 namespace dae {
 
@@ -7,7 +7,7 @@ namespace dae {
 	class TransformComponent;
 
 	class ImageRenderComponent final :
-		public RenderComponent
+		public Component
 	{
 	public:
 		ImageRenderComponent(std::weak_ptr<GameObject> owner);

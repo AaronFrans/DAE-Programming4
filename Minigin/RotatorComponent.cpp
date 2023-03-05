@@ -1,10 +1,9 @@
 #include "RotatorComponent.h"
 #include "TransformComponent.h"
-#include "RenderComponent.h"
 #include "Timer.h"
 
 dae::RotatorComponent::RotatorComponent(std::weak_ptr<GameObject> owner)
-	: UpdatingComponent(owner)
+	: Component(owner)
 {
 	SetupRequiredComponents();
 	CheckForRequiredComponents();

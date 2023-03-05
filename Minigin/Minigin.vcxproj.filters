@@ -78,12 +78,6 @@
     <ClInclude Include="TextRendererComponent.h">
       <Filter>Header Files\Components\Render</Filter>
     </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>Header Files\Components\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdatingComponent.h">
-      <Filter>Header Files\Components\Update</Filter>
-    </ClInclude>
     <ClInclude Include="FpsCounterComponent.h">
       <Filter>Header Files\Components\Update</Filter>
     </ClInclude>
@@ -140,14 +134,8 @@
     <ClCompile Include="Component.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Source Files\Components\Render</Filter>
-    </ClCompile>
     <ClCompile Include="TextRendererComponent.cpp">
       <Filter>Source Files\Components\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdatingComponent.cpp">
-      <Filter>Source Files\Components\Updating</Filter>
     </ClCompile>
     <ClCompile Include="FpsCounterComponent.cpp">
       <Filter>Source Files\Components\Updating</Filter>

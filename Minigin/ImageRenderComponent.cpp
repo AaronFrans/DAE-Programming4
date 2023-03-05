@@ -1,13 +1,12 @@
 #include <stdexcept>
 #include "ImageRenderComponent.h"
-#include "UpdatingComponent.h"
 #include "Renderer.h"
 #include "ImageComponent.h"
 #include "TransformComponent.h"
 
 
 dae::ImageRenderComponent::ImageRenderComponent(std::weak_ptr<GameObject> owner)
-	:RenderComponent(owner)
+	:Component(owner)
 {
 	SetupRequiredComponents();
 	CheckForRequiredComponents();

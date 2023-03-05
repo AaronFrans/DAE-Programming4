@@ -1,12 +1,11 @@
 #include <stdexcept>
 #include "FpsCounterComponent.h"
-#include "RenderComponent.h"
 #include "TextComponent.h"
 #include "GameObject.h"
 #include "Timer.h"
 
 dae::FpsCounterComponent::FpsCounterComponent(std::weak_ptr<GameObject> owner)
-	:UpdatingComponent(owner)
+	:Component(owner)
 {
 	SetupRequiredComponents();
 	CheckForRequiredComponents();

@@ -1,13 +1,13 @@
 #pragma once
 #include <numbers>
 #include <glm/glm.hpp>
-#include "UpdatingComponent.h"
+#include "Component.h"
 
 namespace dae
 {
 	class TransformComponent;
 	class RotatorComponent final :
-		public UpdatingComponent
+		public Component
 	{
 	public:
 		RotatorComponent(std::weak_ptr<GameObject> owner);

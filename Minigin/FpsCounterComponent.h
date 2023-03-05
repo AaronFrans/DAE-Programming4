@@ -1,13 +1,13 @@
 #pragma once
 #include <memory>
-#include "UpdatingComponent.h"
+#include "Component.h"
 #include "Renderer.h"
 
 namespace dae
 {
 	class TextComponent;
 	class FpsCounterComponent final :
-		public UpdatingComponent
+		public Component
 	{
 
 	public:

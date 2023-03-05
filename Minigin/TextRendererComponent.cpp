@@ -1,12 +1,11 @@
 #include <stdexcept>
 #include "TextRendererComponent.h"
-#include "UpdatingComponent.h"
 #include "Renderer.h"
 #include "TextComponent.h"
 #include "TransformComponent.h"
 
 dae::TextRendererComponent::TextRendererComponent(std::weak_ptr<GameObject> owner)
-	:RenderComponent(owner)
+	:Component(owner)
 {
 	SetupRequiredComponents();
 	CheckForRequiredComponents();

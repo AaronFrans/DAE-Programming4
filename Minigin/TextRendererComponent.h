@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderComponent.h"
+#include "Component.h"
 
 namespace dae
 {
@@ -7,7 +7,7 @@ namespace dae
 	class TransformComponent;
 
 	class TextRendererComponent final :
-		public RenderComponent
+		public Component
 	{
 
 	public:
