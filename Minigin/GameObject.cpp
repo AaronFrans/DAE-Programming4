@@ -31,14 +31,14 @@ void dae::GameObject::Render() const
 
 void dae::GameObject::SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition)
 {
-	auto transformLocked = m_Transform.lock();
+	auto transformLocked = m_Transform;
 	if (!parent)
 		transformLocked->SetLocalPosition(transformLocked->GetWorldPosition());
 	else
 	{
 		if (keepWorldPosition)
 		{
-			auto parentTransformLocked = parent->m_Transform.lock();
+			auto parentTransformLocked = parent->m_Transform;
 			transformLocked->SetLocalPosition(transformLocked->GetLocalPosition() - parentTransformLocked->GetWorldPosition());
 		}
 		transformLocked->SetPositionDirty();
@@ -49,6 +49,11 @@ void dae::GameObject::SetParent(std::shared_ptr<GameObject> parent, bool keepWor
 	m_Parent = parent;
 	if (!m_Parent.expired())
 		m_Parent.lock()->AddChild(shared_from_this());
+}
+
+std::shared_ptr<dae::TransformComponent> dae::GameObject::GetTransform()
+{
+	return m_Transform;
 }
 
 const std::weak_ptr<dae::GameObject>& dae::GameObject::GetParent() const

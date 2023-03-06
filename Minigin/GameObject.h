@@ -30,7 +30,9 @@ namespace dae
 		void Update();
 		void Render() const;
 
-		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition);
+		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition); 
+
+		std::shared_ptr<dae::TransformComponent> GetTransform();
 
 		const std::weak_ptr<GameObject>& GetParent() const;
 
@@ -47,7 +49,7 @@ namespace dae
 		std::vector<std::shared_ptr<RenderComponent>> m_RenderComponents{};
 
 		//All gameobjects have a transform
-		std::weak_ptr<TransformComponent> m_Transform{};
+		std::shared_ptr<TransformComponent> m_Transform{};
 	};
 
 
