@@ -17,11 +17,16 @@ dae::TextComponent::TextComponent(std::weak_ptr<GameObject> owner)
 void dae::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
-	SetTexture();
+	m_NeedsUpdate = true;
+	
 }
 
-std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture() const
+std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture()
 {
+	if (m_NeedsUpdate)
+	{
+		SetTexture();
+	}
 	return m_Texture;
 }
 
@@ -53,5 +58,5 @@ void dae::TextComponent::SetTexture()
 void dae::TextComponent::SetFont(std::shared_ptr<Font> font)
 {
 	m_Font = std::move(font);
-	SetTexture();
+	m_NeedsUpdate = true;
 }
