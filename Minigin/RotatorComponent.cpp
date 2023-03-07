@@ -30,8 +30,7 @@ void dae::RotatorComponent::Update()
 		}
 		else
 		{
-			auto pivot = transformLocked->GetWorldPosition();
-			glm::vec3 newPos = { pivot.x + cos(curCircleProgress) * m_CircleRadius , pivot.y + sin(curCircleProgress) * m_CircleRadius, 0 };
+			glm::vec3 newPos = { m_Pivot.x + cos(curCircleProgress) * m_CircleRadius , m_Pivot.y + sin(curCircleProgress) * m_CircleRadius, 0 };
 
 			transformLocked->SetLocalPosition(newPos);
 		}
@@ -52,6 +51,11 @@ void dae::RotatorComponent::SetRotateSpeed(float speed)
 void dae::RotatorComponent::SetCircleRadius(float radius)
 {
 	m_CircleRadius = radius;
+}
+
+void dae::RotatorComponent::SetPivot(glm::vec3 pivot)
+{
+	m_Pivot = pivot;
 }
 
 

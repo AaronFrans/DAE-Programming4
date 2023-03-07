@@ -22,11 +22,16 @@ namespace dae
 
 		void SetRotateSpeed(float speed);
 		void SetCircleRadius(float radius);
+
+		void SetPivot(glm::vec3 pivot);
 	private:
 
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
-		std::weak_ptr<TransformComponent> m_Transform;
+		std::weak_ptr<TransformComponent> m_Transform{};
+
+		glm::vec3 m_Pivot{};
+
 
 		float m_RotateSpeed{ 2 };
 		float m_CircleRadius{ 20 };
