@@ -21,16 +21,13 @@ const glm::vec3& dae::TransformComponent::GetLocalPosition() const
 
 void dae::TransformComponent::UpdateWorldPosition()
 {
-	if (m_IsDirty)
+	const auto lockedOwner = GetOwner().lock();
+	if (lockedOwner->GetParent().expired())
+		m_WorldPostition = m_LocalPostition;
+	else
 	{
-		auto lockedOwner = GetOwner().lock();
-		if (lockedOwner->GetParent().expired())
-			m_WorldPostition = m_LocalPostition;
-		else
-		{
-			const auto parentTransform = lockedOwner->GetParent().lock()->GetComponent<TransformComponent>();
-			m_WorldPostition = parentTransform.get()->GetWorldPosition() + m_LocalPostition;
-		}
+		const auto parentTransform = lockedOwner->GetParent().lock()->GetTransform();
+		m_WorldPostition = parentTransform.get()->GetWorldPosition() + m_LocalPostition;
 	}
 	m_IsDirty = false;
 }
