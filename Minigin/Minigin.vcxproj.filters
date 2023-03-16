@@ -37,6 +37,24 @@
     <Filter Include="Source Files\Components\Data">
       <UniqueIdentifier>{1f5980e4-b087-4392-8adb-784aafb5ae12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{d77566bc-c7a8-4e6b-80ea-4c931763035c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Source Files">
+      <UniqueIdentifier>{c40a50bb-e0bd-4a9c-9875-4b0b06a7c7d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Header Files">
+      <UniqueIdentifier>{ab558e10-b17f-46bb-9b84-18f7dae1d3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Backend Files">
+      <UniqueIdentifier>{8f8df8b8-d196-4886-a140-4ef96d50ab91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Backend Files\Header Files">
+      <UniqueIdentifier>{bca2c9d5-2554-40b5-bca7-a058c355f583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Backend Files\Source Files">
+      <UniqueIdentifier>{a9e8b790-116b-4c39-8cbc-4d2c2ca4a695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -96,6 +114,33 @@
     <ClInclude Include="RotatorComponent.h">
       <Filter>Header Files\Components\Update</Filter>
     </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_internal.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
+      <Filter>imgui\Backend Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
+      <Filter>imgui\Backend Files\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -154,6 +199,30 @@
     </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Source Files\Components\Updating</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_demo.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_draw.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_tables.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
+      <Filter>imgui\Backend Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp">
+      <Filter>imgui\Backend Files\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
