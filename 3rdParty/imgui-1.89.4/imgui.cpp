@@ -1,3 +1,6 @@
+#pragma warning( push )
+#pragma warning( disable : 33010 )
+
 // dear imgui, v1.89.4
 // (main code and documentation)
 
@@ -14625,3 +14628,5 @@ void ImGui::UpdateDebugToolStackQueries() {}
 //-----------------------------------------------------------------------------
 
 #endif // #ifndef IMGUI_DISABLE
+
+#pragma warning( pop )

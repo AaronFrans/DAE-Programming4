@@ -18,6 +18,8 @@ namespace dae
 
 		virtual void Render() const {};
 		virtual void Update() {};
+
+		virtual void RenderImGui() {};
 	protected:
 
 		explicit Component(std::weak_ptr<GameObject> owner);

@@ -7,8 +7,6 @@
 namespace dae
 {
 	class Component;
-	class RenderComponent;
-	class UpdatingComponent;
 	class TransformComponent;
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
@@ -30,7 +28,7 @@ namespace dae
 		void Update();
 		void Render() const;
 
-		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition); 
+		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition);
 
 		std::shared_ptr<dae::TransformComponent> GetTransform();
 
@@ -45,8 +43,6 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> m_Children;
 
 		std::vector<std::shared_ptr<Component>> m_Components{};
-		std::vector<std::shared_ptr<UpdatingComponent>> m_UpdatingComponents{};
-		std::vector<std::shared_ptr<RenderComponent>> m_RenderComponents{};
 
 		//All gameobjects have a transform
 		std::shared_ptr<TransformComponent> m_Transform{};
