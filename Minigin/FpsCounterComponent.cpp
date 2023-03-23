@@ -21,7 +21,6 @@ void dae::FpsCounterComponent::CheckForRequiredComponents() const
 
 void dae::FpsCounterComponent::Update()
 {
-	CheckForRequiredComponents();
 
 	int newFps = static_cast<int>(1.0f / Timer::GetInstance().GetDeltaTime());
 

@@ -12,28 +12,14 @@ dae::RotatorComponent::RotatorComponent(std::weak_ptr<GameObject> owner)
 
 void dae::RotatorComponent::Update()
 {
-	CheckForRequiredComponents();
-
-	
-
 	auto curCircleProgress = m_LastCircleProgress + m_RotateSpeed * Timer::GetInstance().GetTimeStep();
 	if (curCircleProgress != m_LastCircleProgress)
 	{
 		auto transformLocked = m_Transform.lock();
-		auto parent = GetOwner().lock()->GetParent();
 
-		if (!parent.expired())
-		{
-			glm::vec3 newPos = { cos(curCircleProgress) * m_CircleRadius ,sin(curCircleProgress) * m_CircleRadius, 0 };
+		glm::vec3 newPos = { cos(curCircleProgress) * m_CircleRadius ,sin(curCircleProgress) * m_CircleRadius, 0 };
 
-			transformLocked->SetLocalPosition(newPos);
-		}
-		else
-		{
-			glm::vec3 newPos = { m_Pivot.x + cos(curCircleProgress) * m_CircleRadius , m_Pivot.y + sin(curCircleProgress) * m_CircleRadius, 0 };
-
-			transformLocked->SetLocalPosition(newPos);
-		}
+		transformLocked->SetLocalPosition(newPos);
 
 		m_LastCircleProgress = curCircleProgress;
 		if (m_LastCircleProgress >= MAX_ROTATION)
@@ -51,11 +37,6 @@ void dae::RotatorComponent::SetRotateSpeed(float speed)
 void dae::RotatorComponent::SetCircleRadius(float radius)
 {
 	m_CircleRadius = radius;
-}
-
-void dae::RotatorComponent::SetPivot(glm::vec3 pivot)
-{
-	m_Pivot = pivot;
 }
 
 

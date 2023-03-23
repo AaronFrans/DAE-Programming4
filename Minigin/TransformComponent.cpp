@@ -36,6 +36,12 @@ void dae::TransformComponent::SetLocalPosition(const glm::vec3& newPos)
 {
 	m_LocalPostition = newPos;
 	SetPositionDirty();
+	//make owner raw pointer? or keep locked?
+	for (auto& child : GetOwner().lock()->GetChildren())
+	{
+		child->GetTransform()->SetPositionDirty();
+	}
+	
 }
 
 void dae::TransformComponent::SetPositionDirty()

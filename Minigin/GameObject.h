@@ -36,6 +36,10 @@ namespace dae
 
 		const std::weak_ptr<GameObject>& GetParent() const;
 
+		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
+
+
+
 	private:
 
 		void RemoveChild(const std::shared_ptr<GameObject>& child);

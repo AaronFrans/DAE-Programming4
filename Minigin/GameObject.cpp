@@ -18,6 +18,11 @@ void dae::GameObject::Update()
 	{
 		component->Update();
 	}
+
+	for (auto& child : m_Children)
+	{
+		child->Update();
+	}
 }
 
 void dae::GameObject::Render() const
@@ -25,6 +30,11 @@ void dae::GameObject::Render() const
 	for (auto& component : m_Components)
 	{
 		component->Render();
+		component->RenderImGui();
+	}
+	for (auto& child : m_Children)
+	{
+		child->Render();
 	}
 
 }
@@ -59,6 +69,11 @@ std::shared_ptr<dae::TransformComponent> dae::GameObject::GetTransform()
 const std::weak_ptr<dae::GameObject>& dae::GameObject::GetParent() const
 {
 	return m_Parent;
+}
+
+std::vector<std::shared_ptr<dae::GameObject>> dae::GameObject::GetChildren() const
+{
+	return m_Children;
 }
 
 

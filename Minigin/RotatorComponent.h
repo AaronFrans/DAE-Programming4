@@ -23,7 +23,6 @@ namespace dae
 		void SetRotateSpeed(float speed);
 		void SetCircleRadius(float radius);
 
-		void SetPivot(glm::vec3 pivot);
 	private:
 
 		void CheckForRequiredComponents() const;

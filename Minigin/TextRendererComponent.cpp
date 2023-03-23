@@ -13,7 +13,6 @@ dae::TextRendererComponent::TextRendererComponent(std::weak_ptr<GameObject> owne
 
 void dae::TextRendererComponent::Render() const
 {
-	CheckForRequiredComponents();
 
 	const auto& pos = m_Transform.lock()->GetWorldPosition();
 

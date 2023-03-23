@@ -48,42 +48,13 @@ void dae::Renderer::Render()
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
 
-	SceneManager::GetInstance().Render();
 
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
 
-
-	ImGui::Begin("Example plot", nullptr);
-
-	static int i0 = 123;
-	ImGui::InputInt("input int", &i0);
-
-	if (ImGui::Button("Button"))
-		std::cout << "clicked " << i0 << " times";
-
-	std::vector<float> x_data{ 0,1,2,3,4,5 };
-	std::vector<float> y_data{ 1,2,4,8,16,32 };
-	ImGui::PlotConfig conf;
-	conf.values.ys = y_data.data();
-	conf.values.ys = x_data.data();
-	conf.values.count = static_cast<int>(y_data.size());
-	conf.scale.min = 0;
-	conf.scale.max = 32;
-	conf.tooltip.show = true;
-	conf.tooltip.format = "x=%.2f, y=%.2f";
-	conf.grid_x.show = true;
-	conf.grid_y.show = true;
-	conf.frame_size = ImVec2(400, 400);
-	conf.line_thickness = 2.f;
-
-	ImGui::Plot("plot", conf);
-
-
-	ImGui::End();
-
+	SceneManager::GetInstance().Render();
 
 	bool showDemo = true;
 	if (showDemo)
