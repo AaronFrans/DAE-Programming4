@@ -1,38 +1,81 @@
 #include "TrashTheCacheComponent.h"
-#include <imgui_plot.h>
-#include <imgui.h>
-#include <algorithm>
-#include <numeric>
 #include <chrono>
-#include <thread>
-
-
+#include <numeric>
+#include <algorithm>
 
 using namespace std::chrono;
 
-dae::TrashTheCacheComponent::TrashTheCacheComponent(std::weak_ptr<GameObject> owner) : Component(owner)
+
+dae::TrashTheCacheComponent::TrashTheCacheComponent(std::weak_ptr<GameObject> owner)
+	: Component(owner)
 {
 }
 
 void dae::TrashTheCacheComponent::RenderImGui()
 {
-	RenderExercise1();
+	RenderExcersize1();
 
-	RenderExercise2();
+	RenderExcersize2();
 }
 
-void dae::TrashTheCacheComponent::Exercise1()
+void dae::TrashTheCacheComponent::RenderExcersize1()
 {
 
-	m_Ex1Times.clear();
-	int* arr = new int[ARRAY_SIZE];
+	ImGui::Begin("Excersise 1", nullptr);
 
-	std::map<int, std::vector<int>> timings{};
+	ImGui::InputInt("Nr Of Runs", &m_NrOfRunsEx1);
 
-	for (size_t sample = 0; sample < 20; sample++)
+	if (ImGui::Button("Calulate ints"))
+		MeasureInts();
+
+
+	if (m_IntResults.size() > 0)
+		RenderPlot("Ints", m_IntResults);
+
+
+	ImGui::End();
+}
+
+void dae::TrashTheCacheComponent::RenderExcersize2()
+{
+
+	ImGui::Begin("Excersise 2", nullptr);
+
+	ImGui::InputInt("Nr of Runs", &m_NrOfRunsEx2);
+
+	if (ImGui::Button("Measure GameObjects"))
+		MeasureGameObjects3D();
+
+	if (m_GameObjectsResults.size() > 0)
+		RenderPlot("GameObjects", m_GameObjectsResults);
+
+	ImGui::Separator();
+
+	if (ImGui::Button("Measure GameObjectAlts"))
+		MeasureGameObject3DAlts();
+
+	if (m_GameObjectAltsResults.size() > 0)
+		RenderPlot("GameObjectAlts", m_GameObjectAltsResults);
+
+	ImGui::Separator();
+
+	if (m_GameObjectsResults.size() > 0 && m_GameObjectAltsResults.size() > 0)
+		RenderDoublePlot("Normal vs Alts", m_GameObjectsResults, m_GameObjectAltsResults);
+
+	ImGui::End();
+}
+
+void dae::TrashTheCacheComponent::MeasureInts()
+{
+	m_IntResults.clear();
+
+	int* arr = new int[ARRAY_SIZE] {1};
+
+	std::map<unsigned int, std::vector<int>> timings{};
+
+	for (int sample = 0; sample < m_NrOfRunsEx1; sample++)
 	{
-
-		for (int steps = 1; steps <= 1024; steps *= 2)
+		for (unsigned int steps = 1; steps <= 1024; steps *= 2)
 		{
 			auto start = high_resolution_clock::now();
 
@@ -50,22 +93,21 @@ void dae::TrashTheCacheComponent::Exercise1()
 
 	}
 
-	HandleTimings(timings, m_Ex1Times);
+	HandleTimings(timings, m_IntResults);
 
 	delete[] arr;
 }
 
-void dae::TrashTheCacheComponent::GameObjects()
+void dae::TrashTheCacheComponent::MeasureGameObjects3D()
 {
-
-	m_Ex2Times.clear();
+	m_GameObjectsResults.clear();
 	GameObject3D* arr = new GameObject3D[ARRAY_SIZE];
 
-	std::map<int, std::vector<int>> timings{};
+	std::map<unsigned int, std::vector<int>> timings{};
 
-	for (size_t sample = 0; sample < 20; sample++)
+	for (int sample = 0; sample < m_NrOfRunsEx2; sample++)
 	{
-		for (int steps = 1; steps <= 1024; steps *= 2)
+		for (unsigned int steps = 1; steps <= 1024; steps *= 2)
 		{
 			auto start = high_resolution_clock::now();
 
@@ -83,20 +125,20 @@ void dae::TrashTheCacheComponent::GameObjects()
 
 	}
 
-	HandleTimings(timings, m_Ex2Times);
+	HandleTimings(timings, m_GameObjectsResults);
 	delete[] arr;
 }
 
-void dae::TrashTheCacheComponent::GameObjectAlts()
+void dae::TrashTheCacheComponent::MeasureGameObject3DAlts()
 {
-	m_Ex2AltTimes.clear();
+	m_GameObjectAltsResults.clear();
 	GameObject3DAlt* arr = new GameObject3DAlt[ARRAY_SIZE];
 
-	std::map<int, std::vector<int>> timings{};
+	std::map<unsigned int, std::vector<int>> timings{};
 
-	for (size_t sample = 0; sample < 20; sample++)
+	for (int sample = 0; sample < m_NrOfRunsEx2; sample++)
 	{
-		for (int steps = 1; steps <= 1024; steps *= 2)
+		for (unsigned int steps = 1; steps <= 1024; steps *= 2)
 		{
 			auto start = high_resolution_clock::now();
 
@@ -115,122 +157,10 @@ void dae::TrashTheCacheComponent::GameObjectAlts()
 
 	}
 
-	HandleTimings(timings, m_Ex2AltTimes);
+	HandleTimings(timings, m_GameObjectAltsResults);
 	delete[] arr;
 }
 
-void dae::TrashTheCacheComponent::PlotTimes(const std::vector<float>& times, const char* label)
-{
-	ImColor color{ 1.f, 0.f, 0.f, 1.f };
-
-	auto maxVal = *std::max_element(begin(times), end(times));
-	auto minVal = *std::min_element(begin(times), end(times));
-
-	ImGui::PlotConfig conf;
-	conf.values.ys = times.data();
-	conf.values.xs = TIME_STEPS.data();
-	conf.values.count = static_cast<int>(times.size() + 1);
-	conf.values.color = color;
-
-	conf.scale.min = minVal;
-	conf.scale.max = maxVal;
-
-	conf.tooltip.show = true;
-	conf.tooltip.format = "x=%.2f, y=%.2f";
-
-	conf.grid_x.show = true;
-	conf.grid_y.show = true;
-
-	conf.frame_size = ImVec2(200, 200);
-	conf.line_thickness = 2.f;
-
-	ImGui::Plot(label, conf);
-}
-
-void dae::TrashTheCacheComponent::RenderExercise1()
-{
-	ImGui::Begin("Exercise 1", nullptr);
-
-	ImGui::InputInt("Nr of runs", &m_Ex1NrRuns);
-
-	if (ImGui::Button("Ints"))
-		Exercise1();
-
-
-	if (m_Ex1Times.size() > 0)
-	{
-		ImGui::SeparatorText("Results for ints");
-		PlotTimes(m_Ex1Times, "Ex1");
-	}
-
-
-	ImGui::End();
-}
-
-void dae::TrashTheCacheComponent::RenderExercise2()
-{
-	ImGui::Begin("Exercise 2", nullptr);
-
-	ImGui::InputInt("Nr of runs", &m_Ex2NrRuns);
-
-	if (ImGui::Button("GameObejects"))
-		GameObjects();
-
-	if (ImGui::Button("GameObejectAlts"))
-		GameObjectAlts();
-
-
-	if (m_Ex2Times.size() > 0)
-	{
-		ImGui::SeparatorText("Results for GameObjects");
-		PlotTimes(m_Ex2Times, "Ex2");
-
-	}
-	if (m_Ex2AltTimes.size() > 0)
-	{
-		ImGui::SeparatorText("Results for GameObjectAlts");
-		PlotTimes(m_Ex2AltTimes, "Ex2Alt");
-
-	}
-	if (m_Ex2Times.size() > 0 && m_Ex2AltTimes.size() > 0)
-	{
-		ImGui::SeparatorText("Combined Graphs");
-
-
-		ImU32 colors[2]{ ImColor{1.f, 0.f, 0.f}, ImColor{0.f, 1.f, 1.f} };
-		const float* doubleValues[2]{ m_Ex2Times.data(), m_Ex2AltTimes.data() };
-
-
-		auto maxVal = std::max(*std::max_element(begin(m_Ex2Times), end(m_Ex2Times)),
-			*std::max_element(begin(m_Ex2AltTimes), end(m_Ex2AltTimes)));
-		auto minVal = std::min(*std::min_element(begin(m_Ex2Times), end(m_Ex2Times)),
-			*std::min_element(begin(m_Ex2AltTimes), end(m_Ex2AltTimes)));
-
-		ImGui::PlotConfig conf;
-		conf.values.ys_list = doubleValues;
-		conf.values.xs = TIME_STEPS.data();
-		conf.values.count = static_cast<int>(m_Ex2Times.size() + 1);
-		conf.values.ys_count = 2;
-		conf.values.colors = colors;
-
-		conf.scale.min = minVal;
-		conf.scale.max = maxVal;
-
-		conf.tooltip.show = true;
-		conf.tooltip.format = "x=%.2f, y=%.2f";
-
-		conf.grid_x.show = true;
-		conf.grid_y.show = true;
-
-		conf.frame_size = ImVec2(200, 200);
-
-		conf.line_thickness = 2.f;
-
-		ImGui::Plot("plot", conf);
-	}
-
-	ImGui::End();
-}
 
 std::vector<int> dae::TrashTheCacheComponent::WithoutHiLo(const std::vector<int>& orig)
 {
@@ -252,7 +182,7 @@ float dae::TrashTheCacheComponent::Average(const std::vector<int>& v)
 	return std::reduce(v.begin(), v.end()) / count;
 }
 
-void dae::TrashTheCacheComponent::HandleTimings(const std::map<int, std::vector<int>>& timings, std::vector<float>& resultVec)
+void dae::TrashTheCacheComponent::HandleTimings(const std::map<unsigned int, std::vector<int>>& timings, std::vector<float>& resultVec)
 {
 	for (auto& timing : timings)
 	{
@@ -261,5 +191,60 @@ void dae::TrashTheCacheComponent::HandleTimings(const std::map<int, std::vector<
 
 		resultVec.push_back(average);
 	}
+}
+
+void dae::TrashTheCacheComponent::RenderPlot(const char* label, const std::vector<float>& timings)
+{
+
+	float maxVal = *std::max_element(begin(timings), end(timings));
+	float minVal = *std::min_element(begin(timings), end(timings));
+
+
+
+	ImGui::PlotConfig conf;
+	conf.values.color = FIRST_COLOR;
+	conf.values.ys = timings.data();
+	conf.values.xs = TIME_STEPS.data();
+	conf.values.count = static_cast<int>(timings.size() + 1);
+	conf.scale.min = minVal;
+	conf.scale.max = maxVal;
+	conf.tooltip.show = true;
+	conf.tooltip.format = "x=%.2f, y=%.2f";
+	conf.grid_x.show = true;
+	conf.grid_y.show = true;
+	conf.grid_y.size = maxVal / 10.0f;
+	conf.frame_size = ImVec2(200, 200);
+	conf.line_thickness = 2.f;
+
+	ImGui::Plot(label, conf);
+}
+
+void dae::TrashTheCacheComponent::RenderDoublePlot(const char* label, const std::vector<float>& timings1, const std::vector<float>& timings2)
+{
+	const float maxVal = std::max(*std::max_element(begin(timings1), end(timings1)), *std::max_element(begin(timings2), end(timings2)));
+	const float minVal = std::min(*std::min_element(begin(timings1), end(timings1)), *std::min_element(begin(timings2), end(timings2)));
+
+	const int nrOfPoints = static_cast<int>(std::max(timings1.size() + 1, timings2.size() + 1));
+	const float* timingsGroup[2] = {timings1.data(), timings2.data()};
+	 
+	const ImU32 colors[2] = { FIRST_COLOR, SECOND_COLOR };
+
+	ImGui::PlotConfig conf;
+	conf.values.colors = colors;
+	conf.values.ys_list = timingsGroup;
+	conf.values.ys_count = 2;
+	conf.values.xs = TIME_STEPS.data();
+	conf.values.count = nrOfPoints;
+	conf.scale.min = minVal;
+	conf.scale.max = maxVal;
+	conf.tooltip.show = true;
+	conf.tooltip.format = "x=%.2f, y=%.2f";
+	conf.grid_x.show = true;
+	conf.grid_y.show = true;
+	conf.grid_y.size = maxVal / 10.0f;
+	conf.frame_size = ImVec2(200, 200);
+	conf.line_thickness = 2.f;
+
+	ImGui::Plot(label, conf);
 }
 

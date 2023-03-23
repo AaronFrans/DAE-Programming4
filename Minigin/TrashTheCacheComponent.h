@@ -1,11 +1,11 @@
 #pragma once
 #include "Component.h"
+#include "imgui_plot.h"
+#include "imgui.h"
 #include <map>
-#include <vector>
 
 namespace dae
 {
-
 	struct Transform
 	{
 		float matrix[16]
@@ -33,12 +33,11 @@ namespace dae
 		int m_Id{};
 	};
 
-
-	class TrashTheCacheComponent :
+	class TrashTheCacheComponent final :
 		public Component
 	{
-	public:
 
+	public:
 		TrashTheCacheComponent(std::weak_ptr<GameObject> owner);
 
 		~TrashTheCacheComponent() = default;
@@ -47,40 +46,37 @@ namespace dae
 		TrashTheCacheComponent& operator=(const TrashTheCacheComponent& other) = delete;
 		TrashTheCacheComponent& operator=(TrashTheCacheComponent&& other) = delete;
 
-
 		void RenderImGui() override;
 
 	private:
-		const unsigned int ARRAY_SIZE = 10'000'000;
-		const std::vector<float> TIME_STEPS{ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 };
-
-		void RenderExercise1();
-		void RenderExercise2();
-
 
 		std::vector<int> WithoutHiLo(const std::vector<int>& orig);
 		float Average(const std::vector<int>& v);
+		void HandleTimings(const std::map<unsigned int, std::vector<int>>& timings, std::vector<float>& resultVec);
 
-		void HandleTimings(const std::map<int, std::vector<int>>& timings, std::vector<float>& resultVec);
+		void RenderPlot(const char* label, const std::vector<float>& timings);
+		void RenderDoublePlot(const char* label, const std::vector<float>& timings1, const std::vector<float>& timings2);
 
-		void Exercise1();
-
-
-		void GameObjects();
-		void GameObjectAlts();
-
-
-		void PlotTimes(const std::vector<float>& times, const char* label);
+		void RenderExcersize1();
+		void RenderExcersize2();
 
 
-		std::vector<float> m_Ex1Times{};
-		int m_Ex1NrRuns{ 10 };
+		void MeasureInts();
+		void MeasureGameObjects3D();
+		void MeasureGameObject3DAlts();
 
 
-		std::vector<float> m_Ex2AltTimes{};
-		std::vector<float> m_Ex2Times{};
-		int m_Ex2NrRuns{ 10 };
+		int m_NrOfRunsEx1{ 10 };
+		int m_NrOfRunsEx2{ 10 };
 
+		std::vector<float> m_IntResults{};
+		std::vector<float> m_GameObjectsResults{};
+		std::vector<float> m_GameObjectAltsResults{};
+
+		const unsigned int ARRAY_SIZE{ 20'000'000 };
+		const std::vector<float> TIME_STEPS{ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 };
+		const ImColor FIRST_COLOR{ ImColor{1.0f, 0.0f, 0.0f, 1.0f} };
+		const ImColor SECOND_COLOR{ ImColor{0.0f, 1.0f, 0.0f, 1.0f} };
+#
 	};
 }
-

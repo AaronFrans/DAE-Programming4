@@ -142,7 +142,7 @@
       <Filter>imgui\Backend Files\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TrashTheCacheComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -228,7 +228,7 @@
       <Filter>imgui\Backend Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TrashTheCacheComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components\Render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
