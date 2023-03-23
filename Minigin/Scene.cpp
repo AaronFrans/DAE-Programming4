@@ -11,7 +11,6 @@ Scene::~Scene() = default;
 
 void Scene::Add(std::shared_ptr<GameObject> object)
 {
-
 	m_objects.emplace_back(std::move(object));
 }
 

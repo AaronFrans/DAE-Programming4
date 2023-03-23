@@ -55,6 +55,18 @@
     <Filter Include="imgui\Backend Files\Source Files">
       <UniqueIdentifier>{a9e8b790-116b-4c39-8cbc-4d2c2ca4a695}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{12fcc064-88ee-4b46-ad4e-54f69f6874f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Controllers">
+      <UniqueIdentifier>{0a284362-4d1f-478f-bf15-a2a803e17681}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Commands">
+      <UniqueIdentifier>{678a82b6-dfcc-45f6-b8c8-c71917e426d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Commands">
+      <UniqueIdentifier>{2169dd8d-7eb2-4cde-ae31-7b2c7e6857fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -144,6 +156,15 @@
     <ClInclude Include="TrashTheCacheComponent.h">
       <Filter>Header Files\Components\Render</Filter>
     </ClInclude>
+    <ClInclude Include="XboxController.h">
+      <Filter>Header Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -229,6 +250,15 @@
     </ClCompile>
     <ClCompile Include="TrashTheCacheComponent.cpp">
       <Filter>Source Files\Components\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="XboxController.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source Files\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
