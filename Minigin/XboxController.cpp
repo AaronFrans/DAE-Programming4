@@ -74,10 +74,9 @@ bool dae::XboxController::IsPressed(ControllerButton button) const
 
 dae::XboxController::XboxController(unsigned int controllerIndex)
 {
-	pImpl = new XboxControllerImpl(controllerIndex);
+	pImpl = std::make_unique<XboxControllerImpl>(controllerIndex);
 }
 
 dae::XboxController::~XboxController()
 {
-	delete pImpl;
 }

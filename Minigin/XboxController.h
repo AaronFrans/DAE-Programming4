@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 namespace dae
 {
@@ -41,7 +42,7 @@ namespace dae
 
 	private:
 		class XboxControllerImpl;
-		XboxControllerImpl* pImpl{ nullptr };
+		std::unique_ptr<XboxControllerImpl> pImpl{ nullptr };
 
 	};
 }
