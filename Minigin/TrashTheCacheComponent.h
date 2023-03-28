@@ -73,7 +73,7 @@ namespace dae
 		std::vector<float> m_GameObjectsResults{};
 		std::vector<float> m_GameObjectAltsResults{};
 
-		const unsigned int ARRAY_SIZE{ 20'000'000 };
+		const unsigned int ARRAY_SIZE{ 10'000'000 };
 		const std::vector<float> TIME_STEPS{ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 };
 		const ImColor FIRST_COLOR{ ImColor{1.0f, 0.0f, 0.0f, 1.0f} };
 		const ImColor SECOND_COLOR{ ImColor{0.0f, 1.0f, 0.0f, 1.0f} };

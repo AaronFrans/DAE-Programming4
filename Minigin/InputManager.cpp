@@ -11,6 +11,9 @@ bool dae::InputManager::ProccesCommands()
 
 	HandleKeyboardInputs();
 
+	m_UpKeys.assign(m_UpKeys.size(), false);
+	m_DownKeys.assign(m_DownKeys.size(), false);
+
 	return true;
 
 }
@@ -24,16 +27,18 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 		if (e.type == SDL_KEYDOWN) {
-		
+
 			m_PressedKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
+			m_UpKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
 		}
 		if (e.type == SDL_KEYUP) {
-		
+
 			m_PressedKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = false;
+			m_UpKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
 		}
 		if (e.type == SDL_MOUSEBUTTONDOWN)
 		{
-			
+
 		}
 
 
@@ -51,23 +56,53 @@ void dae::InputManager::HandleConrollerInputs()
 		controller->Update();
 	}
 
-	for (auto& command : m_ControllerCommands)
+	for (auto& controllerCommand : m_ControllerCommands)
 	{
-		const unsigned& index = command.first.first;
-		const XboxController::ControllerButton& button = command.first.second;
-		if (m_Controllers[index]->IsPressed(button))
-			command.second->Execute();
+		const unsigned& index = controllerCommand.first.first;
+		const XboxController::ControllerButton& button = controllerCommand.first.second;
+		const auto& command = controllerCommand.second.get();
+
+		switch (command->GetButtonsState())
+		{
+		case Command::ButtonState::Up:
+			if (m_Controllers[index]->IsUp(button))
+				command->Execute();
+			break;
+		case Command::ButtonState::Down:
+			if (m_Controllers[index]->IsDown(button))
+				command->Execute();
+			break;
+		case Command::ButtonState::Pressed:
+			if (m_Controllers[index]->IsPressed(button))
+				command->Execute();
+			break;
+		}
+
 	}
 }
 
 void dae::InputManager::HandleKeyboardInputs()
 {
-	for (auto& command : m_KeyboardCommands)
+	for (auto& keyboardCommand : m_KeyboardCommands)
 	{
-		const unsigned& keyCode = command.first;
+		const unsigned& keyCode = keyboardCommand.first;
+		const auto& command = keyboardCommand.second.get();
+		switch (command->GetButtonsState())
+		{
+		case Command::ButtonState::Up:
+			if (m_UpKeys[keyCode])
+				command->Execute();
+			break;
+		case Command::ButtonState::Down:
+			if (m_DownKeys[keyCode])
+				command->Execute();
+			break;
+		case Command::ButtonState::Pressed:
+			if (m_PressedKeys[keyCode])
+				command->Execute();
+			break;
+		}
 
-		if (m_PressedKeys[keyCode])
-			command.second->Execute();
 
 	}
 }

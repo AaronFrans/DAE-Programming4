@@ -53,6 +53,8 @@ namespace dae
 
 		// implementation if keyboard via: https://stackoverflow.com/questions/3741055/inputs-in-sdl-on-key-pressed
 		std::vector<bool> m_PressedKeys{ std::vector<bool>(322, false) };
+		std::vector<bool> m_UpKeys{ std::vector<bool>(322, false) };
+		std::vector<bool> m_DownKeys{ std::vector<bool>(322, false) };
 
 
 

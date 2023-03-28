@@ -6,6 +6,13 @@ namespace dae
 	class Command
 	{
 	public:
+
+		enum class ButtonState
+		{
+			Up,
+			Down,
+			Pressed
+		};
 		virtual ~Command() = default;
 
 		Command(const Command& other) = delete;
@@ -15,6 +22,9 @@ namespace dae
 
 		virtual void Execute() = 0;
 
+		void SetButtonsState(ButtonState  buttonState) { m_ButtonsState = buttonState; };
+		ButtonState GetButtonsState() { return m_ButtonsState; };
+
 	protected:
 		explicit Command(GameObject* pActor);
 
@@ -23,7 +33,9 @@ namespace dae
 	private:
 		//don't delete -> not owned
 		GameObject* m_pActor{ nullptr };
-		
+
+		ButtonState m_ButtonsState{ ButtonState::Pressed };
+
 	};
 
 }
