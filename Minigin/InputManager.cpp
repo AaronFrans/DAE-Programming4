@@ -29,7 +29,7 @@ bool dae::InputManager::ProcessInput()
 		if (e.type == SDL_KEYDOWN) {
 
 			m_PressedKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
-			m_UpKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
+			m_DownKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
 		}
 		if (e.type == SDL_KEYUP) {
 
