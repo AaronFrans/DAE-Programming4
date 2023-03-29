@@ -32,19 +32,28 @@ void dae::TransformComponent::UpdateWorldPosition()
 	m_IsDirty = false;
 }
 
+void dae::TransformComponent::AddToLocalPosition(const glm::vec3& v)
+{
+
+	m_LocalPostition += v;
+	SetPositionDirty();
+
+}
+
 void dae::TransformComponent::SetLocalPosition(const glm::vec3& newPos)
 {
 	m_LocalPostition = newPos;
 	SetPositionDirty();
-	//make owner raw pointer? or keep locked?
-	for (auto& child : GetOwner().lock()->GetChildren())
-	{
-		child->GetTransform()->SetPositionDirty();
-	}
 	
 }
 
 void dae::TransformComponent::SetPositionDirty()
 {
 	m_IsDirty = true;
+
+	//make owner raw pointer? or keep locked?
+	for (auto& child : GetOwner().lock()->GetChildren())
+	{
+		child->GetTransform()->SetPositionDirty();
+	}
 }

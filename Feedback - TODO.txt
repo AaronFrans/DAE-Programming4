@@ -1,0 +1,22 @@
+!!!avoid magic nr => make them variables!!!
+
+Base command no gameobject -> parameter pack or inherited command that has gameobject
+
+
+use keyboard state for keys
+
+overwrite hash and use struct
+
+Disclaimer !!! Observer != Achvievemnt
+
+not every gameobject needs Observer
+
+observers can have multiple subjects
+
+get subject raw pointer
+
+
+Ex1 
+Player -> Health component
+       -> Die command
+UI
