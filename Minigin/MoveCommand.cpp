@@ -4,14 +4,14 @@
 #include "Timer.h"
 
 dae::MoveCommand::MoveCommand(GameObject* actor)
-	:Command(actor)
 {
-	m_pGameObjectTransform = GetActor()->GetTransform().get();
+	m_pActor = actor;
+
+	m_pGameObjectTransform = m_pActor->GetTransform().get();
 }
 
 void dae::MoveCommand::Execute()
 {
-	GetActor()->GetTransform();
 
 	auto newPos = m_pGameObjectTransform->GetLocalPosition() + m_Direction * m_MoveSpeed * Timer::GetInstance().GetTimeStep();
 	m_pGameObjectTransform->SetLocalPosition(newPos);

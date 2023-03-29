@@ -1,9 +1,6 @@
 !!!avoid magic nr => make them variables!!!
 
-Base command no gameobject -> parameter pack or inherited command that has gameobject
-
-
-use keyboard state for keys
+use keyboard state for keys -> later
 
 overwrite hash and use struct
 

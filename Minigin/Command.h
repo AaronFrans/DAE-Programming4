@@ -26,13 +26,10 @@ namespace dae
 		ButtonState GetButtonsState() { return m_ButtonsState; };
 
 	protected:
-		explicit Command(GameObject* pActor);
 
-		GameObject* GetActor() const { return m_pActor; };
+		explicit Command() = default;
 
 	private:
-		//don't delete -> not owned
-		GameObject* m_pActor{ nullptr };
 
 		ButtonState m_ButtonsState{ ButtonState::Pressed };
 

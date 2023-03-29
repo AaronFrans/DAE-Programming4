@@ -17,6 +17,10 @@ namespace dae
 
 	private:
 
+		//don't delete -> not owned
+		GameObject* m_pActor{ nullptr };
+
+
 		TransformComponent* m_pGameObjectTransform{ nullptr };
 
 		glm::vec3 m_Direction{};
