@@ -43,6 +43,8 @@ namespace dae
 
 		bool ProcessInput();
 
+		void HandleKeyboardKey(Command::ButtonState state, SDL_Scancode scancode);
+
 		//make collections of commands
 		ControllerCommandsMap m_ControllerCommands{ };
 		KeyboardCommandsMap m_KeyboardCommands{ };
@@ -51,15 +53,10 @@ namespace dae
 		//collection with all controllers
 		std::vector<std::unique_ptr<XboxController>> m_Controllers{};
 
+		const Uint8* m_pCurrentState{ SDL_GetKeyboardState(NULL)};
 
-
-		// implementation if keyboard via: https://stackoverflow.com/questions/3741055/inputs-in-sdl-on-key-pressed
-		std::vector<bool> m_PressedKeys{ std::vector<bool>(322, false) };
 		std::vector<bool> m_UpKeys{ std::vector<bool>(322, false) };
 		std::vector<bool> m_DownKeys{ std::vector<bool>(322, false) };
-
-
-
 	};
 
 	template<typename T>

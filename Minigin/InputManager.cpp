@@ -11,12 +11,14 @@ bool dae::InputManager::ProccesCommands()
 
 	HandleKeyboardInputs();
 
+
 	m_UpKeys.assign(m_UpKeys.size(), false);
 	m_DownKeys.assign(m_DownKeys.size(), false);
 
 	return true;
 
 }
+
 bool dae::InputManager::ProcessInput()
 {
 
@@ -28,22 +30,15 @@ bool dae::InputManager::ProcessInput()
 		}
 		if (e.type == SDL_KEYDOWN) {
 
-			m_PressedKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
 			m_DownKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
 		}
 		if (e.type == SDL_KEYUP) {
 
-			m_PressedKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = false;
 			m_UpKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
 		}
-		if (e.type == SDL_MOUSEBUTTONDOWN)
-		{
-
-		}
-
-
 		// etc...
 		ImGui_ImplSDL2_ProcessEvent(&e);
+
 	}
 
 	return true;
@@ -98,7 +93,7 @@ void dae::InputManager::HandleKeyboardInputs()
 				command->Execute();
 			break;
 		case Command::ButtonState::Pressed:
-			if (m_PressedKeys[keyCode])
+			if (m_pCurrentState[keyCode])
 				command->Execute();
 			break;
 		}
@@ -106,7 +101,6 @@ void dae::InputManager::HandleKeyboardInputs()
 
 	}
 }
-
 
 unsigned dae::InputManager::AddController()
 {
