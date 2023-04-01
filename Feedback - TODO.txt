@@ -1,10 +1,7 @@
 !!!avoid magic nr => make them variables!!!
+Disclaimer !!! Observer != Achievement
 
-fix issue with up keyboard button -> getkeyboardstate returns const
-
-Disclaimer !!! Observer != Achvievemnt
-
-not every gameobject needs Observer
+not every GameObject needs Observer
 
 observers can have multiple subjects
 
@@ -12,6 +9,7 @@ get subject raw pointer
 
 
 Ex1 
-Player -> Health component
-       -> Die command
-UI
+Player -> Health component == Subject
+       -> Die command == when pressed lose health
+
+UI -> ShowLives Component == Observers(Health component)

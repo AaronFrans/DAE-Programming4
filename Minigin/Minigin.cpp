@@ -12,6 +12,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Timer.h"
+#include "EventManager.h"
 
 SDL_Window* g_window{};
 
@@ -88,6 +89,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
+	auto& eventHandler = EventManager::GetInstance();
+
 
 	bool doContinue = true;
 
@@ -108,6 +111,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		renderer.Render();
 
+
+		eventHandler.HandleEvents();
 		//sleep -> expected time - time for update + rendertime
 		auto sleepTime = timer.GetLastTimeStamp() + std::chrono::milliseconds(timer.GetFrameTime()) - std::chrono::high_resolution_clock::now();
 

@@ -4,16 +4,16 @@
 
 namespace dae
 {
-	class Timer : public Singleton<Timer>
+	class Timer final : public Singleton<Timer>
 	{
 	public:
 
 		void Update();
 
-		float GetDeltaTime() const;
-		float GetTimeStep() const;
-		int GetFrameTime() const;
-		std::chrono::time_point<std::chrono::steady_clock> GetLastTimeStamp() const;
+		const float GetDeltaTime() const;
+		const float GetTimeStep() const;
+		const int GetFrameTime() const;
+		const std::chrono::time_point<std::chrono::steady_clock> GetLastTimeStamp() const;
 
 	private:
 

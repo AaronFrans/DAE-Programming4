@@ -10,22 +10,22 @@ void dae::Timer::Update()
 }
 
 
-float dae::Timer::GetDeltaTime() const
+const float dae::Timer::GetDeltaTime() const
 {
 	return m_DeltaTime;
 }
 
-float dae::Timer::GetTimeStep() const
+const float dae::Timer::GetTimeStep() const
 {
 	return m_Timestep;
 }
 
-int dae::Timer::GetFrameTime() const
+const int dae::Timer::GetFrameTime() const
 {
 	return m_FrameTime;
 }
 
-std::chrono::time_point<std::chrono::steady_clock> dae::Timer::GetLastTimeStamp() const
+const std::chrono::time_point<std::chrono::steady_clock> dae::Timer::GetLastTimeStamp() const
 {
 	return m_LastTimestamp;
 }
