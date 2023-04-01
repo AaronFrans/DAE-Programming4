@@ -1,8 +1,6 @@
 !!!avoid magic nr => make them variables!!!
 
-use keyboard state for keys -> later
-
-overwrite hash and use struct
+fix issue with up keyboard button -> getkeyboardstate returns const
 
 Disclaimer !!! Observer != Achvievemnt
 
