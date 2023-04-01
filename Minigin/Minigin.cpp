@@ -98,10 +98,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 
 		timer.Update();
+		doContinue = input.ProccesCommands();
 
 		while (lag >= timer.GetTimeStep())
 		{
-			doContinue = input.ProccesCommands();
 			sceneManager.Update();
 			lag -= timer.GetTimeStep();
 		}
