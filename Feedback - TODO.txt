@@ -1,6 +1,9 @@
 !!!avoid magic nr => make them variables!!!
 Disclaimer !!! Observer != Achievement
 
+
+
+
 not every GameObject needs Observer
 
 observers can have multiple subjects
@@ -13,3 +16,6 @@ Player -> Health component == Subject
        -> Die command == when pressed lose health
 
 UI -> ShowLives Component == Observers(Health component)
+
+
+event args basic struct -> inherit depending on the event

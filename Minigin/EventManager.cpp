@@ -1,14 +1,8 @@
 #include "EventManager.h"
 #include <iostream>
-void dae::EventManager::SendEventMessage(const Event& e)
-{
-	const unsigned currentIndex = (m_BufferStart + m_NrQueued) & BUFFER_SIZE;
-	m_Queue[currentIndex] = e;
 
-	++m_NrQueued;
-}
 
-void dae::EventManager::AddObserver(const Event& e, const std::function<void()>& observer)
+void dae::EventManager::AddObserver(const Event& e, const std::function<void(const Event* e)>& observer)
 {
 	auto& observerIt = m_Observers[e];
 	observerIt.push_back(observer);
@@ -16,24 +10,24 @@ void dae::EventManager::AddObserver(const Event& e, const std::function<void()>&
 
 void dae::EventManager::HandleEvents()
 {
-	Event e{};
+	Event* e{ nullptr };
 	while (PollEvents(e))
 	{
-		for (const auto& observer :m_Observers[e])
+		for (const auto& observer : m_Observers[*e])
 		{
-			observer();
+			observer(e);
 		}
 	}
 }
 
-bool dae::EventManager::PollEvents(Event& e)
+bool dae::EventManager::PollEvents(Event*& e)
 {
-	if (m_NrQueued == 0) 
+	if (m_NrQueued == 0)
 		return false;
 
-	e = m_Queue[m_BufferStart];
+	e = m_Queue[m_BufferStart].get();
 
-	m_BufferStart = m_BufferStart + 1 % BUFFER_SIZE;
+	++m_BufferStart %= BUFFER_SIZE;
 	--m_NrQueued;
 
 	return true;

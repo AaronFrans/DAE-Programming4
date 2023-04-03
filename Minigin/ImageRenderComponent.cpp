@@ -9,7 +9,6 @@
 dae::ImageRenderComponent::ImageRenderComponent(std::weak_ptr<GameObject> owner)
 	:Component(owner)
 {
-	EventManager::GetInstance().SendEventMessage(Event{"test event"});
 
 	SetupRequiredComponents();
 	CheckForRequiredComponents();
