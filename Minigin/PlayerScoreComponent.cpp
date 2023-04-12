@@ -1,6 +1,7 @@
 #include "PlayerScoreComponent.h"
 #include "TextComponent.h"
 #include "EventManager.h"
+#include "SteamAchievements.h"
 #include <memory>
 
 dae::PlayerScoreComponent::PlayerScoreComponent(std::weak_ptr<GameObject> owner)
@@ -21,6 +22,7 @@ void dae::PlayerScoreComponent::SetPlayerIndex(unsigned playerIndex)
 {
 	m_PlayerIndex = playerIndex;
 }
+
 
 void dae::PlayerScoreComponent::SetupRequiredComponents()
 {
@@ -50,6 +52,22 @@ void dae::PlayerScoreComponent::SetPointsText()
 	m_pTextComponent->SetText(text);
 }
 
+void dae::PlayerScoreComponent::CheckForAchievements()
+{
+	
+	if (ACH_WIN_ONE_GAME_MIN_POINTS <= m_PointsEarned)
+	{
+		bool hasAchieved;
+
+		m_GameAchievements->HasReceivedAchievement("ACH_WIN_ONE_GAME", &hasAchieved);
+		if (!hasAchieved)
+		{
+			m_GameAchievements->SetAchievement("ACH_WIN_ONE_GAME");
+		}
+	}
+
+}
+
 void dae::PlayerScoreComponent::EarnPoints(const Event* e)
 {
 	if (strcmp(e->eventType, "EnemyDied") == 0)
@@ -64,4 +82,13 @@ void dae::PlayerScoreComponent::EarnPoints(const Event* e)
 			}
 		}
 	}
+
+
+	CheckForAchievements();
+
+}
+
+void dae::PlayerScoreComponent::LinkAchievements(const std::shared_ptr<SteamAchievements>& gameAchievements)
+{
+	m_GameAchievements = gameAchievements;
 }

@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <chrono>
 #include <thread>
+#include <steam_api_common.h>
 #include "Minigin.h"
 #include "InputManager.h"
 #include "SceneManager.h"
@@ -113,6 +114,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 
 		eventHandler.HandleEvents();
+
+		SteamAPI_RunCallbacks();
+
 		//sleep -> expected time - time for update + rendertime
 		auto sleepTime = timer.GetLastTimeStamp() + std::chrono::milliseconds(timer.GetFrameTime()) - std::chrono::high_resolution_clock::now();
 

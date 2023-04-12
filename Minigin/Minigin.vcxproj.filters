@@ -62,6 +62,12 @@
     <Filter Include="Components\Input">
       <UniqueIdentifier>{16e45848-a9c1-4c5a-b4ea-df6797bc49f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="steamworks">
+      <UniqueIdentifier>{13307ac6-0a3c-4e26-afe9-126710e45790}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Achievements">
+      <UniqueIdentifier>{47e88b6d-0068-482c-b3df-7d504c89b2b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
@@ -185,6 +191,144 @@
     <ClInclude Include="TutorialComponent.h">
       <Filter>Components\Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamapplist.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamapps.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamappticket.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamclient.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamcontroller.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamdualsense.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamfriends.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamgamecoordinator.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamgameserver.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamgameserverstats.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamhtmlsurface.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamhttp.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteaminput.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteaminventory.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteammatchmaking.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteammusic.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteammusicremote.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamnetworking.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamnetworkingmessages.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamnetworkingsockets.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamnetworkingutils.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamparentalsettings.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamps3overlayrenderer.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamremoteplay.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamremotestorage.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamscreenshots.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamugc.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamuser.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamuserstats.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamutils.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\isteamvideo.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\matchmakingtypes.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steam_api.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steam_api_common.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steam_api_flat.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steam_api_internal.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steam_gameserver.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamclientpublic.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamencryptedappticket.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamhttpenums.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamnetworkingfakeip.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamnetworkingtypes.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamps3params.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamtypes.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\steamworks\public\steam\steamuniverse.h">
+      <Filter>steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievements.h">
+      <Filter>Achievements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -302,5 +446,13 @@
     <ClCompile Include="TutorialComponent.cpp">
       <Filter>Components\Render</Filter>
     </ClCompile>
+    <ClCompile Include="SteamAchievements.cpp">
+      <Filter>Achievements</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\3rdParty\steamworks\public\steam\steam_api.json">
+      <Filter>steamworks</Filter>
+    </None>
   </ItemGroup>
 </Project>
