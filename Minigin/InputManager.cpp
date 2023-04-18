@@ -1,24 +1,24 @@
 #include <SDL.h>
 #include <imgui_impl_sdl2.h>
+#include <iostream>
 #include "InputManager.h"
 
 bool dae::InputManager::ProccesCommands()
 {
 	if (!ProcessInput()) return false;
 
-
 	HandleConrollerInputs();
 
 	HandleKeyboardInputs();
 
-	m_UpKeys.assign(m_UpKeys.size(), false);
-	m_DownKeys.assign(m_DownKeys.size(), false);
 
 	return true;
 
 }
+
 bool dae::InputManager::ProcessInput()
 {
+	m_PreviousState = m_CurrentState;
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -27,21 +27,16 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 		if (e.type == SDL_KEYDOWN) {
+			const auto pressedButton = SDL_GetScancodeFromKey(e.key.keysym.sym);
 
-			m_PressedKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
-			m_DownKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
+			m_CurrentState[pressedButton] = true;
+
 		}
 		if (e.type == SDL_KEYUP) {
+			const auto releasedButton = SDL_GetScancodeFromKey(e.key.keysym.sym);
 
-			m_PressedKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = false;
-			m_UpKeys[SDL_GetScancodeFromKey(e.key.keysym.sym)] = true;
+			m_CurrentState[releasedButton] = false;
 		}
-		if (e.type == SDL_MOUSEBUTTONDOWN)
-		{
-
-		}
-
-
 		// etc...
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
@@ -58,21 +53,22 @@ void dae::InputManager::HandleConrollerInputs()
 
 	for (auto& controllerCommand : m_ControllerCommands)
 	{
-		const unsigned& index = controllerCommand.first.first;
-		const XboxController::ControllerButton& button = controllerCommand.first.second;
-		const auto& command = controllerCommand.second.get();
+		const unsigned index = controllerCommand.first.controllerIndex;
+		const ButtonState buttonState = controllerCommand.first.buttonsState;
+		const XboxController::ControllerButton button = controllerCommand.first.controllerKey;
+		const auto command = controllerCommand.second.get();
 
-		switch (command->GetButtonsState())
+		switch (buttonState)
 		{
-		case Command::ButtonState::Up:
+		case ButtonState::Up:
 			if (m_Controllers[index]->IsUp(button))
 				command->Execute();
 			break;
-		case Command::ButtonState::Down:
+		case ButtonState::Down:
 			if (m_Controllers[index]->IsDown(button))
 				command->Execute();
 			break;
-		case Command::ButtonState::Pressed:
+		case ButtonState::Pressed:
 			if (m_Controllers[index]->IsPressed(button))
 				command->Execute();
 			break;
@@ -85,20 +81,22 @@ void dae::InputManager::HandleKeyboardInputs()
 {
 	for (auto& keyboardCommand : m_KeyboardCommands)
 	{
-		const unsigned& keyCode = keyboardCommand.first;
-		const auto& command = keyboardCommand.second.get();
-		switch (command->GetButtonsState())
+		const unsigned scancode = keyboardCommand.first.keyboardScancode;
+		const ButtonState buttonState = keyboardCommand.first.buttonsState;
+		const auto command = keyboardCommand.second.get();
+
+		switch (buttonState)
 		{
-		case Command::ButtonState::Up:
-			if (m_UpKeys[keyCode])
+		case ButtonState::Up:
+			if (m_PreviousState[scancode] && !m_CurrentState[scancode])
 				command->Execute();
 			break;
-		case Command::ButtonState::Down:
-			if (m_DownKeys[keyCode])
+		case ButtonState::Down:
+			if (!m_PreviousState[scancode] && m_CurrentState[scancode])
 				command->Execute();
 			break;
-		case Command::ButtonState::Pressed:
-			if (m_PressedKeys[keyCode])
+		case ButtonState::Pressed:
+			if (m_PreviousState[scancode] && m_CurrentState[scancode])
 				command->Execute();
 			break;
 		}
@@ -106,7 +104,6 @@ void dae::InputManager::HandleKeyboardInputs()
 
 	}
 }
-
 
 unsigned dae::InputManager::AddController()
 {

@@ -1,5 +1,4 @@
 #include <stdexcept>
-#include <SDL_ttf.h>
 #include <cassert>
 #include "TextComponent.h"
 #include "Font.h"
@@ -32,11 +31,10 @@ std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture()
 
 void dae::TextComponent::SetTexture()
 {
-	const SDL_Color color = { 255,255,255 }; // only white text is supported now
 
 	assert(m_Font && "No Font set for TextComponent");
 
-	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
+	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
 
 	if (surf == nullptr)
 	{
@@ -58,5 +56,11 @@ void dae::TextComponent::SetTexture()
 void dae::TextComponent::SetFont(std::shared_ptr<Font> font)
 {
 	m_Font = std::move(font);
+	m_NeedsUpdate = true;
+}
+
+void dae::TextComponent::SetColor(const SDL_Color& color)
+{
+	m_Color = color;
 	m_NeedsUpdate = true;
 }

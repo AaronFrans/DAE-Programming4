@@ -1,6 +1,6 @@
 #pragma once
 #include <utility>
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <stdexcept>
@@ -12,29 +12,89 @@
 
 namespace dae
 {
+	enum class ButtonState
+	{
+		Up,
+		Down,
+		Pressed
+	};
 
+	struct XboxControllerInput
+	{
+		unsigned controllerIndex{  };
+		XboxController::ControllerButton controllerKey{ };
+		ButtonState buttonsState{  };
+
+	};
+
+	inline bool operator==(const XboxControllerInput& lhs, const XboxControllerInput& rhs)
+	{
+		return lhs.controllerIndex == rhs.controllerIndex &&
+			lhs.controllerKey == rhs.controllerKey &&
+			lhs.buttonsState == rhs.buttonsState;
+	}
+
+	struct KeyboardInput
+	{
+		SDL_Scancode keyboardScancode{ };
+		ButtonState buttonsState{  };
+	};
+
+	inline bool operator==(const KeyboardInput& lhs, const KeyboardInput& rhs)
+	{
+		return lhs.keyboardScancode == rhs.keyboardScancode &&
+			lhs.buttonsState == rhs.buttonsState;
+	}
+
+}
+
+namespace std
+{
+	template<>
+	struct hash<dae::XboxControllerInput>
+	{
+		std::size_t operator()(const dae::XboxControllerInput& input) const
+		{
+			std::size_t h1 = std::hash<unsigned>{}(input.controllerIndex);
+			std::size_t h2 = std::hash<int>{}(static_cast<int>(input.controllerKey));
+			std::size_t h3 = std::hash<int>{}(static_cast<int>(input.buttonsState));
+			return h1 ^ (h2 << 1) ^ (h3 << 2);
+		}
+	};
+
+	template<>
+	struct hash<dae::KeyboardInput>
+	{
+		std::size_t operator()(const dae::KeyboardInput& input) const
+		{
+			std::size_t h1 = std::hash<unsigned>{}(input.keyboardScancode);
+			std::size_t h3 = std::hash<int>{}(static_cast<int>(input.buttonsState));
+			return h1 ^ (h3 << 1);
+		}
+	};
+}
+
+namespace dae
+{
 
 	class InputManager final : public Singleton<InputManager>
 	{
-
 	public:
-		//bind a controller index to a button
-		using ControllerKey = std::pair<unsigned, XboxController::ControllerButton>;
-		//keep track of all buttons with commands
-		using ControllerCommandsMap = std::map<ControllerKey, std::unique_ptr<Command>>;
 
 		//keep track of all buttons with commands
-		using KeyboardCommandsMap = std::map<SDL_Scancode, std::unique_ptr<Command>>;
+		using ControllerCommandsMap = std::unordered_map<XboxControllerInput, std::unique_ptr<Command>>;
 
+		//keep track of all buttons with commands
+		using KeyboardCommandsMap = std::unordered_map<KeyboardInput, std::unique_ptr<Command>>;
 
 
 		bool ProccesCommands();
 
 		unsigned AddController();
 
-		template<typename T> T* AddXboxCommand(std::unique_ptr<T> command, unsigned controllerIndex, XboxController::ControllerButton buttonToPress);
+		template<typename T> T* AddXboxCommand(std::unique_ptr<T> command, XboxControllerInput input);
 
-		template<typename T> T* AddKeyboardCommand(std::unique_ptr<T> command, SDL_Scancode keyToPress);
+		template<typename T> T* AddKeyboardCommand(std::unique_ptr<T> command, KeyboardInput input);
 
 	private:
 		void HandleConrollerInputs();
@@ -51,48 +111,36 @@ namespace dae
 		//collection with all controllers
 		std::vector<std::unique_ptr<XboxController>> m_Controllers{};
 
-
-
-		// implementation if keyboard via: https://stackoverflow.com/questions/3741055/inputs-in-sdl-on-key-pressed
-		std::vector<bool> m_PressedKeys{ std::vector<bool>(322, false) };
-		std::vector<bool> m_UpKeys{ std::vector<bool>(322, false) };
-		std::vector<bool> m_DownKeys{ std::vector<bool>(322, false) };
-
-
-
+		std::vector<bool> m_CurrentState{ std::vector<bool>(322, false) };
+		std::vector<bool> m_PreviousState{ std::vector<bool>(322, false) };
 	};
 
+
 	template<typename T>
-	inline T* InputManager::AddXboxCommand(std::unique_ptr<T> command, unsigned controllerIndex, XboxController::ControllerButton buttonToPress)
+	inline T* InputManager::AddXboxCommand(std::unique_ptr<T> command, XboxControllerInput input)
 	{
 		static_assert(std::is_base_of<Command, T>::value && "T must inherit from Command");
 
-		while (controllerIndex >= m_Controllers.size())
+		while (input.controllerIndex >= m_Controllers.size())
 		{
 			AddController();
 		}
 
-
 		T* toReturn = command.get();
 
-
-		ControllerKey controllerKeyToPress = std::make_pair(controllerIndex, buttonToPress);
-
-		m_ControllerCommands.insert({ controllerKeyToPress , std::move(command) });
+		m_ControllerCommands.insert({ input , std::move(command) });
 
 		return toReturn;
 	}
 
 	template<typename T>
-	inline T* InputManager::AddKeyboardCommand(std::unique_ptr<T> command, SDL_Scancode keyToPress)
+	inline T* InputManager::AddKeyboardCommand(std::unique_ptr<T> command, KeyboardInput input)
 	{
 		static_assert(std::is_base_of<Command, T>::value && "T must inherit from Command");
 
-
-
 		T* toReturn = command.get();
 
-		m_KeyboardCommands.insert({ keyToPress , std::move(command) });
+		m_KeyboardCommands.insert({ input , std::move(command) });
 
 		return toReturn;
 	}

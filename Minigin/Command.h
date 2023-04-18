@@ -7,12 +7,7 @@ namespace dae
 	{
 	public:
 
-		enum class ButtonState
-		{
-			Up,
-			Down,
-			Pressed
-		};
+
 		virtual ~Command() = default;
 
 		Command(const Command& other) = delete;
@@ -22,16 +17,12 @@ namespace dae
 
 		virtual void Execute() = 0;
 
-		void SetButtonsState(ButtonState  buttonState) { m_ButtonsState = buttonState; };
-		ButtonState GetButtonsState() { return m_ButtonsState; };
-
 	protected:
 
 		explicit Command() = default;
 
 	private:
 
-		ButtonState m_ButtonsState{ ButtonState::Pressed };
 
 	};
 

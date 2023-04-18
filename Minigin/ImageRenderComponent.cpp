@@ -4,10 +4,12 @@
 #include "ImageComponent.h"
 #include "TransformComponent.h"
 
+#include "EventManager.h"
 
 dae::ImageRenderComponent::ImageRenderComponent(std::weak_ptr<GameObject> owner)
 	:Component(owner)
 {
+
 	SetupRequiredComponents();
 	CheckForRequiredComponents();
 }

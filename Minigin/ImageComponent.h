@@ -8,7 +8,7 @@ namespace dae
 
 	class Texture2D;
 
-	class ImageComponent : public Component
+	class ImageComponent final : public Component
 	{
 	public:
 		ImageComponent(std::weak_ptr<GameObject> owner);

@@ -1,16 +1,10 @@
 !!!avoid magic nr => make them variables!!!
+Disclaimer !!! Observer != Achievement
 
-make component unique_ptrs
 
-change children to raw pointers
 
-use keyboard state for keys -> later
 
-overwrite hash and use struct
-
-Disclaimer !!! Observer != Achvievemnt
-
-not every gameobject needs Observer
+not every GameObject needs Observer
 
 observers can have multiple subjects
 
@@ -18,6 +12,10 @@ get subject raw pointer
 
 
 Ex1 
-Player -> Health component
-       -> Die command
-UI
+Player -> Health component == Subject
+       -> Die command == when pressed lose health
+
+UI -> ShowLives Component == Observers(Health component)
+
+
+event args basic struct -> inherit depending on the event

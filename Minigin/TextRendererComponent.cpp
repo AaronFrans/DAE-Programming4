@@ -26,10 +26,6 @@ void dae::TextRendererComponent::CheckForRequiredComponents() const
 	{
 		throw std::invalid_argument("TextRendererComponent needs a TextComponent, currently expired");
 	}
-	if (m_Transform.expired())
-	{
-		throw std::invalid_argument("TextRendererComponent needs a TransformComponent, currently expired");
-	}
 }
 
 void dae::TextRendererComponent::SetupRequiredComponents() 
@@ -45,13 +41,5 @@ void dae::TextRendererComponent::SetupRequiredComponents()
 		}
 	}
 
-	if (m_Transform.expired())
-	{
-		m_Transform = lockedOwner->GetComponent<TransformComponent>();
-
-		if (m_Transform.expired())
-		{
-			m_Transform = lockedOwner->AddComponent<TransformComponent>();
-		}
-	}
+	m_Transform = lockedOwner->GetTransform();
 }

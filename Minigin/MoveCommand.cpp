@@ -13,7 +13,7 @@ dae::MoveCommand::MoveCommand(GameObject* actor)
 void dae::MoveCommand::Execute()
 {
 
-	auto newPos = m_pGameObjectTransform->GetLocalPosition() + m_Direction * m_MoveSpeed * Timer::GetInstance().GetTimeStep();
+	auto newPos = m_pGameObjectTransform->GetLocalPosition() + m_Direction * m_MoveSpeed * Timer::GetInstance().GetDeltaTime();
 	m_pGameObjectTransform->SetLocalPosition(newPos);
 }
 

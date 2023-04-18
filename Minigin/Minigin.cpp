@@ -6,12 +6,14 @@
 #include <SDL_ttf.h>
 #include <chrono>
 #include <thread>
+#include <steam_api_common.h>
 #include "Minigin.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Timer.h"
+#include "EventManager.h"
 
 SDL_Window* g_window{};
 
@@ -88,6 +90,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
+	auto& eventHandler = EventManager::GetInstance();
+
 
 	bool doContinue = true;
 
@@ -98,15 +102,20 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 
 		timer.Update();
+		doContinue = input.ProccesCommands();
 
 		while (lag >= timer.GetTimeStep())
 		{
-			doContinue = input.ProccesCommands();
 			sceneManager.Update();
 			lag -= timer.GetTimeStep();
 		}
 
 		renderer.Render();
+
+
+		eventHandler.HandleEvents();
+
+		SteamAPI_RunCallbacks();
 
 		//sleep -> expected time - time for update + rendertime
 		auto sleepTime = timer.GetLastTimeStamp() + std::chrono::milliseconds(timer.GetFrameTime()) - std::chrono::high_resolution_clock::now();
