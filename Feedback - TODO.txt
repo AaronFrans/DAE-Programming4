@@ -1,5 +1,9 @@
 !!!avoid magic nr => make them variables!!!
 
+make component unique_ptrs
+
+change children to raw pointers
+
 use keyboard state for keys -> later
 
 overwrite hash and use struct
