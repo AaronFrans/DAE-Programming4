@@ -1,7 +1,7 @@
 #include "MoveCommand.h"
-#include "GameObject.h"
-#include "TransformComponent.h"
-#include "Timer.h"
+#include "Engine/GameObject.h"
+#include "Components/TransformComponent.h"
+#include "Engine/Timer.h"
 
 dae::MoveCommand::MoveCommand(GameObject* actor)
 {
