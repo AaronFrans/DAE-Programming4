@@ -7,12 +7,12 @@
 #include <chrono>
 #include <thread>
 #include "Minigin.h"
-#include "InputManager.h"
-#include "SceneManager.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+#include "Input/InputManager.h"
+#include "Scene/SceneManager.h"
+#include "Rendering/Renderer.h"
+#include "Rendering/ResourceManager.h"
 #include "Timer.h"
-#include "EventManager.h"
+#include "Events/EventManager.h"
 
 SDL_Window* g_window{};
 
@@ -44,7 +44,7 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-dae::Minigin::Minigin(const std::string& dataPath)
+dae::Minigin::Minigin(const std::string& dataPath, unsigned windowWidth, unsigned windowHeight)
 {
 	PrintSDLVersion();
 
@@ -57,8 +57,8 @@ dae::Minigin::Minigin(const std::string& dataPath)
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		windowWidth,
+		windowHeight,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr)

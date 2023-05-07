@@ -13,7 +13,7 @@ namespace dae
 	{
 	public:
 
-		GameObject() = default;
+		GameObject(int depthValue = 0);
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -36,7 +36,11 @@ namespace dae
 
 		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
 
+		bool IsDestroyed();
 
+		int GetDrawDepth();
+
+		void MarkForDestroy();
 
 	private:
 
@@ -50,6 +54,11 @@ namespace dae
 
 		//All gameobjects have a transform
 		std::shared_ptr<TransformComponent> m_Transform{};
+
+
+		bool m_IsDestroyed{ false };
+
+		int m_DepthValue{ 0 };
 	};
 
 

@@ -1,11 +1,16 @@
 #include <string>
 #include <type_traits>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "TransformComponent.h"
+#include "Rendering/ResourceManager.h"
+#include "Components/TransformComponent.h"
 
 
 
+
+dae::GameObject::GameObject(int depthValue)
+	:m_DepthValue{ depthValue }
+{
+}
 
 void dae::GameObject::Init()
 {
@@ -74,6 +79,21 @@ const std::weak_ptr<dae::GameObject>& dae::GameObject::GetParent() const
 std::vector<std::shared_ptr<dae::GameObject>> dae::GameObject::GetChildren() const
 {
 	return m_Children;
+}
+
+bool dae::GameObject::IsDestroyed()
+{
+	return m_IsDestroyed;
+}
+
+int dae::GameObject::GetDrawDepth()
+{
+	return m_DepthValue;
+}
+
+void dae::GameObject::MarkForDestroy()
+{
+	m_IsDestroyed = true;
 }
 
 

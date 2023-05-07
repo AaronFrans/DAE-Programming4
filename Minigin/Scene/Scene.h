@@ -15,6 +15,10 @@ namespace dae
 		void Update();
 		void Render() const;
 
+
+		const std::string& GetName() const;
+
+
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
@@ -24,10 +28,12 @@ namespace dae
 	private: 
 		explicit Scene(const std::string& name);
 
-		std::string m_name;
-		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		std::string m_Name;
+		std::vector < std::shared_ptr<GameObject>> m_Objects{};
 
-		static unsigned int m_idCounter; 
+		static unsigned int m_IdCounter; 
+
+		bool m_WasGameObjectAdded{ false };
 	};
 
 }

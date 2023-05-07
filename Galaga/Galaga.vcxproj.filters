@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{6d40e72b-0f9b-4353-bd30-9f1f3ae8a2ca}</UniqueIdentifier>
     </Filter>
@@ -22,27 +18,6 @@
     </Filter>
     <Filter Include="imgui\Backend Files\Source Files">
       <UniqueIdentifier>{7e4ce3e2-7c2b-408d-a35b-b2f43925523e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Events">
-      <UniqueIdentifier>{3bc6914e-acd6-41f1-b5f1-38cd1506b243}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands">
-      <UniqueIdentifier>{18f4c43a-39f7-4ef9-8ef5-ccbb32314e39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{4fe10223-5a7b-4a03-8ae5-2123cd3db99a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Input">
-      <UniqueIdentifier>{405ebaf5-7c7c-4b7d-a49b-f770788c7599}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Render">
-      <UniqueIdentifier>{1465274e-8fc9-4257-b026-5de399702467}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Updating">
-      <UniqueIdentifier>{8b2b60c8-9c58-498b-8dc7-f235a0c2d4b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Observers">
-      <UniqueIdentifier>{6f04220e-df85-4631-8239-3b647803ac19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -70,36 +45,20 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
       <Filter>imgui\Backend Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EarnPointsCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="TakeDamageCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="EarnPointsComponent.cpp">
-      <Filter>Components\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesLeftComponent.cpp">
-      <Filter>Components\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerScoreComponent.cpp">
-      <Filter>Components\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Components\Updating</Filter>
-    </ClCompile>
-    <ClCompile Include="TrashTheCacheComponent.cpp">
-      <Filter>Components\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="TutorialComponent.cpp">
-      <Filter>Components\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Commands\EarnPointsCommand.cpp" />
+    <ClCompile Include="Commands\RestrictedMovementCommand.cpp" />
+    <ClCompile Include="Commands\TakeDamageCommand.cpp" />
+    <ClCompile Include="Components\Data\EarnPointsComponent.cpp" />
+    <ClCompile Include="Components\Data\HealthComponent.cpp" />
+    <ClCompile Include="Components\Observers\LivesLeftComponent.cpp" />
+    <ClCompile Include="Components\Observers\PlayerScoreComponent.cpp" />
+    <ClCompile Include="Components\Rendering\TrashTheCacheComponent.cpp" />
+    <ClCompile Include="Components\Rendering\TutorialComponent.cpp" />
+    <ClCompile Include="Components\Updating\RotatorComponent.cpp" />
+    <ClCompile Include="Components\Updating\AttackComponent.cpp" />
+    <ClCompile Include="Commands\AttackCommand.cpp" />
+    <ClCompile Include="Components\Updating\BulletMovementComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
@@ -129,32 +88,18 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
       <Filter>imgui\Backend Files\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EarnPointsCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="TakeDamageCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="EarnPointsComponent.h">
-      <Filter>Components\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesLeftComponent.h">
-      <Filter>Components\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerScoreComponent.h">
-      <Filter>Components\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="RotatorComponent.h">
-      <Filter>Components\Updating</Filter>
-    </ClInclude>
-    <ClInclude Include="TrashTheCacheComponent.h">
-      <Filter>Components\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="TutorialComponent.h">
-      <Filter>Components\Render</Filter>
-    </ClInclude>
+    <ClInclude Include="Commands\EarnPointsCommand.h" />
+    <ClInclude Include="Commands\RestrictedMovementCommand.h" />
+    <ClInclude Include="Commands\TakeDamageCommand.h" />
+    <ClInclude Include="Components\Data\EarnPointsComponent.h" />
+    <ClInclude Include="Components\Data\HealthComponent.h" />
+    <ClInclude Include="Components\Observers\LivesLeftComponent.h" />
+    <ClInclude Include="Components\Observers\PlayerScoreComponent.h" />
+    <ClInclude Include="Components\Rendering\TrashTheCacheComponent.h" />
+    <ClInclude Include="Components\Rendering\TutorialComponent.h" />
+    <ClInclude Include="Components\Updating\RotatorComponent.h" />
+    <ClInclude Include="Components\Updating\AttackComponent.h" />
+    <ClInclude Include="Commands\AttackCommand.h" />
+    <ClInclude Include="Components\Updating\BulletMovementComponent.h" />
   </ItemGroup>
 </Project>

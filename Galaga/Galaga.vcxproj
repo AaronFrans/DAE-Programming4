@@ -78,14 +78,23 @@
     <Import Project="..\vld.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,8 +111,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,8 +130,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,8 +149,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,16 +171,20 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp" />
-    <ClCompile Include="EarnPointsCommand.cpp" />
-    <ClCompile Include="EarnPointsComponent.cpp" />
-    <ClCompile Include="HealthComponent.cpp" />
-    <ClCompile Include="LivesLeftComponent.cpp" />
+    <ClCompile Include="Components\Updating\BulletMovementComponent.cpp" />
+    <ClCompile Include="Commands\AttackCommand.cpp" />
+    <ClCompile Include="Components\Updating\AttackComponent.cpp" />
+    <ClCompile Include="Commands\EarnPointsCommand.cpp" />
+    <ClCompile Include="Commands\RestrictedMovementCommand.cpp" />
+    <ClCompile Include="Commands\TakeDamageCommand.cpp" />
+    <ClCompile Include="Components\Data\EarnPointsComponent.cpp" />
+    <ClCompile Include="Components\Data\HealthComponent.cpp" />
+    <ClCompile Include="Components\Observers\LivesLeftComponent.cpp" />
+    <ClCompile Include="Components\Observers\PlayerScoreComponent.cpp" />
+    <ClCompile Include="Components\Rendering\TrashTheCacheComponent.cpp" />
+    <ClCompile Include="Components\Rendering\TutorialComponent.cpp" />
+    <ClCompile Include="Components\Updating\RotatorComponent.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PlayerScoreComponent.cpp" />
-    <ClCompile Include="RotatorComponent.cpp" />
-    <ClCompile Include="TakeDamageCommand.cpp" />
-    <ClCompile Include="TrashTheCacheComponent.cpp" />
-    <ClCompile Include="TutorialComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h" />
@@ -180,15 +196,19 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h" />
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h" />
-    <ClInclude Include="EarnPointsCommand.h" />
-    <ClInclude Include="EarnPointsComponent.h" />
-    <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="LivesLeftComponent.h" />
-    <ClInclude Include="PlayerScoreComponent.h" />
-    <ClInclude Include="RotatorComponent.h" />
-    <ClInclude Include="TakeDamageCommand.h" />
-    <ClInclude Include="TrashTheCacheComponent.h" />
-    <ClInclude Include="TutorialComponent.h" />
+    <ClInclude Include="Components\Updating\BulletMovementComponent.h" />
+    <ClInclude Include="Commands\AttackCommand.h" />
+    <ClInclude Include="Components\Updating\AttackComponent.h" />
+    <ClInclude Include="Commands\EarnPointsCommand.h" />
+    <ClInclude Include="Commands\RestrictedMovementCommand.h" />
+    <ClInclude Include="Commands\TakeDamageCommand.h" />
+    <ClInclude Include="Components\Data\EarnPointsComponent.h" />
+    <ClInclude Include="Components\Data\HealthComponent.h" />
+    <ClInclude Include="Components\Observers\LivesLeftComponent.h" />
+    <ClInclude Include="Components\Observers\PlayerScoreComponent.h" />
+    <ClInclude Include="Components\Rendering\TrashTheCacheComponent.h" />
+    <ClInclude Include="Components\Rendering\TutorialComponent.h" />
+    <ClInclude Include="Components\Updating\RotatorComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

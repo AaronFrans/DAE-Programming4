@@ -10,8 +10,8 @@
 
 
 #include "Renderer.h"
-#include "SceneManager.h"
-#include "Texture2D.h"
+#include "Scene/SceneManager.h"
+#include "Rendering/Texture2D.h"
 
 int GetOpenGLDriverIndex()
 {

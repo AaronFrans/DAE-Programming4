@@ -1,5 +1,5 @@
-#include "EarnPointsCommand.h"
-#include "EarnPointsComponent.h"
+#include "Commands/EarnPointsCommand.h"
+#include "Components/Data/EarnPointsComponent.h"
 
 dae::EarnPointsCommand::EarnPointsCommand(GameObject* actor)
 {

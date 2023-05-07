@@ -1,6 +1,6 @@
 #include "TakeDamageCommand.h"
 #include "Engine/GameObject.h"
-#include "HealthComponent.h"
+#include "Components/Data/HealthComponent.h"
 
 dae::TakeDamageCommand::TakeDamageCommand(GameObject* actor)
 {

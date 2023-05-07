@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "Component.h"
+#include "glm/glm.hpp"
 
 namespace dae
 {
@@ -21,6 +22,12 @@ namespace dae
 		ImageComponent& operator=(ImageComponent&& other) = delete;
 
 		void SetTexture(const std::string& filename);
+		void SetTexture(std::shared_ptr<Texture2D>& texture);
+
+		float GetTextureWidth() const;
+		float GetTextureHeight() const;
+
+		glm::vec2 GetTextureDimensions() const;
 		std::shared_ptr<Texture2D> GetTexture() const;
 
 	private:
