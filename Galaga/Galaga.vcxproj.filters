@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{6d40e72b-0f9b-4353-bd30-9f1f3ae8a2ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Source Files">
+      <UniqueIdentifier>{8b3677ed-4ea2-4087-bed6-18014de1a9fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Header Files">
+      <UniqueIdentifier>{d3deb123-43b3-4bc7-bf9a-5ba927944070}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Backend Files">
+      <UniqueIdentifier>{a6eade5a-a459-454d-9d32-1cd70f44d456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Backend Files\Header Files">
+      <UniqueIdentifier>{8472ab25-18d6-497a-a228-9b4bb1229a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Backend Files\Source Files">
+      <UniqueIdentifier>{7e4ce3e2-7c2b-408d-a35b-b2f43925523e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_demo.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_draw.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_tables.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp">
+      <Filter>imgui\Backend Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
+      <Filter>imgui\Backend Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Commands\EarnPointsCommand.cpp" />
+    <ClCompile Include="Commands\RestrictedMovementCommand.cpp" />
+    <ClCompile Include="Commands\TakeDamageCommand.cpp" />
+    <ClCompile Include="Components\Data\EarnPointsComponent.cpp" />
+    <ClCompile Include="Components\Data\HealthComponent.cpp" />
+    <ClCompile Include="Components\Observers\LivesLeftComponent.cpp" />
+    <ClCompile Include="Components\Observers\PlayerScoreComponent.cpp" />
+    <ClCompile Include="Components\Rendering\TrashTheCacheComponent.cpp" />
+    <ClCompile Include="Components\Rendering\TutorialComponent.cpp" />
+    <ClCompile Include="Components\Updating\RotatorComponent.cpp" />
+    <ClCompile Include="Components\Updating\AttackComponent.cpp" />
+    <ClCompile Include="Commands\AttackCommand.cpp" />
+    <ClCompile Include="Components\Updating\BulletMovementComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_internal.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
+      <Filter>imgui\Backend Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
+      <Filter>imgui\Backend Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\EarnPointsCommand.h" />
+    <ClInclude Include="Commands\RestrictedMovementCommand.h" />
+    <ClInclude Include="Commands\TakeDamageCommand.h" />
+    <ClInclude Include="Components\Data\EarnPointsComponent.h" />
+    <ClInclude Include="Components\Data\HealthComponent.h" />
+    <ClInclude Include="Components\Observers\LivesLeftComponent.h" />
+    <ClInclude Include="Components\Observers\PlayerScoreComponent.h" />
+    <ClInclude Include="Components\Rendering\TrashTheCacheComponent.h" />
+    <ClInclude Include="Components\Rendering\TutorialComponent.h" />
+    <ClInclude Include="Components\Updating\RotatorComponent.h" />
+    <ClInclude Include="Components\Updating\AttackComponent.h" />
+    <ClInclude Include="Commands\AttackCommand.h" />
+    <ClInclude Include="Components\Updating\BulletMovementComponent.h" />
+  </ItemGroup>
+</Project>
