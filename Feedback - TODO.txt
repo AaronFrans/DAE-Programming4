@@ -1,21 +1,6 @@
 !!!avoid magic nr => make them variables!!!
-Disclaimer !!! Observer != Achievement
 
 
 
-
-not every GameObject needs Observer
-
-observers can have multiple subjects
-
-get subject raw pointer
-
-
-Ex1 
-Player -> Health component == Subject
-       -> Die command == when pressed lose health
-
-UI -> ShowLives Component == Observers(Health component)
-
-
-event args basic struct -> inherit depending on the event
+On hit -> Observer from funtion that happens on hit to collision that check for when hit
+!!! NO EVENT QUEUE -> Overkill

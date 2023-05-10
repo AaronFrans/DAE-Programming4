@@ -21,27 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_demo.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_draw.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_tables.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp">
-      <Filter>imgui\Backend Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
       <Filter>imgui\Backend Files\Source Files</Filter>
     </ClCompile>
@@ -59,6 +38,7 @@
     <ClCompile Include="Components\Updating\AttackComponent.cpp" />
     <ClCompile Include="Commands\AttackCommand.cpp" />
     <ClCompile Include="Components\Updating\BulletMovementComponent.cpp" />
+    <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
@@ -101,5 +81,6 @@
     <ClInclude Include="Components\Updating\AttackComponent.h" />
     <ClInclude Include="Commands\AttackCommand.h" />
     <ClInclude Include="Components\Updating\BulletMovementComponent.h" />
+    <ClInclude Include="Components\Collision\CollisionComponent.h" />
   </ItemGroup>
 </Project>
