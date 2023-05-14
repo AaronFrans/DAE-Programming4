@@ -71,6 +71,8 @@
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Rendering\Font.h" />
+    <ClInclude Include="Sounds\SoundManager.h" />
+    <ClInclude Include="Sounds\SoundSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
@@ -118,5 +120,7 @@
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
+    <ClCompile Include="Sounds\SoundManager.cpp" />
+    <ClCompile Include="Sounds\SoundSystem.cpp" />
   </ItemGroup>
 </Project>

@@ -54,27 +54,27 @@ private:
 
 void dae::XboxController::Update()
 {
-	pImpl->Update();
+	m_pImpl->Update();
 }
 
 bool dae::XboxController::IsDown(ControllerButton button) const
 {
-	return pImpl->IsDownThisFrame(static_cast<unsigned int>(button));
+	return m_pImpl->IsDownThisFrame(static_cast<unsigned int>(button));
 }
 
 bool dae::XboxController::IsUp(ControllerButton button) const
 {
-	return pImpl->IsUpThisFrame(static_cast<unsigned int>(button));
+	return m_pImpl->IsUpThisFrame(static_cast<unsigned int>(button));
 }
 
 bool dae::XboxController::IsPressed(ControllerButton button) const
 {
-	return pImpl->IsPressedThisFrame(static_cast<unsigned int>(button));
+	return m_pImpl->IsPressedThisFrame(static_cast<unsigned int>(button));
 }
 
 dae::XboxController::XboxController(unsigned int controllerIndex)
 {
-	pImpl = std::make_unique<XboxControllerImpl>(controllerIndex);
+	m_pImpl = std::make_unique<XboxControllerImpl>(controllerIndex);
 }
 
 dae::XboxController::~XboxController()

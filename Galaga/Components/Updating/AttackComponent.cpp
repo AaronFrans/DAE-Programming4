@@ -3,6 +3,8 @@
 #include "Rendering/Texture2D.h"
 #include "Rendering/ResourceManager.h"
 
+#include <Sounds/SoundManager.h>
+
 #include "Components/TransformComponent.h"
 #include "Components/ImageComponent.h"
 #include "Components/ImageRenderComponent.h"
@@ -28,8 +30,6 @@ void dae::AttackComponent::Attack()
 
 	if (m_FiredBullets.size() == 2)
 		return;
-
-
 	const glm::vec3 ownerPos = m_pPlayerTransform->GetWorldPosition();
 
 	auto bullet = std::make_shared<GameObject>();
@@ -48,6 +48,8 @@ void dae::AttackComponent::Attack()
 	m_pScene->Add(bullet);
 
 	m_FiredBullets.push_back(bullet);
+
+	SoundManager::GetInstance().NotifySound(SoundData{ 1, 0.5});
 
 }
 

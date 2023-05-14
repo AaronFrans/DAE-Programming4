@@ -25,13 +25,10 @@ namespace dae
 			ButtonY = 0x8000,
 		};
 
-		void Update();
-
-		bool IsDown(ControllerButton button) const;
-		bool IsUp(ControllerButton button) const;
-		bool IsPressed(ControllerButton button) const;
-
 		explicit XboxController(unsigned int controllerIndex);
+
+		//this is an empty destructor
+		//used as non default for the impl
 		~XboxController();
 
 		XboxController(const XboxController& other) = delete;
@@ -39,10 +36,16 @@ namespace dae
 		XboxController& operator=(const XboxController& other) = delete;
 		XboxController& operator=(XboxController&& other) = delete;
 
+		void Update();
+
+		bool IsDown(ControllerButton button) const;
+		bool IsUp(ControllerButton button) const;
+		bool IsPressed(ControllerButton button) const;
+
 
 	private:
 		class XboxControllerImpl;
-		std::unique_ptr<XboxControllerImpl> pImpl{ nullptr };
+		std::unique_ptr<XboxControllerImpl> m_pImpl{ nullptr };
 
 	};
 }

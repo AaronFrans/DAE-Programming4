@@ -6,13 +6,16 @@
 #include <SDL_ttf.h>
 #include <chrono>
 #include <thread>
+
 #include "Minigin.h"
+
 #include "Input/InputManager.h"
 #include "Scene/SceneManager.h"
 #include "Rendering/Renderer.h"
 #include "Rendering/ResourceManager.h"
 #include "Timer.h"
 #include "Events/EventManager.h"
+#include "Sounds/SoundManager.h"
 
 SDL_Window* g_window{};
 
@@ -69,6 +72,8 @@ dae::Minigin::Minigin(const std::string& dataPath, unsigned windowWidth, unsigne
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
+
+	SoundManager::GetInstance().Init(dataPath);
 }
 
 dae::Minigin::~Minigin()
