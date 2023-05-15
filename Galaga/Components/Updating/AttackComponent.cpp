@@ -49,7 +49,7 @@ void dae::AttackComponent::Attack()
 
 	m_FiredBullets.push_back(bullet);
 
-	SoundManager::GetInstance().NotifySound(SoundData{ 1, 0.5});
+	SoundManager::GetInstance().NotifySound(SoundData{ 1, 0.5, SoundData::SoundType::SoundEffect});
 
 }
 

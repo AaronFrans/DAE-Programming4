@@ -28,6 +28,7 @@ namespace dae
 		SoundSystem& operator=(SoundSystem&& other) = delete;
 
 		void Init();
+		void Quit();
 
 		void PlaySound(unsigned short id, SoundType soundType, float volume);
 		void LoadSound(unsigned short id, const std::string& filepath);

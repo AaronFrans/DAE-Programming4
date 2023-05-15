@@ -5,37 +5,8 @@
 
 #include "SoundSystem.h"
 
-//void PlayeTestSound()
-//{
-
-
-	//if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-	//	std::cout << "Failed To Open Audio";
-	//	return;
-	//}
-	//
-	//Mix_Chunk* soundEffect = Mix_LoadWAV("../Data/Sounds/Funny-03.wav");
-	//if (soundEffect == nullptr) {
-	//	std::cout << "Failed To Open Sound File";
-	//	return;
-	//}
-	//
-	//auto channelNr = Mix_PlayChannel(-1, soundEffect, 0);
-	//
-	//while (Mix_Playing(channelNr) != 0)
-	//{
-	//
-	//}
-	//
-	//Mix_FreeChunk(soundEffect);
-	//
-	//Mix_CloseAudio();
-	//SDL_Quit();
-//}
-
 void dae::SoundManager::Init(const std::string& dataPath)
 {
-
 	m_dataPath = dataPath;
 	if (!m_SoundSystem)
 		m_SoundSystem = std::make_unique<SoundSystem>();
@@ -52,7 +23,24 @@ void dae::SoundManager::NotifySound(SoundData soundData)
 	soundData.filePath = m_dataPath + soundData.filePath;
 	m_EventQueue.push(soundData);
 
-	m_QueueCondition.notify_one();
+	m_QueueCondition.notify_all();
+}
+
+void dae::SoundManager::Quit()
+{
+	std::cout << "Quit: \n";
+	m_ThreadRunning = false;
+	std::cout << "m_ThreadRunning: " << m_ThreadRunning << '\n';
+
+	m_QueueCondition.notify_all();
+
+	m_SoundSystem->Quit();
+
+	if (m_SoundSystem)
+	{
+		m_SoundSystem = nullptr;
+	}
+
 }
 
 dae::SoundManager::SoundManager()
@@ -61,7 +49,6 @@ dae::SoundManager::SoundManager()
 
 dae::SoundManager::~SoundManager()
 {
-	m_ThreadRunning = false;
 }
 
 void dae::SoundManager::PlaySound(SoundData soundData)
@@ -88,8 +75,16 @@ void dae::SoundManager::SoundThread()
 	while (m_ThreadRunning)
 	{
 		std::unique_lock<std::mutex> lock(m_QueueMutex);
-		m_QueueCondition.wait(lock, [this] { return !m_EventQueue.empty(); });
+		m_QueueCondition.wait(lock, [&] { 
 
+			if (!m_ThreadRunning)
+				return true;
+
+			return !m_EventQueue.empty(); 
+			});
+
+
+		std::cout << "Past Lock: \n";
 		while (!m_EventQueue.empty())
 		{
 			SoundData data = m_EventQueue.front();

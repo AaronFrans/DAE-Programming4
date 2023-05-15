@@ -23,6 +23,9 @@ public:
 	void LoadSound(unsigned short id, const std::string& filepath);
 
 	bool IsSoundLoaded(unsigned short id);
+
+
+	void Quit();
 private:
 
 	std::unordered_map<unsigned short, Mix_Chunk*> m_LoadedSounds;
@@ -52,14 +55,13 @@ void SoundSystem::SDLMixerImpl::Init()
 
 	Mix_GroupChannels(0, 0, MIX_CHANNEL_GROUP_MUSIC);       // Background music group (1 channel)
 	Mix_GroupChannels(1, 4, MIX_CHANNEL_GROUP_EFFECTS);		// SoundEffects music group (4 channels)
+
 }
 
 void SoundSystem::SDLMixerImpl::PlaySound(unsigned short id, SoundType soundType, float volume)
 {
 	if (!IsSoundLoaded(id))
-	{
 		throw std::runtime_error("Sound not found. Please load the sound first.");
-	}
 
 	Mix_Chunk* chunk = m_LoadedSounds[id];
 
@@ -100,10 +102,23 @@ void SoundSystem::SDLMixerImpl::LoadSound(unsigned short id, const std::string& 
 		m_LoadedSounds[id] = chunk;
 	}
 }
+
 bool SoundSystem::SDLMixerImpl::IsSoundLoaded(unsigned short id)
 {
 	return m_LoadedSounds.find(id) != m_LoadedSounds.end();
 }
+
+void SoundSystem::SDLMixerImpl::Quit()
+{
+	for (auto& sound : m_LoadedSounds)
+	{
+		Mix_FreeChunk(sound.second);
+	}
+
+	Mix_CloseAudio();
+	Mix_Quit();
+}
+
 #pragma endregion
 
 
@@ -121,6 +136,14 @@ void SoundSystem::Init()
 {
 	m_pImpl = std::make_unique<SDLMixerImpl>();
 	m_pImpl->Init();
+}
+
+void dae::SoundSystem::Quit()
+{
+	if (m_pImpl)
+	{
+		m_pImpl->Quit();
+	}
 }
 
 void SoundSystem::PlaySound(unsigned short id, SoundType soundType, float volume)

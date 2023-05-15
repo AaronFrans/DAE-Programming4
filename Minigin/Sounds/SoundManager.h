@@ -22,8 +22,8 @@ namespace dae
 
 		sound_id id{};
 		float volume{ 1 };
-		std::string filePath{ "" };
 		SoundType soundType{ SoundType::SoundEffect };
+		std::string filePath{ "" };
 		bool loadFile{ false };
 	};
 
@@ -35,6 +35,8 @@ namespace dae
 		void Init(const std::string& dataPath);
 
 		void NotifySound(SoundData soundData);
+
+		void Quit();
 
 	private:
 		friend class Singleton<SoundManager>;
