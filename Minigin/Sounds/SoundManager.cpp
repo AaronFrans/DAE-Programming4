@@ -10,7 +10,7 @@
 void dae::SoundManager::Init(const std::string& dataPath)
 {
 	m_dataPath = dataPath;
-	
+
 	m_SoundSystem->Init();
 
 	m_ThreadRunning = true;
@@ -90,17 +90,14 @@ void dae::SoundManager::SoundThread()
 			});
 
 
-		while (!m_EventQueue.empty())
-		{
-			SoundData data = m_EventQueue.front();
-			m_EventQueue.pop();
-
-			if (data.loadFile)
-				LoadSound(data);
-			else
-				PlaySound(data);
-		}
-
+		SoundData data = m_EventQueue.front();
+		m_EventQueue.pop();
 		lock.unlock();
+
+		if (data.loadFile)
+			LoadSound(data);
+		else
+			PlaySound(data);
+
 	}
 }
