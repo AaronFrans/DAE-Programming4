@@ -3,14 +3,14 @@
 #include <iostream>
 #include <thread>
 
-#include "SoundSystem.h"
+
+#include "SDLSoundSystem.h"
+#include "NullSoundSystem.h"
 
 void dae::SoundManager::Init(const std::string& dataPath)
 {
 	m_dataPath = dataPath;
-	if (!m_SoundSystem)
-		m_SoundSystem = std::make_unique<SoundSystem>();
-
+	
 	m_SoundSystem->Init();
 
 	m_ThreadRunning = true;
@@ -26,11 +26,16 @@ void dae::SoundManager::NotifySound(SoundData soundData)
 	m_QueueCondition.notify_all();
 }
 
+void dae::SoundManager::SetSoundSystem(std::unique_ptr<SoundSystem> soundSystem)
+{
+	m_SoundSystem->Quit();
+
+	m_SoundSystem = std::move(soundSystem);
+}
+
 void dae::SoundManager::Quit()
 {
-	std::cout << "Quit: \n";
 	m_ThreadRunning = false;
-	std::cout << "m_ThreadRunning: " << m_ThreadRunning << '\n';
 
 	m_QueueCondition.notify_all();
 
@@ -45,6 +50,7 @@ void dae::SoundManager::Quit()
 
 dae::SoundManager::SoundManager()
 {
+	m_SoundSystem = std::make_unique<NullSoundSystem>();
 }
 
 dae::SoundManager::~SoundManager()
@@ -58,7 +64,7 @@ void dae::SoundManager::PlaySound(SoundData soundData)
 		m_SoundSystem->LoadSound(soundData.id, soundData.filePath);
 	}
 
-	m_SoundSystem->PlaySound(soundData.id, static_cast<SoundSystem::SoundType>(soundData.soundType), soundData.volume);
+	m_SoundSystem->PlaySound(soundData.id, static_cast<SDLSoundSystem::SoundType>(soundData.soundType), soundData.volume);
 }
 
 void dae::SoundManager::LoadSound(SoundData soundData)
@@ -75,16 +81,15 @@ void dae::SoundManager::SoundThread()
 	while (m_ThreadRunning)
 	{
 		std::unique_lock<std::mutex> lock(m_QueueMutex);
-		m_QueueCondition.wait(lock, [&] { 
+		m_QueueCondition.wait(lock, [&] {
 
 			if (!m_ThreadRunning)
 				return true;
 
-			return !m_EventQueue.empty(); 
+			return !m_EventQueue.empty();
 			});
 
 
-		std::cout << "Past Lock: \n";
 		while (!m_EventQueue.empty())
 		{
 			SoundData data = m_EventQueue.front();

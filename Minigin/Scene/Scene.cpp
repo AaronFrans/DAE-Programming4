@@ -1,5 +1,7 @@
 #include "Scene.h"
 #include "Engine/GameObject.h"
+#include "Components/Collision/CollisionComponent.h"
+
 #include <algorithm>
 
 using namespace dae;
@@ -8,7 +10,11 @@ unsigned int Scene::m_IdCounter = 0;
 
 Scene::Scene(const std::string& name) : m_Name(name) {}
 
-Scene::~Scene() = default;
+Scene::~Scene() 
+{
+	m_Objects.clear();
+	m_ObjectCollisions.clear();
+};
 
 void Scene::Add(std::shared_ptr<GameObject> object)
 {
@@ -29,6 +35,9 @@ void Scene::RemoveAll()
 
 void Scene::Update()
 {
+
+	//TODO: split up into seperate functions per loop
+	//ZDepthOrder
 	if (m_WasGameObjectAdded)
 	{
 		std::sort(m_Objects.begin(), m_Objects.end(),
@@ -41,17 +50,30 @@ void Scene::Update()
 		m_WasGameObjectAdded = false;
 	}
 
+	//Normal Update
 	for (auto& object : m_Objects)
 	{
 		if (!object->IsDestroyed())
+		{
 			object->Update();
+		}
 	}
 
+	//TODO: make this happen via an event
+	//Object Removed
 	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(),
 		[&](std::shared_ptr<GameObject>& object) {
 			return object->IsDestroyed();
 		})
 		, m_Objects.end());
+
+
+	//Collision Checks
+	for (auto& objectCollision : m_ObjectCollisions)
+	{
+		objectCollision->IsOverlappingOtherCollision(m_ObjectCollisions);
+	}
+
 
 }
 
@@ -61,6 +83,16 @@ void Scene::Render() const
 	{
 		object->Render();
 	}
+}
+
+void dae::Scene::AddCollision(CollisionComponent* collision)
+{
+	m_ObjectCollisions.emplace_back(collision);
+}
+
+void dae::Scene::RemoveCollision(CollisionComponent* collision)
+{
+	m_ObjectCollisions.erase(std::remove(m_ObjectCollisions.begin(), m_ObjectCollisions.end(), collision));
 }
 
 const std::string& dae::Scene::GetName() const

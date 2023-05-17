@@ -23,6 +23,7 @@ namespace dae
 	protected:
 
 		explicit Component(std::weak_ptr<GameObject> owner);
+		//TODO: convert into raw pointers
 		std::weak_ptr<GameObject> GetOwner() const;
 
 	private:

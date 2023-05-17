@@ -47,7 +47,9 @@ namespace dae
 		void RemoveChild(const std::shared_ptr<GameObject>& child);
 		void AddChild(const std::shared_ptr<GameObject>& child);
 
+		//TODO: convert into raw pointer
 		std::weak_ptr<GameObject> m_Parent;
+
 		std::vector<std::shared_ptr<GameObject>> m_Children;
 
 		std::vector<std::shared_ptr<Component>> m_Components{};

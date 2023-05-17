@@ -10,8 +10,8 @@ void dae::TutorialComponent::RenderImGui()
 	ImGui::Begin("Tutorial", nullptr);
 
 	ImGui::Text("Controls: \n");
-	ImGui::Text("Player 1: \n Controller button A -> Lose health\n Controller button B -> gain points\n");
-	ImGui::Text("Player 2: \n Keyboard button q -> Lose health\n Keyboard button e -> gain points");
+	ImGui::Text("Player 1: \n Controller:\n Joystick left/right -> move left/right\n Button X -> Shoot");
+	ImGui::Text("Player 1: \n Keyboard:\n A/D -> move left/right\n F -> Shoot");
 
 	ImGui::End();
 }

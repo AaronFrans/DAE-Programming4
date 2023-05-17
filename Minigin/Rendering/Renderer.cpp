@@ -31,7 +31,7 @@ void dae::Renderer::Init(SDL_Window* window)
 {
 	m_window = window;
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
-	if (m_renderer == nullptr) 
+	if (m_renderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -60,7 +60,7 @@ void dae::Renderer::Render()
 	ImGui::Render();
 
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	
+
 	SDL_RenderPresent(m_renderer);
 }
 
@@ -95,6 +95,18 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+}
+
+void dae::Renderer::RenderRect(float x, float y, float width, float height, SDL_Color color) const
+{
+	SDL_Rect dst{};
+	dst.x = static_cast<int>(x);
+	dst.y = static_cast<int>(y);
+	dst.w = static_cast<int>(width);
+	dst.h = static_cast<int>(height);
+
+	SDL_SetRenderDrawColor(GetSDLRenderer(), color.r, color.g, color.b, color.a);
+	SDL_RenderFillRect(GetSDLRenderer(), &dst);
 }
 
 inline SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }

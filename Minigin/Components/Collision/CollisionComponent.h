@@ -1,8 +1,15 @@
 #pragma once
 #include "Components/Component.h"
 #include "glm/glm.hpp"
+#include <Scene/Scene.h>
 
 namespace dae {
+
+
+	struct CollisionData
+	{
+		std::string owner{ "" };
+	};
 
 	class TransformComponent;
 	class CollisionComponent final : public Component
@@ -12,7 +19,7 @@ namespace dae {
 
 		CollisionComponent(std::weak_ptr<GameObject> owner);
 
-		~CollisionComponent() = default;
+		~CollisionComponent();
 		CollisionComponent(const CollisionComponent& other) = delete;
 		CollisionComponent(CollisionComponent&& other) = delete;
 		CollisionComponent& operator=(const CollisionComponent& other) = delete;
@@ -21,7 +28,17 @@ namespace dae {
 
 		void SetBounds(float width, float height);
 
-		void Render() const override {};
+		CollisionData GetCollisionData() const;
+		void SetCollisionData(CollisionData data);
+
+		void SetScene(Scene* scene);
+
+		void IsOverlappingOtherCollision(const std::vector<CollisionComponent*>& collisionsToCheck) const;
+
+
+#if _DEBUG
+		void Render() const override;
+#endif
 
 	private:
 
@@ -31,6 +48,11 @@ namespace dae {
 		float m_Width{};
 		float m_Height{};
 
+		CollisionData m_CollisionData{};
+
+		Scene* m_pScene{};
+
+		bool CheckOverlapp(CollisionComponent* pOther) const;
 
 	};
 }

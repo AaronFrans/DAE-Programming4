@@ -15,7 +15,9 @@
 #include "Rendering/ResourceManager.h"
 #include "Timer.h"
 #include "Events/EventManager.h"
+
 #include "Sounds/SoundManager.h"
+#include "Sounds/SDLSoundSystem.h"
 
 SDL_Window* g_window{};
 
@@ -73,7 +75,11 @@ dae::Minigin::Minigin(const std::string& dataPath, unsigned windowWidth, unsigne
 
 	ResourceManager::GetInstance().Init(dataPath);
 
-	SoundManager::GetInstance().Init(dataPath);
+	auto& sounds = SoundManager::GetInstance();
+
+	sounds.SetSoundSystem(std::make_unique<SDLSoundSystem>());
+	sounds.Init(dataPath);
+
 }
 
 dae::Minigin::~Minigin()

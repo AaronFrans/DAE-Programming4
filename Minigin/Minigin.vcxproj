@@ -221,6 +221,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h" />
     <ClInclude Include="Commands\Command.h" />
     <ClInclude Include="Commands\MoveCommand.h" />
+    <ClInclude Include="Components\Collision\CollisionComponent.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Components\FpsCounterComponent.h" />
     <ClInclude Include="Components\ImageComponent.h" />
@@ -235,6 +236,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Events\EventManager.h" />
     <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Input\XboxController.h" />
+    <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="Rendering\Renderer.h" />
     <ClInclude Include="Rendering\ResourceManager.h" />
@@ -243,6 +245,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sounds\SoundSystem.h" />
+    <ClInclude Include="Sounds\SDLSoundSystem.h" />
     <ClInclude Include="Sounds\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +259,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp" />
     <ClCompile Include="Commands\Command.cpp" />
     <ClCompile Include="Commands\MoveCommand.cpp" />
+    <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
     <ClCompile Include="Components\Component.cpp" />
     <ClCompile Include="Components\FpsCounterComponent.cpp" />
     <ClCompile Include="Components\ImageComponent.cpp" />
@@ -269,6 +273,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Input\XboxController.cpp" />
+    <ClCompile Include="NullSoundSystem.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="Rendering\Renderer.cpp" />
     <ClCompile Include="Rendering\ResourceManager.cpp" />
@@ -276,6 +281,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Sounds\SoundSystem.cpp" />
+    <ClCompile Include="Sounds\SDLSoundSystem.cpp" />
     <ClCompile Include="Sounds\SoundManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

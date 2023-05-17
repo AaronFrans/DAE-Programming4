@@ -24,6 +24,7 @@
     <ProjectGuid>{0771de80-1485-4260-8ce6-a53f2cdd2d3c}</ProjectGuid>
     <RootNamespace>Galaga</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Galaga</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -164,7 +165,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp" />
-    <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
     <ClCompile Include="Components\Updating\BulletMovementComponent.cpp" />
     <ClCompile Include="Commands\AttackCommand.cpp" />
     <ClCompile Include="Components\Updating\AttackComponent.cpp" />
@@ -190,7 +190,6 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h" />
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h" />
-    <ClInclude Include="Components\Collision\CollisionComponent.h" />
     <ClInclude Include="Components\Updating\BulletMovementComponent.h" />
     <ClInclude Include="Commands\AttackCommand.h" />
     <ClInclude Include="Components\Updating\AttackComponent.h" />

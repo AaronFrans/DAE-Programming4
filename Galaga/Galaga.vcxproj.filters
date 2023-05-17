@@ -38,7 +38,6 @@
     <ClCompile Include="Components\Updating\AttackComponent.cpp" />
     <ClCompile Include="Commands\AttackCommand.cpp" />
     <ClCompile Include="Components\Updating\BulletMovementComponent.cpp" />
-    <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
@@ -81,6 +80,5 @@
     <ClInclude Include="Components\Updating\AttackComponent.h" />
     <ClInclude Include="Commands\AttackCommand.h" />
     <ClInclude Include="Components\Updating\BulletMovementComponent.h" />
-    <ClInclude Include="Components\Collision\CollisionComponent.h" />
   </ItemGroup>
 </Project>

@@ -8,12 +8,11 @@
 
 namespace dae
 {
-
-
-
 	using sound_id = unsigned short;
 	struct SoundData
 	{
+		//TODO: make constructors for music and sound effect
+
 		enum class SoundType
 		{
 			Music,
@@ -35,6 +34,8 @@ namespace dae
 		void Init(const std::string& dataPath);
 
 		void NotifySound(SoundData soundData);
+
+		void SetSoundSystem(std::unique_ptr<SoundSystem> soundSystem);
 
 		void Quit();
 

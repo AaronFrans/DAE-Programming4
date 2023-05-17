@@ -11,6 +11,8 @@
 
 #include "Components/Updating/BulletMovementComponent.h"
 
+#include "Components/Collision/CollisionComponent.h"
+
 dae::AttackComponent::AttackComponent(std::weak_ptr<GameObject> owner)
 	:Component(owner)
 {
@@ -27,29 +29,42 @@ dae::AttackComponent::AttackComponent(std::weak_ptr<GameObject> owner)
 
 void dae::AttackComponent::Attack()
 {
+	assert(m_pScene && "No scene set for AttackComponent, use AttackComponent::SetScene to set the scene");
 
 	if (m_FiredBullets.size() == 2)
 		return;
+
 	const glm::vec3 ownerPos = m_pPlayerTransform->GetWorldPosition();
 
 	auto bullet = std::make_shared<GameObject>();
 	bullet->Init();
 
-	bullet->GetTransform()->SetLocalPosition({ ownerPos.x + m_BulletStartOffset.x,
-		ownerPos.y + m_BulletStartOffset.y, ownerPos.z});
+	bullet->GetTransform()->SetLocalPosition(
+		{ ownerPos.x + m_BulletStartOffset.x,
+		ownerPos.y + m_BulletStartOffset.y, ownerPos.z }
+	);
 
 	bullet->AddComponent<ImageComponent>()->SetTexture(m_AttackTexture);
 	bullet->AddComponent<BulletMovementComponent>();
 
 	bullet->AddComponent<dae::ImageRenderComponent>();
 
-	assert(m_pScene && "No scene set for AttackComponent, use AttackComponent::SetScene to set the scene");
+	auto collision = bullet->AddComponent<dae::CollisionComponent>();
+	collision->SetCollisionData({ "PlayerAttack" });
+
+	float collisionWidht{ 11 }, collisionHeight{ 22 };
+	collision->SetBounds(collisionWidht, collisionHeight);
+
+	collision->SetScene(m_pScene);
 
 	m_pScene->Add(bullet);
 
+	m_pScene->AddCollision(collision.get());
+
 	m_FiredBullets.push_back(bullet);
 
-	SoundManager::GetInstance().NotifySound(SoundData{ 1, 0.5, SoundData::SoundType::SoundEffect});
+	//TODO: find a better way to handle sound ids
+	SoundManager::GetInstance().NotifySound(SoundData{ 1, 0.1f, SoundData::SoundType::SoundEffect });
 
 }
 

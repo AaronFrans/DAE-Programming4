@@ -72,7 +72,10 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="Sounds\SoundManager.h" />
+    <ClInclude Include="Sounds\SDLSoundSystem.h" />
+    <ClInclude Include="Components\Collision\CollisionComponent.h" />
     <ClInclude Include="Sounds\SoundSystem.h" />
+    <ClInclude Include="NullSoundSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
@@ -121,6 +124,9 @@
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="Sounds\SoundManager.cpp" />
+    <ClCompile Include="Sounds\SDLSoundSystem.cpp" />
+    <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
     <ClCompile Include="Sounds\SoundSystem.cpp" />
+    <ClCompile Include="NullSoundSystem.cpp" />
   </ItemGroup>
 </Project>
