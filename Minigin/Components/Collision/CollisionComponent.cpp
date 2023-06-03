@@ -5,10 +5,10 @@
 #include <iostream>
 #include <cassert>
 
-dae::CollisionComponent::CollisionComponent(std::weak_ptr<GameObject> owner)
+dae::CollisionComponent::CollisionComponent(GameObject* owner)
 	:Component(owner)
 {
-	m_pOwnerTransform = owner.lock()->GetTransform().get();
+	m_pOwnerTransform = owner->GetTransform().get();
 }
 
 dae::CollisionComponent::~CollisionComponent()
@@ -45,7 +45,7 @@ void dae::CollisionComponent::IsOverlappingOtherCollision(const std::vector<Coll
 	for (const auto collisionToCheck : collisionsToCheck)
 	{
 		//will get rid of lock soon
-		if (collisionOwner.lock() == collisionToCheck->GetOwner().lock())
+		if (collisionOwner == collisionToCheck->GetOwner())
 			continue;
 
 		if (CheckOverlapp(collisionToCheck))

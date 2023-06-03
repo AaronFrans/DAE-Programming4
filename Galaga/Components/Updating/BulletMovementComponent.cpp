@@ -2,10 +2,10 @@
 #include "Components/TransformComponent.h"
 #include "Engine/Timer.h"
 
-dae::BulletMovementComponent::BulletMovementComponent(std::weak_ptr<GameObject> owner)
+dae::BulletMovementComponent::BulletMovementComponent(GameObject* owner)
 	:Component{ owner }
 {
-	m_pBulletTransform = owner.lock()->GetTransform().get();
+	m_pBulletTransform = owner->GetTransform().get();
 }
 
 void dae::BulletMovementComponent::Update()
@@ -18,7 +18,7 @@ void dae::BulletMovementComponent::Update()
 
 	if (m_DistanceTraveled >= m_MaxDistance)
 	{
-		GetOwner().lock()->MarkForDestroy();
+		GetOwner()->MarkForDestroy();
 	}
 }
 

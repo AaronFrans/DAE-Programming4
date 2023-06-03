@@ -11,7 +11,7 @@ namespace dae
 	{
 
 	public:
-		TextRendererComponent(std::weak_ptr<GameObject> owner);
+		TextRendererComponent(GameObject* owner);
 
 		~TextRendererComponent() = default;
 		TextRendererComponent(const TextRendererComponent& other) = delete;
@@ -25,8 +25,8 @@ namespace dae
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
 
-		std::weak_ptr<TextComponent> m_Text;
-		std::weak_ptr<TransformComponent> m_Transform;
+		TextComponent* m_Text;
+		TransformComponent* m_Transform;
 
 	};
 }

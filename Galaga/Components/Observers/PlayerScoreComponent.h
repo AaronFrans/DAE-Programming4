@@ -10,7 +10,7 @@ namespace dae
 	class PlayerScoreComponent final : public Component
 	{
 	public:
-		PlayerScoreComponent(std::weak_ptr<GameObject> owner);
+		PlayerScoreComponent(GameObject* owner);
 
 
 		~PlayerScoreComponent() = default;
@@ -20,7 +20,6 @@ namespace dae
 		PlayerScoreComponent& operator=(PlayerScoreComponent&& other) = delete;
 
 		void SetPlayerIndex(unsigned playerIndex);
-		void LinkAchievements(const std::shared_ptr<SteamAchievements>& gameAchievements);
 
 
 	private:
@@ -35,8 +34,6 @@ namespace dae
 		void SetPointsText();
 
 		void EarnPoints(const Event* e);
-
-		void CheckForAchievements();
 
 		unsigned m_PlayerIndex{ 0 };
 

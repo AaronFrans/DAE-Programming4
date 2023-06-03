@@ -17,7 +17,7 @@ namespace dae {
 
 	public:
 
-		CollisionComponent(std::weak_ptr<GameObject> owner);
+		CollisionComponent(GameObject* owner);
 
 		~CollisionComponent();
 		CollisionComponent(const CollisionComponent& other) = delete;

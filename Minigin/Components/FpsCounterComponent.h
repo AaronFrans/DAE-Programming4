@@ -11,7 +11,7 @@ namespace dae
 	{
 
 	public:
-		FpsCounterComponent(std::weak_ptr<GameObject> owner);
+		FpsCounterComponent(GameObject* owner);
 
 		~FpsCounterComponent() = default;
 		FpsCounterComponent(const FpsCounterComponent& other) = delete;
@@ -26,7 +26,7 @@ namespace dae
 
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
-		std::weak_ptr<TextComponent> m_Text;
+		TextComponent* m_Text;
 		int m_LastFps{};
 
 	};

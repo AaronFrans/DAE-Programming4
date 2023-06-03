@@ -2,7 +2,7 @@
 #include "Events/EventManager.h"
 #include <iostream>
 
-dae::HealthComponent::HealthComponent(std::weak_ptr<GameObject> owner)
+dae::HealthComponent::HealthComponent(GameObject* owner)
 	:Component(owner)
 {
 }

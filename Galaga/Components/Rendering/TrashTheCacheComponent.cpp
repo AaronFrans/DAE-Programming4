@@ -6,7 +6,7 @@
 using namespace std::chrono;
 
 
-dae::TrashTheCacheComponent::TrashTheCacheComponent(std::weak_ptr<GameObject> owner)
+dae::TrashTheCacheComponent::TrashTheCacheComponent(GameObject* owner)
 	: Component(owner)
 {
 }

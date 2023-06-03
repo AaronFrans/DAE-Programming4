@@ -14,11 +14,11 @@
 
 #include "Components/Collision/CollisionComponent.h"
 
-dae::AttackComponent::AttackComponent(std::weak_ptr<GameObject> owner)
+dae::AttackComponent::AttackComponent(GameObject* owner)
 	:Component(owner)
 {
 	m_AttackTexture = ResourceManager::GetInstance().LoadTexture("Images\\Player_Attack.png");
-	auto pOwner = owner.lock().get();
+	auto pOwner = owner;
 
 	m_pPlayerTransform = pOwner->GetTransform().get();
 

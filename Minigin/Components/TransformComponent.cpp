@@ -2,7 +2,7 @@
 
 
 
-dae::TransformComponent::TransformComponent(std::weak_ptr<GameObject> owner)
+dae::TransformComponent::TransformComponent(GameObject* owner)
 	:Component(owner)
 {
 }
@@ -21,12 +21,12 @@ const glm::vec3& dae::TransformComponent::GetLocalPosition() const
 
 void dae::TransformComponent::UpdateWorldPosition()
 {
-	const auto lockedOwner = GetOwner().lock();
-	if (lockedOwner->GetParent().expired())
+	const auto Owner = GetOwner();
+	if (Owner->GetParent().expired())
 		m_WorldPostition = m_LocalPostition;
 	else
 	{
-		const auto parentTransform = lockedOwner->GetParent().lock()->GetTransform();
+		const auto parentTransform = Owner->GetParent().lock()->GetTransform();
 		m_WorldPostition = parentTransform.get()->GetWorldPosition() + m_LocalPostition;
 	}
 	m_IsDirty = false;
@@ -52,7 +52,7 @@ void dae::TransformComponent::SetPositionDirty()
 	m_IsDirty = true;
 
 	//make owner raw pointer? or keep locked?
-	for (auto& child : GetOwner().lock()->GetChildren())
+	for (auto& child : GetOwner()->GetChildren())
 	{
 		child->GetTransform()->SetPositionDirty();
 	}

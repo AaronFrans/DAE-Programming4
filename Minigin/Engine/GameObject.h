@@ -77,7 +77,7 @@ namespace dae
 
 		static_assert(std::is_base_of<Component, T>::value && "T must inherit from Component");
 
-		auto component = std::make_shared<T>(shared_from_this());
+		auto component = std::make_shared<T>(this);
 
 
 		m_Components.emplace_back(component);

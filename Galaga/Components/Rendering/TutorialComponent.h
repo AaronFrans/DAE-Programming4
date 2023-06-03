@@ -9,7 +9,7 @@ namespace dae
 		public Component
 	{
 	public:
-		TutorialComponent(std::weak_ptr<GameObject> owner);
+		TutorialComponent(GameObject* owner);
 
 		~TutorialComponent() = default;
 		TutorialComponent(const TutorialComponent& other) = delete;

@@ -8,7 +8,7 @@
 
 
 
-dae::TextComponent::TextComponent(std::weak_ptr<GameObject> owner)
+dae::TextComponent::TextComponent(GameObject* owner)
 	:Component(owner)
 {
 }

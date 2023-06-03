@@ -4,7 +4,7 @@
 #include "Components/TextComponent.h"
 #include <memory>
 
-dae::PlayerScoreComponent::PlayerScoreComponent(std::weak_ptr<GameObject> owner)
+dae::PlayerScoreComponent::PlayerScoreComponent(GameObject* owner)
 	:Component(owner)
 {
 	SetupRequiredComponents();
@@ -26,14 +26,14 @@ void dae::PlayerScoreComponent::SetPlayerIndex(unsigned playerIndex)
 
 void dae::PlayerScoreComponent::SetupRequiredComponents()
 {
-	auto lockedOwner = GetOwner().lock();
+	auto Owner = GetOwner();
 	if (!m_pTextComponent)
 	{
-		m_pTextComponent = lockedOwner->GetComponent<TextComponent>().get();
+		m_pTextComponent = Owner->GetComponent<TextComponent>().get();
 
 		if (!m_pTextComponent)
 		{
-			m_pTextComponent = lockedOwner->AddComponent<TextComponent>().get();
+			m_pTextComponent = Owner->AddComponent<TextComponent>().get();
 		}
 	}
 }

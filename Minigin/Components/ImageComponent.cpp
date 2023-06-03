@@ -2,7 +2,7 @@
 #include "Rendering/ResourceManager.h"
 #include "Rendering/Texture2D.h"
 
-dae::ImageComponent::ImageComponent(std::weak_ptr<GameObject> owner)
+dae::ImageComponent::ImageComponent(GameObject* owner)
 	:Component(owner)
 {
 }

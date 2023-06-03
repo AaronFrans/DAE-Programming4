@@ -10,7 +10,7 @@ namespace dae {
 		public Component
 	{
 	public:
-		ImageRenderComponent(std::weak_ptr<GameObject> owner);
+		ImageRenderComponent(GameObject* owner);
 
 		~ImageRenderComponent() = default;
 		ImageRenderComponent(const ImageRenderComponent& other) = delete;
@@ -25,8 +25,8 @@ namespace dae {
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
 
-		std::weak_ptr<ImageComponent> m_Image;
-		std::weak_ptr<TransformComponent> m_Transform;
+		ImageComponent* m_Image;
+		TransformComponent* m_Transform;
 
 	};
 }

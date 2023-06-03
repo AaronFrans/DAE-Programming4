@@ -4,7 +4,7 @@
 #include "Engine/GameObject.h"
 #include "Engine/Timer.h"
 
-dae::FpsCounterComponent::FpsCounterComponent(std::weak_ptr<GameObject> owner)
+dae::FpsCounterComponent::FpsCounterComponent(GameObject* owner)
 	:Component(owner)
 {
 	SetupRequiredComponents();
@@ -13,7 +13,7 @@ dae::FpsCounterComponent::FpsCounterComponent(std::weak_ptr<GameObject> owner)
 
 void dae::FpsCounterComponent::CheckForRequiredComponents() const
 {
-	if (m_Text.expired())
+	if (!m_Text)
 	{
 		throw std::invalid_argument("FpsCounter needs a Textcomponent, currently expired");
 	}
@@ -27,20 +27,20 @@ void dae::FpsCounterComponent::Update()
 	if (newFps != m_LastFps)
 	{
 		m_LastFps = newFps;
-		m_Text.lock()->SetText(std::to_string(newFps));
+		m_Text->SetText(std::to_string(newFps));
 	}
 }
 
 void dae::FpsCounterComponent::SetupRequiredComponents()
 {
-	if (m_Text.expired())
+	if (!m_Text)
 	{
-		auto lockedOwner = GetOwner().lock();
-		m_Text = lockedOwner->GetComponent<TextComponent>();
+		auto owner = GetOwner();
+		m_Text = owner->GetComponent<TextComponent>().get();
 
-		if (m_Text.expired())
+		if (!m_Text)
 		{
-			m_Text = lockedOwner->AddComponent<TextComponent>();
+			m_Text = owner->AddComponent<TextComponent>().get();
 		}
 	}
 }

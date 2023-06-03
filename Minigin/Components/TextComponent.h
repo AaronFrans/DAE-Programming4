@@ -12,7 +12,7 @@ namespace dae
 	class TextComponent final : public Component
 	{
 	public:
-		TextComponent(std::weak_ptr<GameObject> owner);
+		TextComponent(GameObject* owner);
 
 
 		virtual ~TextComponent() = default;

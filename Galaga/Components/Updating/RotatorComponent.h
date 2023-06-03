@@ -10,7 +10,7 @@ namespace dae
 		public Component
 	{
 	public:
-		RotatorComponent(std::weak_ptr<GameObject> owner);
+		RotatorComponent(GameObject* owner);
 
 		~RotatorComponent() = default;
 		RotatorComponent(const RotatorComponent& other) = delete;
@@ -27,7 +27,7 @@ namespace dae
 
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
-		std::weak_ptr<TransformComponent> m_Transform{};
+		TransformComponent* m_Transform{};
 
 		glm::vec3 m_Pivot{};
 

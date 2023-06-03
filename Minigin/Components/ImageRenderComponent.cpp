@@ -6,7 +6,7 @@
 
 #include "Events/EventManager.h"
 
-dae::ImageRenderComponent::ImageRenderComponent(std::weak_ptr<GameObject> owner)
+dae::ImageRenderComponent::ImageRenderComponent(GameObject* owner)
 	:Component(owner)
 {
 
@@ -16,18 +16,18 @@ dae::ImageRenderComponent::ImageRenderComponent(std::weak_ptr<GameObject> owner)
 
 void dae::ImageRenderComponent::Render() const
 {
-	const auto& pos = m_Transform.lock()->GetWorldPosition();
+	const auto& pos = m_Transform->GetWorldPosition();
 
-	Renderer::GetInstance().RenderTexture(*m_Image.lock()->GetTexture(), pos.x, pos.y);
+	Renderer::GetInstance().RenderTexture(*m_Image->GetTexture(), pos.x, pos.y);
 }
 
 void dae::ImageRenderComponent::CheckForRequiredComponents() const
 {
-	if (m_Image.expired())
+	if (!m_Image)
 	{
 		throw std::invalid_argument("ImageRenderComponent needs a ImageComponent, currently expired");
 	}
-	if (m_Transform.expired())
+	if (!m_Transform)
 	{
 		throw std::invalid_argument("ImageRenderComponent needs a TransformComponent, currently expired");
 	}
@@ -35,24 +35,24 @@ void dae::ImageRenderComponent::CheckForRequiredComponents() const
 
 void dae::ImageRenderComponent::SetupRequiredComponents()
 {
-	auto lockedOwner = GetOwner().lock();
-	if (m_Image.expired())
+	auto lockedOwner = GetOwner();
+	if (!m_Image)
 	{
-		m_Image = lockedOwner->GetComponent<ImageComponent>();
+		m_Image = lockedOwner->GetComponent<ImageComponent>().get();
 
-		if (m_Image.expired())
+		if (!m_Image)
 		{
-			m_Image = lockedOwner->AddComponent<ImageComponent>();
+			m_Image = lockedOwner->AddComponent<ImageComponent>().get();
 		}
 	}
 
-	if (m_Transform.expired())
+	if (!m_Transform)
 	{
-		m_Transform = lockedOwner->GetComponent<TransformComponent>();
+		m_Transform = lockedOwner->GetComponent<TransformComponent>().get();
 
-		if (m_Transform.expired())
+		if (!m_Transform)
 		{
-			m_Transform = lockedOwner->AddComponent<TransformComponent>();
+			m_Transform = lockedOwner->AddComponent<TransformComponent>().get();
 		}
 	}
 

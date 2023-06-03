@@ -7,7 +7,7 @@ namespace dae
 	class EarnPointsComponent final : public Component
 	{
 	public:
-		EarnPointsComponent(std::weak_ptr<GameObject> owner);
+		EarnPointsComponent(GameObject* owner);
 
 		~EarnPointsComponent() = default;
 		EarnPointsComponent(const EarnPointsComponent& other) = delete;

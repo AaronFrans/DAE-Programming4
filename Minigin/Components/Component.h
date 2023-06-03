@@ -22,12 +22,12 @@ namespace dae
 		virtual void RenderImGui() {};
 	protected:
 
-		explicit Component(std::weak_ptr<GameObject> owner);
+		explicit Component(GameObject* owner);
 		//TODO: convert into raw pointers
-		std::weak_ptr<GameObject> GetOwner() const;
+		GameObject* GetOwner() const;
 
 	private:
-		std::weak_ptr<GameObject> m_Owner;
+		GameObject* m_Owner;
 	};
 
 }

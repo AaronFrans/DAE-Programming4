@@ -8,7 +8,7 @@ namespace dae
 	class LivesLeftComponent final : public Component
 	{
 	public:
-		LivesLeftComponent(std::weak_ptr<GameObject> owner);
+		LivesLeftComponent(GameObject* owner);
 
 
 		~LivesLeftComponent() = default;

@@ -9,7 +9,7 @@ namespace dae {
 	{
 
 	public:
-		BulletMovementComponent(std::weak_ptr<GameObject> owner);
+		BulletMovementComponent(GameObject* owner);
 
 		~BulletMovementComponent() = default;
 		BulletMovementComponent(const BulletMovementComponent& other) = delete;

@@ -1,6 +1,6 @@
 #include "TutorialComponent.h"
 
-dae::TutorialComponent::TutorialComponent(std::weak_ptr<GameObject> owner)
+dae::TutorialComponent::TutorialComponent(GameObject* owner)
 	:Component(owner)
 {
 }

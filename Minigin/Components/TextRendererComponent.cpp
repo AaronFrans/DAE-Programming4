@@ -4,7 +4,7 @@
 #include "TextComponent.h"
 #include "TransformComponent.h"
 
-dae::TextRendererComponent::TextRendererComponent(std::weak_ptr<GameObject> owner)
+dae::TextRendererComponent::TextRendererComponent(GameObject* owner)
 	:Component(owner)
 {
 	SetupRequiredComponents();
@@ -14,15 +14,15 @@ dae::TextRendererComponent::TextRendererComponent(std::weak_ptr<GameObject> owne
 void dae::TextRendererComponent::Render() const
 {
 
-	const auto& pos = m_Transform.lock()->GetWorldPosition();
+	const auto& pos = m_Transform->GetWorldPosition();
 
-	Renderer::GetInstance().RenderTexture(*m_Text.lock()->GetTexture(), pos.x, pos.y);
+	Renderer::GetInstance().RenderTexture(*m_Text->GetTexture(), pos.x, pos.y);
 
 }
 
 void dae::TextRendererComponent::CheckForRequiredComponents() const
 {
-	if (m_Text.expired())
+	if (!m_Text)
 	{
 		throw std::invalid_argument("TextRendererComponent needs a TextComponent, currently expired");
 	}
@@ -30,16 +30,16 @@ void dae::TextRendererComponent::CheckForRequiredComponents() const
 
 void dae::TextRendererComponent::SetupRequiredComponents() 
 {
-	auto lockedOwner = GetOwner().lock();
-	if (m_Text.expired())
+	auto Owner = GetOwner();
+	if (!m_Text)
 	{
-		m_Text = lockedOwner->GetComponent<TextComponent>();
+		m_Text = Owner->GetComponent<TextComponent>().get();
 
-		if (m_Text.expired())
+		if (!m_Text)
 		{
-			m_Text = lockedOwner->AddComponent<TextComponent>();
+			m_Text = Owner->AddComponent<TextComponent>().get();
 		}
 	}
 
-	m_Transform = lockedOwner->GetTransform();
+	m_Transform = Owner->GetTransform().get();
 }

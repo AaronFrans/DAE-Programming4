@@ -1,7 +1,7 @@
 #include "EarnPointsComponent.h"
 #include "Events/EventManager.h"
 
-dae::EarnPointsComponent::EarnPointsComponent(std::weak_ptr<GameObject> owner)
+dae::EarnPointsComponent::EarnPointsComponent(GameObject* owner)
 	:Component(owner)
 {
 }

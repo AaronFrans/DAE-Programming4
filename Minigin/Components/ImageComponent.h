@@ -12,7 +12,7 @@ namespace dae
 	class ImageComponent final : public Component
 	{
 	public:
-		ImageComponent(std::weak_ptr<GameObject> owner);
+		ImageComponent(GameObject* owner);
 
 
 		virtual ~ImageComponent() = default;
