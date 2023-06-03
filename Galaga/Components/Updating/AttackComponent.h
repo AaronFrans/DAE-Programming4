@@ -30,7 +30,7 @@ namespace dae {
 	private:
 
 
-		SoundSystem* m_Sound;
+		SoundSystem* m_Sound{};
 		std::vector<std::shared_ptr<GameObject>> m_FiredBullets{};
 		std::shared_ptr<Texture2D> m_AttackTexture{};
 

@@ -26,7 +26,7 @@ namespace dae
 
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
-		TextComponent* m_Text;
+		TextComponent* m_Text{};
 		int m_LastFps{};
 
 	};

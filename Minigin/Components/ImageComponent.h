@@ -31,7 +31,7 @@ namespace dae
 		std::shared_ptr<Texture2D> GetTexture() const;
 
 	private:
-		std::shared_ptr<Texture2D> m_Texture;
+		std::shared_ptr<Texture2D> m_Texture{ nullptr };
 	};
 }
 

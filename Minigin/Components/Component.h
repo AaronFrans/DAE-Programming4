@@ -23,11 +23,10 @@ namespace dae
 	protected:
 
 		explicit Component(GameObject* owner);
-		//TODO: convert into raw pointers
 		GameObject* GetOwner() const;
 
 	private:
-		GameObject* m_Owner;
+		GameObject* m_Owner{};
 	};
 
 }

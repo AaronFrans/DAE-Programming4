@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Engine/GameObject.h"
 #include "Components/Collision/CollisionComponent.h"
+#include "Events/EventManager.h"
 
 #include <algorithm>
 
@@ -8,9 +9,66 @@ using namespace dae;
 
 unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name) : m_Name(name) {}
+Scene::Scene(const std::string& name) : m_Name(name)
+{
+	Event destroyed = Event{  };
+	destroyed.eventType = "GameObject Destroyed";
+	auto boundGameObjectDestroyed = std::bind(&Scene::HandleDestroyedEvent, this, std::placeholders::_1);
+	EventManager::GetInstance().AddObserver(destroyed, boundGameObjectDestroyed);
+}
 
-Scene::~Scene() 
+void dae::Scene::SortGameObjectUpdate()
+{
+
+	if (!m_WasGameObjectAdded)
+		return;
+
+	std::sort(m_Objects.begin(), m_Objects.end(),
+		[](const std::shared_ptr<GameObject>& pObject1, const std::shared_ptr<GameObject>& pObject2)
+		{
+			return pObject1->GetDrawDepth() < pObject2->GetDrawDepth();
+		}
+	);
+
+	m_WasGameObjectAdded = false;
+}
+
+void dae::Scene::NormalUpdate()
+{
+	for (auto& object : m_Objects)
+	{
+		if (!object->IsDestroyed())
+		{
+			object->Update();
+		}
+	}
+}
+
+void dae::Scene::CleanUpdate()
+{
+
+	if (!m_WasObjectDestroyed)
+		return;
+
+	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(),
+		[&](std::shared_ptr<GameObject>& object) {
+			return object->IsDestroyed();
+		})
+		, m_Objects.end());
+
+	m_WasObjectDestroyed = false;
+}
+
+void dae::Scene::HandleDestroyedEvent(const Event* e)
+{
+
+	if (strcmp(e->eventType, "GameObject Destroyed") == 0)
+	{
+		m_WasObjectDestroyed = true;
+	}
+}
+
+Scene::~Scene()
 {
 	m_Objects.clear();
 	m_ObjectCollisions.clear();
@@ -36,37 +94,14 @@ void Scene::RemoveAll()
 void Scene::Update()
 {
 
-	//TODO: split up into seperate functions per loop
 	//ZDepthOrder
-	if (m_WasGameObjectAdded)
-	{
-		std::sort(m_Objects.begin(), m_Objects.end(),
-			[](const std::shared_ptr<GameObject>& pObject1, const std::shared_ptr<GameObject>& pObject2)
-			{
-				return pObject1->GetDrawDepth() < pObject2->GetDrawDepth();
-			}
-		);
-
-		m_WasGameObjectAdded = false;
-	}
+	SortGameObjectUpdate();
 
 	//Normal Update
-	for (auto& object : m_Objects)
-	{
-		if (!object->IsDestroyed())
-		{
-			object->Update();
-		}
-	}
+	NormalUpdate();
 
-	//TODO: make this happen via an event
 	//Object Removed
-	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(),
-		[&](std::shared_ptr<GameObject>& object) {
-			return object->IsDestroyed();
-		})
-		, m_Objects.end());
-
+	CleanUpdate();
 
 	//Collision Checks
 	for (auto& objectCollision : m_ObjectCollisions)

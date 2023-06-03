@@ -32,12 +32,12 @@ namespace dae
 	private:
 		void SetTexture();
 		std::string m_Text{ "default text" };
-		std::shared_ptr<Font> m_Font;
+		std::shared_ptr<Font> m_Font{ nullptr };
 
 		SDL_Color m_Color{ 255,255,255 };
 
 		bool m_NeedsUpdate{ false };
 
-		std::shared_ptr<Texture2D> m_Texture;
+		std::shared_ptr<Texture2D> m_Texture{ nullptr };
 	};
 }

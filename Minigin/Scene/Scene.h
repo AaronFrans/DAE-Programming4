@@ -5,6 +5,7 @@ namespace dae
 {
 	class GameObject;
 	class CollisionComponent;
+	struct Event;
 	class Scene final
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
@@ -37,10 +38,18 @@ namespace dae
 		std::vector <std::shared_ptr<GameObject>> m_Objects{};
 		std::vector <CollisionComponent*> m_ObjectCollisions{};
 
+		void SortGameObjectUpdate();
+		void NormalUpdate();
+		void CleanUpdate();
+
+
+		void HandleDestroyedEvent(const Event* e);
+
 
 		static unsigned int m_IdCounter;
 
 		bool m_WasGameObjectAdded{ false };
+		bool m_WasObjectDestroyed{ false };
 	};
 
 }

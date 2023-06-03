@@ -39,7 +39,7 @@ namespace dae
 
 		int m_PointsEarned{ 0 };
 
-		std::shared_ptr<SteamAchievements> m_GameAchievements;
+		std::shared_ptr<SteamAchievements> m_GameAchievements{};
 
 
 		TextComponent* m_pTextComponent{ nullptr };

@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Rendering/ResourceManager.h"
 #include "Components/TransformComponent.h"
+#include "Events/EventManager.h"
+
 
 
 
@@ -93,6 +95,13 @@ int dae::GameObject::GetDrawDepth()
 
 void dae::GameObject::MarkForDestroy()
 {
+
+
+	std::unique_ptr<Event> event = std::make_unique<Event>();
+	event->eventType = "GameObject Destroyed";
+
+	EventManager::GetInstance().SendEventMessage<Event>(std::move(event));
+
 	m_IsDestroyed = true;
 }
 

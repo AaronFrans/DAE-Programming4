@@ -35,25 +35,17 @@ void dae::ImageRenderComponent::CheckForRequiredComponents() const
 
 void dae::ImageRenderComponent::SetupRequiredComponents()
 {
-	auto lockedOwner = GetOwner();
+	auto owner = GetOwner();
 	if (!m_Image)
 	{
-		m_Image = lockedOwner->GetComponent<ImageComponent>().get();
+		m_Image = owner->GetComponent<ImageComponent>().get();
 
 		if (!m_Image)
 		{
-			m_Image = lockedOwner->AddComponent<ImageComponent>().get();
+			m_Image = owner->AddComponent<ImageComponent>().get();
 		}
 	}
 
-	if (!m_Transform)
-	{
-		m_Transform = lockedOwner->GetComponent<TransformComponent>().get();
-
-		if (!m_Transform)
-		{
-			m_Transform = lockedOwner->AddComponent<TransformComponent>().get();
-		}
-	}
+	m_Transform = owner->GetTransform().get();
 
 }

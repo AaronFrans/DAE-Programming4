@@ -25,8 +25,8 @@ namespace dae {
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
 
-		ImageComponent* m_Image;
-		TransformComponent* m_Transform;
+		ImageComponent* m_Image{};
+		TransformComponent* m_Transform{};
 
 	};
 }
