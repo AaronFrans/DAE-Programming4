@@ -18,6 +18,7 @@
 
 #include "Sounds/SoundManager.h"
 #include "Sounds/SDLSoundSystem.h"
+#include <iostream>
 
 SDL_Window* g_window{};
 
@@ -76,10 +77,12 @@ dae::Minigin::Minigin(const std::string& dataPath, unsigned windowWidth, unsigne
 	ResourceManager::GetInstance().Init(dataPath);
 
 	auto& sounds = SoundManager::GetInstance();
-
-	sounds.SetSoundSystem(std::make_unique<SDLSoundSystem>());
 	sounds.Init(dataPath);
 
+	sounds.SetSoundSystem(std::make_unique<SDLSoundSystem>());
+
+
+	std::cout << "test";
 }
 
 dae::Minigin::~Minigin()

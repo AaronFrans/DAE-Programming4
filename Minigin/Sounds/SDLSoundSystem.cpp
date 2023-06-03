@@ -18,7 +18,7 @@ class SDLSoundSystem::SDLMixerImpl final
 public:
 	void Init();
 
-	void PlaySound(unsigned short id, SoundType soundType, float volume);
+	void PlaySound(unsigned short id, SoundData::SoundType soundType, float volume);
 
 	void LoadSound(unsigned short id, const std::string& filepath);
 
@@ -58,7 +58,7 @@ void SDLSoundSystem::SDLMixerImpl::Init()
 
 }
 
-void SDLSoundSystem::SDLMixerImpl::PlaySound(unsigned short id, SoundType soundType, float volume)
+void SDLSoundSystem::SDLMixerImpl::PlaySound(unsigned short id, SoundData::SoundType soundType, float volume)
 {
 	if (!IsSoundLoaded(id))
 		throw std::runtime_error("Sound not found. Please load the sound first.");
@@ -73,7 +73,7 @@ void SDLSoundSystem::SDLMixerImpl::PlaySound(unsigned short id, SoundType soundT
 	int repeat{ 1 };
 	switch (soundType)
 	{
-	case dae::SDLSoundSystem::SoundType::SoundEffect:
+	case SoundData::SoundType::SoundEffect:
 		channel = Mix_GroupAvailable(MIX_CHANNEL_GROUP_EFFECTS);
 		repeat = 0;
 		// if no channel available use channel 1
@@ -112,7 +112,11 @@ void SDLSoundSystem::SDLMixerImpl::Quit()
 {
 	for (auto& sound : m_LoadedSounds)
 	{
-		Mix_FreeChunk(sound.second);
+		if (sound.second == nullptr)
+		{
+			Mix_FreeChunk(sound.second);
+			sound.second = nullptr;
+		}
 	}
 
 	Mix_CloseAudio();
@@ -131,35 +135,99 @@ SDLSoundSystem::SDLSoundSystem()
 
 SDLSoundSystem::~SDLSoundSystem()
 {
+	Quit();
 }
 
-void SDLSoundSystem::Init()
+void SDLSoundSystem::Init(const std::string& dataPath)
 {
 	m_pImpl = std::make_unique<SDLMixerImpl>();
+	m_DataPath = dataPath;
 	m_pImpl->Init();
+
+
+	m_ThreadRunning = true;
+	m_SoundThread = std::jthread(&SDLSoundSystem::SoundThread, this);
+
 }
 
 void dae::SDLSoundSystem::Quit()
 {
+
+	m_ThreadRunning = false;
+
+	m_QueueCondition.notify_all();
+
 	if (m_pImpl)
 	{
 		m_pImpl->Quit();
 	}
 }
 
-void SDLSoundSystem::PlaySound(unsigned short id, SoundType soundType, float volume)
+void dae::SDLSoundSystem::NotifySound(SoundData soundData)
 {
-	m_pImpl->PlaySound(id, soundType, volume);
+
+	std::lock_guard<std::mutex> lock(m_QueueMutex);
+	soundData.filePath = m_DataPath + soundData.filePath;
+	m_EventQueue.push(soundData);
+
+	m_QueueCondition.notify_all();
+
+
 }
 
-void SDLSoundSystem::LoadSound(unsigned short id, const std::string& filepath)
+void SDLSoundSystem::PlaySound(const SoundData& soundData)
 {
-	m_pImpl->LoadSound(id, filepath);
+	if (!IsSoundLoaded(soundData.id))
+	{
+		LoadSound(soundData);
+	}
+
+
+	m_pImpl->PlaySound(soundData.id, soundData.soundType, soundData.volume);
+}
+
+void SDLSoundSystem::LoadSound(const SoundData& soundData)
+{
+	if (!IsSoundLoaded(soundData.id))
+	{
+		m_pImpl->LoadSound(soundData.id, soundData.filePath);
+	}
+
 }
 
 bool dae::SDLSoundSystem::IsSoundLoaded(unsigned short id)
 {
 	return m_pImpl->IsSoundLoaded(id);
+}
+void dae::SDLSoundSystem::SoundThread()
+{
+	while (m_ThreadRunning)
+	{
+		std::unique_lock<std::mutex> lock(m_QueueMutex);
+		m_QueueCondition.wait(lock, [&] {
+
+			if (!m_ThreadRunning)
+				return true;
+
+			return !m_EventQueue.empty();
+			});
+
+
+		if (m_EventQueue.empty())
+			return;
+
+		SoundData data = m_EventQueue.front();
+
+
+		m_EventQueue.pop();
+		lock.unlock();
+
+		if (data.loadFile)
+			LoadSound(data);
+		else
+			PlaySound(data);
+
+	}
 }
 #pragma endregion
 

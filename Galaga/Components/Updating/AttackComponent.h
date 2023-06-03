@@ -7,6 +7,7 @@ namespace dae {
 
 	class Texture2D;
 	class TransformComponent;
+	class SoundSystem;
 	class AttackComponent final : public Component
 	{
 	public:
@@ -29,6 +30,7 @@ namespace dae {
 	private:
 
 
+		SoundSystem* m_Sound;
 		std::vector<std::shared_ptr<GameObject>> m_FiredBullets{};
 		std::shared_ptr<Texture2D> m_AttackTexture{};
 

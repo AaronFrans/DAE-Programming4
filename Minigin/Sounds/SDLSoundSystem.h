@@ -2,10 +2,13 @@
 #include <memory>
 #include <string>
 #include "Sounds/SoundSystem.h"
+#include <thread>
+#include <queue>
+#include <mutex>
 
 namespace dae
 {
-	class SDLSoundSystem final: public SoundSystem
+	class SDLSoundSystem final : public SoundSystem
 	{
 	public:
 
@@ -22,19 +25,33 @@ namespace dae
 		SDLSoundSystem& operator=(const SDLSoundSystem& other) = delete;
 		SDLSoundSystem& operator=(SDLSoundSystem&& other) = delete;
 
-		void Init() override;
+		void Init(const std::string& dataPath) override;
 		void Quit() override;
 
-		void PlaySound(unsigned short id, SoundType soundType, float volume) override;
-		void LoadSound(unsigned short id, const std::string& filepath) override;
 
-		bool IsSoundLoaded(unsigned short id) override;
-
+		virtual void NotifySound(SoundData soundData);
 
 	private:
 		class SDLMixerImpl;
+
+		std::string m_DataPath;
+
+		std::queue<SoundData> m_EventQueue;
+		std::mutex m_QueueMutex;
+		std::condition_variable m_QueueCondition;
+		std::atomic<bool> m_ThreadRunning{ false };
+
+		std::jthread m_SoundThread;
+		void SoundThread();
+
+
 		std::unique_ptr<SDLMixerImpl> m_pImpl{ nullptr };
 
+		bool IsSoundLoaded(unsigned short id);
+
+
+		void PlaySound(const SoundData& soundData);
+		void LoadSound(const SoundData& soundData);
 	};
 }
 

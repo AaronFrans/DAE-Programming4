@@ -9,35 +9,21 @@
 
 void dae::SoundManager::Init(const std::string& dataPath)
 {
-	m_dataPath = dataPath;
+	m_DataPath = dataPath;
 
-	m_SoundSystem->Init();
-
-	m_ThreadRunning = true;
-	m_SoundThread = std::jthread(&SoundManager::SoundThread, this);
+	m_SoundSystem->Init(dataPath);
 }
-
-void dae::SoundManager::NotifySound(SoundData soundData)
-{
-	std::lock_guard<std::mutex> lock(m_QueueMutex);
-	soundData.filePath = m_dataPath + soundData.filePath;
-	m_EventQueue.push(soundData);
-
-	m_QueueCondition.notify_all();
-}
-
 void dae::SoundManager::SetSoundSystem(std::unique_ptr<SoundSystem> soundSystem)
 {
 	m_SoundSystem->Quit();
 
 	m_SoundSystem = std::move(soundSystem);
+
+	m_SoundSystem->Init(m_DataPath);
 }
 
 void dae::SoundManager::Quit()
 {
-	m_ThreadRunning = false;
-
-	m_QueueCondition.notify_all();
 
 	m_SoundSystem->Quit();
 
@@ -55,49 +41,4 @@ dae::SoundManager::SoundManager()
 
 dae::SoundManager::~SoundManager()
 {
-}
-
-void dae::SoundManager::PlaySound(SoundData soundData)
-{
-	if (!m_SoundSystem->IsSoundLoaded(soundData.id))
-	{
-		m_SoundSystem->LoadSound(soundData.id, soundData.filePath);
-	}
-
-	m_SoundSystem->PlaySound(soundData.id, static_cast<SDLSoundSystem::SoundType>(soundData.soundType), soundData.volume);
-}
-
-void dae::SoundManager::LoadSound(SoundData soundData)
-{
-	if (!m_SoundSystem->IsSoundLoaded(soundData.id))
-	{
-		m_SoundSystem->LoadSound(soundData.id, soundData.filePath);
-	}
-}
-
-
-void dae::SoundManager::SoundThread()
-{
-	while (m_ThreadRunning)
-	{
-		std::unique_lock<std::mutex> lock(m_QueueMutex);
-		m_QueueCondition.wait(lock, [&] {
-
-			if (!m_ThreadRunning)
-				return true;
-
-			return !m_EventQueue.empty();
-			});
-
-
-		SoundData data = m_EventQueue.front();
-		m_EventQueue.pop();
-		lock.unlock();
-
-		if (data.loadFile)
-			LoadSound(data);
-		else
-			PlaySound(data);
-
-	}
 }

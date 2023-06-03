@@ -236,7 +236,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Events\EventManager.h" />
     <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Input\XboxController.h" />
-    <ClInclude Include="NullSoundSystem.h" />
+    <ClInclude Include="Sounds\NullSoundSystem.h" />
     <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="Rendering\Renderer.h" />
     <ClInclude Include="Rendering\ResourceManager.h" />
@@ -273,7 +273,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Input\XboxController.cpp" />
-    <ClCompile Include="NullSoundSystem.cpp" />
+    <ClCompile Include="Sounds\NullSoundSystem.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="Rendering\Renderer.cpp" />
     <ClCompile Include="Rendering\ResourceManager.cpp" />

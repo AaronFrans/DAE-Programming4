@@ -4,14 +4,30 @@
 namespace dae
 {
 
-	class SoundSystem
+
+
+	using sound_id = unsigned short;
+
+	struct SoundData
 	{
-	public:
+		//TODO: make constructors for music and sound effect
+
 		enum class SoundType
 		{
 			Music,
 			SoundEffect,
 		};
+
+		sound_id id{};
+		float volume{ 1 };
+		SoundType soundType{ SoundType::SoundEffect };
+		std::string filePath{ "" };
+		bool loadFile{ false };
+	};
+
+	class SoundSystem
+	{
+	public:
 
 		SoundSystem() = default;
 		virtual ~SoundSystem() = default;
@@ -22,13 +38,10 @@ namespace dae
 		SoundSystem& operator=(const SoundSystem& other) = delete;
 		SoundSystem& operator=(SoundSystem&& other) = delete;
 
-		virtual void Init() = 0;
+		virtual void Init(const std::string& m_DataPath) = 0;
 		virtual void Quit() = 0;
 
-		virtual void PlaySound(unsigned short id, SoundType soundType, float volume) = 0;
-		virtual void LoadSound(unsigned short id, const std::string& filepath) = 0;
-
-		virtual bool IsSoundLoaded(unsigned short id) = 0;
+		virtual void NotifySound(SoundData soundData) = 0;
 
 	};
 

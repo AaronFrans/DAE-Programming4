@@ -75,7 +75,7 @@
     <ClInclude Include="Sounds\SDLSoundSystem.h" />
     <ClInclude Include="Components\Collision\CollisionComponent.h" />
     <ClInclude Include="Sounds\SoundSystem.h" />
-    <ClInclude Include="NullSoundSystem.h" />
+    <ClInclude Include="Sounds\NullSoundSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
@@ -127,6 +127,6 @@
     <ClCompile Include="Sounds\SDLSoundSystem.cpp" />
     <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
     <ClCompile Include="Sounds\SoundSystem.cpp" />
-    <ClCompile Include="NullSoundSystem.cpp" />
+    <ClCompile Include="Sounds\NullSoundSystem.cpp" />
   </ItemGroup>
 </Project>

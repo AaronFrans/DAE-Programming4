@@ -4,6 +4,7 @@
 #include "Rendering/ResourceManager.h"
 
 #include <Sounds/SoundManager.h>
+#include <Sounds/SoundSystem.h>
 
 #include "Components/TransformComponent.h"
 #include "Components/ImageComponent.h"
@@ -25,6 +26,9 @@ dae::AttackComponent::AttackComponent(std::weak_ptr<GameObject> owner)
 	glm::vec2 BulletSpriteDimensions = static_cast<glm::vec2>(m_AttackTexture->GetSize());
 
 	m_BulletStartOffset = { playerSpriteDimensions.x / 2.0f + BulletSpriteDimensions.x / 2.0f, playerSpriteDimensions.y / 2.0f };
+	m_Sound =  SoundManager::GetInstance().GetSoundSystem();
+
+
 }
 
 void dae::AttackComponent::Attack()
@@ -64,7 +68,7 @@ void dae::AttackComponent::Attack()
 	m_FiredBullets.push_back(bullet);
 
 	//TODO: find a better way to handle sound ids
-	SoundManager::GetInstance().NotifySound(SoundData{ 1, 0.1f, SoundData::SoundType::SoundEffect });
+	m_Sound->NotifySound(SoundData{ 1, 0.1f, SoundData::SoundType::SoundEffect });
 
 }
 
