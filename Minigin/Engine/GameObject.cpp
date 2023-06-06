@@ -61,19 +61,19 @@ void dae::GameObject::SetParent(std::shared_ptr<GameObject> parent, bool keepWor
 		transformLocked->SetPositionDirty();
 	}
 
-	if (!m_Parent.expired())
-		m_Parent.lock()->RemoveChild(shared_from_this());
-	m_Parent = parent;
-	if (!m_Parent.expired())
-		m_Parent.lock()->AddChild(shared_from_this());
+	if (m_Parent)
+		m_Parent->RemoveChild(shared_from_this());
+	m_Parent = parent.get();
+	if (m_Parent)
+		m_Parent->AddChild(shared_from_this());
 }
 
-std::shared_ptr<dae::TransformComponent> dae::GameObject::GetTransform()
+std::shared_ptr<dae::TransformComponent> dae::GameObject::GetTransform() const
 {
 	return m_Transform;
 }
 
-const std::weak_ptr<dae::GameObject>& dae::GameObject::GetParent() const
+const dae::GameObject* dae::GameObject::GetParent() const
 {
 	return m_Parent;
 }

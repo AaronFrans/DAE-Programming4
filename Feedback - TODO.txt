@@ -1,6 +1,0 @@
-!!!avoid magic nr => make them variables!!!
-
-
-
-On hit -> Observer from funtion that happens on hit to collision that check for when hit
-!!! NO EVENT QUEUE -> Overkill

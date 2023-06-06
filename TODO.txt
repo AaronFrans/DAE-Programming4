@@ -1,0 +1,24 @@
+!!!avoid magic nr => make them variables!!!
+
+Enemies
+    bee
+    butterfly
+    boss
+Player ui
+    lives
+    score
+Files Reading
+    use rapidjson
+HighScores
+    write to file
+    show top 5 scores
+Levels
+    main menu
+    read from file
+    load in level 1 -> start -> on separate thread load other level
+    when done back to main menu
+multiplayer
+    coop
+    vs
+
+give arno the gluck gluck

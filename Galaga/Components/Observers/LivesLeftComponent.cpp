@@ -53,16 +53,16 @@ void dae::LivesLeftComponent::SetLivesLeftText()
 
 void dae::LivesLeftComponent::LoseLife(const Event* e)
 {
-	if (strcmp(e->eventType, "PlayerDied") == 0)
-	{
-		if (const PlayerEvent* event = dynamic_cast<const PlayerEvent*>(e))
-		{
-			if (event->playerIndex == m_PlayerIndex)
-			{
-				m_LivesLeft -= 1;
+	if (!(strcmp(e->eventType, "PlayerDied") == 0))
+		return;
 
-				SetLivesLeftText();
-			}
+	if (const PlayerEvent* event = dynamic_cast<const PlayerEvent*>(e))
+	{
+		if (event->playerIndex == m_PlayerIndex)
+		{
+			m_LivesLeft -= 1;
+
+			SetLivesLeftText();
 		}
 	}
 }

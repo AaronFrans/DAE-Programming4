@@ -1,5 +1,6 @@
 #pragma once
 #include "Components/Component.h"
+#include <functional>
 #include "glm/glm.hpp"
 #include <Scene/Scene.h>
 
@@ -8,8 +9,11 @@ namespace dae {
 
 	struct CollisionData
 	{
-		std::string owner{ "" };
+		std::string ownerType{ "" };
+		GameObject* owningObject{};
 	};
+
+
 
 	class TransformComponent;
 	class CollisionComponent final : public Component
@@ -31,6 +35,9 @@ namespace dae {
 		CollisionData GetCollisionData() const;
 		void SetCollisionData(CollisionData data);
 
+		void SetCallback(std::function<void(const CollisionData& owner, const CollisionData& hitObject)> callbackFunc);
+
+
 		void SetScene(Scene* scene);
 
 		void IsOverlappingOtherCollision(const std::vector<CollisionComponent*>& collisionsToCheck) const;
@@ -38,13 +45,16 @@ namespace dae {
 
 #if _DEBUG
 		void Render() const override;
+		void EnableDebugSquare() { m_DrawDebugLines = true; };
 #endif
 
 	private:
 
 		TransformComponent* m_pOwnerTransform{};
 
-
+#if _DEBUG
+		bool m_DrawDebugLines{ false };
+#endif
 		float m_Width{};
 		float m_Height{};
 
@@ -53,6 +63,9 @@ namespace dae {
 		Scene* m_pScene{};
 
 		bool CheckOverlapp(CollisionComponent* pOther) const;
+
+
+		std::function<void(const CollisionData& collisionOwner, const CollisionData& hitObject)> m_OnHitCallback{};
 
 	};
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "Components/Component.h"
-#include "Scene/Scene.h"
+#include "Components/Collision/CollisionComponent.h"
 #include "glm/glm.hpp"
 
 namespace dae {
@@ -8,6 +8,7 @@ namespace dae {
 	class Texture2D;
 	class TransformComponent;
 	class SoundSystem;
+	class Scene;
 	class AttackComponent final : public Component
 	{
 	public:
@@ -28,6 +29,8 @@ namespace dae {
 		void SetScene(const std::string& sceneName);
 
 	private:
+
+		void BulletHitCallback(const dae::CollisionData& , const dae::CollisionData& hitObject);
 
 
 		SoundSystem* m_Sound{};

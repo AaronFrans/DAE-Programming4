@@ -34,6 +34,11 @@ void dae::CollisionComponent::SetCollisionData(dae::CollisionData data)
 	m_CollisionData = data;
 }
 
+void dae::CollisionComponent::SetCallback(std::function<void(const CollisionData& owner, const CollisionData& hitObject)> callbackFunc)
+{
+	m_OnHitCallback = callbackFunc;
+}
+
 void dae::CollisionComponent::SetScene(Scene* scene)
 {
 	m_pScene = scene;
@@ -48,10 +53,15 @@ void dae::CollisionComponent::IsOverlappingOtherCollision(const std::vector<Coll
 		if (collisionOwner == collisionToCheck->GetOwner())
 			continue;
 
-		if (CheckOverlapp(collisionToCheck))
-		{
-			std::cout << "Collision detected\n";
-		}
+		if (!CheckOverlapp(collisionToCheck))
+			continue;
+
+		//assert(m_OnHitCallback && "No Callback funtion set");
+
+		if (!m_OnHitCallback)
+			continue;
+
+		m_OnHitCallback(m_CollisionData, collisionToCheck->m_CollisionData);
 	}
 }
 
@@ -82,12 +92,15 @@ bool dae::CollisionComponent::CheckOverlapp(CollisionComponent* pOther) const
 #if _DEBUG
 void dae::CollisionComponent::Render() const
 {
-	//TODO: use bool data member to choose to render
-	//auto worldPos = m_pOwnerTransform->GetWorldPosition();
-	//
-	//Renderer::GetInstance().RenderRect(worldPos.x, worldPos.y,
-	//	m_Width, m_Height,
-	//	{ 150, 0, 2, 100 });
+
+	if (!m_DrawDebugLines)
+		return;
+
+	auto worldPos = m_pOwnerTransform->GetWorldPosition();
+
+	Renderer::GetInstance().RenderRect(worldPos.x, worldPos.y,
+		m_Width, m_Height,
+		{ 150, 0, 2, 100 });
 }
 #endif
 

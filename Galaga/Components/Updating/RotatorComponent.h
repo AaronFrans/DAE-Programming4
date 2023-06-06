@@ -39,6 +39,8 @@ namespace dae
 		const float MAX_ROTATION{ static_cast<float>(2.0f * std::numbers::pi)};
 
 
+
+
 	};
 }
 

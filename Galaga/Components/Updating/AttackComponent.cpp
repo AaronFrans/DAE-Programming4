@@ -1,5 +1,7 @@
 #include "AttackComponent.h"
 
+#include "Engine/GameObject.h"
+
 #include "Rendering/Texture2D.h"
 #include "Rendering/ResourceManager.h"
 
@@ -11,8 +13,6 @@
 #include "Components/ImageRenderComponent.h"
 
 #include "Components/Updating/BulletMovementComponent.h"
-
-#include "Components/Collision/CollisionComponent.h"
 
 dae::AttackComponent::AttackComponent(GameObject* owner)
 	:Component(owner)
@@ -26,8 +26,7 @@ dae::AttackComponent::AttackComponent(GameObject* owner)
 	glm::vec2 BulletSpriteDimensions = static_cast<glm::vec2>(m_AttackTexture->GetSize());
 
 	m_BulletStartOffset = { playerSpriteDimensions.x / 2.0f + BulletSpriteDimensions.x / 2.0f, playerSpriteDimensions.y / 2.0f };
-	m_Sound =  SoundManager::GetInstance().GetSoundSystem();
-
+	m_Sound = SoundManager::GetInstance().GetSoundSystem();
 
 }
 
@@ -54,10 +53,14 @@ void dae::AttackComponent::Attack()
 	bullet->AddComponent<dae::ImageRenderComponent>();
 
 	auto collision = bullet->AddComponent<dae::CollisionComponent>();
-	collision->SetCollisionData({ "PlayerAttack" });
+	collision->SetCollisionData({ "PlayerAttack", bullet.get() });
 
 	float collisionWidht{ 11 }, collisionHeight{ 22 };
 	collision->SetBounds(collisionWidht, collisionHeight);
+
+
+	auto boundHitCallback = std::bind(&AttackComponent::BulletHitCallback, this, std::placeholders::_1, std::placeholders::_2);
+	collision->SetCallback(boundHitCallback);
 
 	collision->SetScene(m_pScene);
 
@@ -97,4 +100,12 @@ void dae::AttackComponent::SetScene(const std::string& sceneName)
 	m_SceneName = sceneName;
 
 	m_pScene = &SceneManager::GetInstance().GetSceneByName(m_SceneName);
+}
+
+void dae::AttackComponent::BulletHitCallback(const dae::CollisionData& collisionOwner, const dae::CollisionData& hitObject)
+{
+	if (!(strcmp(hitObject.ownerType.c_str(), "Enemy") == 0))
+		return;
+
+	collisionOwner.owningObject->MarkForDestroy();
 }

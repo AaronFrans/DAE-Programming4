@@ -30,9 +30,9 @@ namespace dae
 
 		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition);
 
-		std::shared_ptr<dae::TransformComponent> GetTransform();
+		std::shared_ptr<dae::TransformComponent> GetTransform() const;
 
-		const std::weak_ptr<GameObject>& GetParent() const;
+		const GameObject* GetParent() const;
 
 		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
 
@@ -48,7 +48,7 @@ namespace dae
 		void AddChild(const std::shared_ptr<GameObject>& child);
 
 		//TODO: convert into raw pointer
-		std::weak_ptr<GameObject> m_Parent;
+		GameObject* m_Parent;
 
 		std::vector<std::shared_ptr<GameObject>> m_Children;
 
