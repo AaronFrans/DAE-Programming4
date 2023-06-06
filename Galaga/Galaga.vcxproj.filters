@@ -86,5 +86,6 @@
     <ClInclude Include="Components\Enemies\EnemyControllerComponent.h" />
     <ClInclude Include="Components\Enemies\BaseEnemyComponent.h" />
     <ClInclude Include="Components\Enemies\BeeComponent.h" />
+    <ClInclude Include="Events\GameEvents.h" />
   </ItemGroup>
 </Project>

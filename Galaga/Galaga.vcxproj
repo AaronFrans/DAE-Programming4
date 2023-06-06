@@ -209,6 +209,7 @@
     <ClInclude Include="Components\Updating\RotatorComponent.h" />
     <ClInclude Include="Components\Enemies\EnemyControllerComponent.h" />
     <ClInclude Include="Components\Enemies\BaseEnemyComponent.h" />
+    <ClInclude Include="Events\GameEvents.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

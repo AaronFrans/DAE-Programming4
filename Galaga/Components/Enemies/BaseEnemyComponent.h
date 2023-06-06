@@ -34,6 +34,7 @@ namespace dae
 		bool m_IsAttacking{ false };
 
 		glm::vec3 m_FormationPosition{};
+
 	private:
 
 	};

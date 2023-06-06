@@ -12,7 +12,8 @@ namespace dae
 		void OnHitCallback(const CollisionData& collisionOwner, const CollisionData& hitObject);
 
 		BeeComponent(GameObject* owner);
-		~BeeComponent() = default;
+		~BeeComponent();
+
 		BeeComponent(const BeeComponent& other) = delete;
 		BeeComponent(BeeComponent&& other) = delete;
 		BeeComponent& operator=(const BeeComponent& other) = delete;

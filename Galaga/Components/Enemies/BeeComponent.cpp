@@ -1,11 +1,33 @@
 #include "BeeComponent.h"
 #include <Components/TransformComponent.h>
 #include <Engine/Timer.h>
+#include <Events/EventManager.h>
+#include "Events/GameEvents.h"
 
 dae::BeeComponent::BeeComponent(GameObject* owner)
 	:BaseEnemyComponent(owner)
 {
 	m_pTransform = owner->GetTransform().get();;
+}
+
+dae::BeeComponent::~BeeComponent()
+{
+	std::unique_ptr<PointEvent> event = std::make_unique<PointEvent>();
+	event->eventType = "EnemyDied";
+
+	switch (m_CurAttackState)
+	{
+	case dae::BeeComponent::AttackStates::Idle:
+		event->NrPoints = 500;
+		break;
+	case dae::BeeComponent::AttackStates::Diving:
+	case dae::BeeComponent::AttackStates::Arcing:
+	case dae::BeeComponent::AttackStates::Returning:
+		event->NrPoints = 700;
+		break;
+	}
+
+	EventManager::GetInstance().SendEventMessage(std::move(event));
 }
 
 void dae::BeeComponent::Attack()
