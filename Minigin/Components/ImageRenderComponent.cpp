@@ -16,6 +16,10 @@ dae::ImageRenderComponent::ImageRenderComponent(GameObject* owner)
 
 void dae::ImageRenderComponent::Render() const
 {
+
+	if (!m_IsActive)
+		return;
+
 	const auto& pos = m_Transform->GetWorldPosition();
 
 	Renderer::GetInstance().RenderTexture(*m_Image->GetTexture(), pos.x, pos.y);

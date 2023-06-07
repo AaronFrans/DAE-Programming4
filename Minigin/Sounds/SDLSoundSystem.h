@@ -29,7 +29,7 @@ namespace dae
 		void Quit() override;
 
 
-		virtual void NotifySound(SoundData soundData);
+		virtual void HandleSoundData(SoundData soundData);
 
 	private:
 		class SDLMixerImpl;

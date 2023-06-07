@@ -163,7 +163,7 @@ void dae::SDLSoundSystem::Quit()
 	}
 }
 
-void dae::SDLSoundSystem::NotifySound(SoundData soundData)
+void dae::SDLSoundSystem::HandleSoundData(SoundData soundData)
 {
 
 	std::lock_guard<std::mutex> lock(m_QueueMutex);
@@ -171,8 +171,6 @@ void dae::SDLSoundSystem::NotifySound(SoundData soundData)
 	m_EventQueue.push(soundData);
 
 	m_QueueCondition.notify_all();
-
-
 }
 
 void SDLSoundSystem::PlaySound(const SoundData& soundData)

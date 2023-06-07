@@ -35,11 +35,11 @@ void dae::Scene::SortGameObjectUpdate()
 
 void dae::Scene::NormalUpdate()
 {
-	for (auto& object : m_Objects)
+	for (int i{ 0 }; i < m_Objects.size(); i++)
 	{
-		if (!object->IsDestroyed())
+		if (!m_Objects[i]->IsDestroyed())
 		{
-			object->Update();
+			m_Objects[i]->Update();
 		}
 	}
 }

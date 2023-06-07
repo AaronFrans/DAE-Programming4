@@ -22,7 +22,7 @@ const glm::vec3& dae::TransformComponent::GetLocalPosition() const
 void dae::TransformComponent::UpdateWorldPosition()
 {
 	const auto Owner = GetOwner();
-	if (Owner->GetParent())
+	if (!Owner->GetParent())
 		m_WorldPostition = m_LocalPostition;
 	else
 	{

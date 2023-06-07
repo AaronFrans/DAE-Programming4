@@ -3,9 +3,6 @@
 
 namespace dae
 {
-
-
-
 	using sound_id = unsigned short;
 
 	struct SoundData
@@ -28,7 +25,6 @@ namespace dae
 	class SoundSystem
 	{
 	public:
-
 		SoundSystem() = default;
 		virtual ~SoundSystem() = default;
 
@@ -41,8 +37,7 @@ namespace dae
 		virtual void Init(const std::string& m_DataPath) = 0;
 		virtual void Quit() = 0;
 
-		virtual void NotifySound(SoundData soundData) = 0;
-
+		virtual void HandleSoundData(SoundData soundData) = 0;
 	};
 
 }

@@ -12,7 +12,9 @@ void dae::BulletMovementComponent::Update()
 {
 	auto currentPos = m_pBulletTransform->GetWorldPosition();
 	const float distanceThisUpdate{ m_MoveSpeed * Timer::GetInstance().GetDeltaTime() };
-	currentPos.y -= distanceThisUpdate;
+
+
+	currentPos += distanceThisUpdate * m_MoveDir;
 	m_DistanceTraveled += distanceThisUpdate;
 	m_pBulletTransform->SetLocalPosition(currentPos);
 
@@ -25,6 +27,11 @@ void dae::BulletMovementComponent::Update()
 void dae::BulletMovementComponent::SetMoveSpeed(float moveSpeed)
 {
 	m_MoveSpeed = moveSpeed;
+}
+
+void dae::BulletMovementComponent::SetMoveDir(glm::vec3 moveDir)
+{
+	m_MoveDir = moveDir;
 }
 
 void dae::BulletMovementComponent::SetMaxDistance(float maxDistance)

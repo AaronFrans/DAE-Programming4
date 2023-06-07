@@ -10,7 +10,7 @@ namespace dae
 		void Init(const std::string&) override {};
 		virtual void Quit() override {};
 
-		virtual void NotifySound(SoundData) {};
+		virtual void HandleSoundData(SoundData) {};
 	};
 
 }

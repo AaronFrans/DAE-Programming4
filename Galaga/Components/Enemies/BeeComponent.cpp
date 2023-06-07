@@ -3,32 +3,14 @@
 #include <Engine/Timer.h>
 #include <Events/EventManager.h>
 #include "Events/GameEvents.h"
+#include "Rendering/ResourceManager.h"
+#include "Components/Collision/CollisionComponent.h"
 
 dae::BeeComponent::BeeComponent(GameObject* owner)
 	:BaseEnemyComponent(owner)
 {
-	m_pTransform = owner->GetTransform().get();;
 }
 
-dae::BeeComponent::~BeeComponent()
-{
-	std::unique_ptr<PointEvent> event = std::make_unique<PointEvent>();
-	event->eventType = "EnemyDied";
-
-	switch (m_CurAttackState)
-	{
-	case dae::BeeComponent::AttackStates::Idle:
-		event->NrPoints = 500;
-		break;
-	case dae::BeeComponent::AttackStates::Diving:
-	case dae::BeeComponent::AttackStates::Arcing:
-	case dae::BeeComponent::AttackStates::Returning:
-		event->NrPoints = 700;
-		break;
-	}
-
-	EventManager::GetInstance().SendEventMessage(std::move(event));
-}
 
 void dae::BeeComponent::Attack()
 {
@@ -41,6 +23,24 @@ void dae::BeeComponent::OnHitCallback(const CollisionData& collisionOwner, const
 {
 	if (!(strcmp(hitObject.ownerType.c_str(), "PlayerAttack") == 0))
 		return;
+
+
+	std::unique_ptr<PointEvent> event = std::make_unique<PointEvent>();
+	event->eventType = "EnemyDied";
+
+	switch (m_CurAttackState)
+	{
+	case dae::BeeComponent::AttackStates::Idle:
+		event->NrPoints = 50;
+		break;
+	case dae::BeeComponent::AttackStates::Diving:
+	case dae::BeeComponent::AttackStates::Arcing:
+	case dae::BeeComponent::AttackStates::Returning:
+		event->NrPoints = 100;
+		break;
+	}
+
+	EventManager::GetInstance().SendEventMessage(std::move(event));
 
 	collisionOwner.owningObject->MarkForDestroy();
 }
@@ -69,29 +69,29 @@ void dae::BeeComponent::Update()
 	}
 }
 
-void dae::BeeComponent::SetMaxYPos(float yPos)
-{
-	m_MaxYPos = yPos;
-}
-
-void dae::BeeComponent::DoDiving(float elapsed)
+void dae::BeeComponent::DoDiving(const float elapsed)
 {
 	auto curPos = m_pTransform->GetWorldPosition();
 
 	curPos += m_MovementDir * elapsed;
 
+	DoShooting(elapsed, curPos);
+
 	m_pTransform->SetLocalPosition(curPos);
 
-	if (curPos.y > m_MaxYPos)
-	{
-		m_CurAttackState = AttackStates::Arcing;
-		m_CurArcTime = 0;
+	if (curPos.y < m_MaxYPos)
+		return;
 
+
+	m_CurAttackState = AttackStates::Arcing;
+	m_CurArcTime = 0;
+
+	curPos.x > m_ScreenCenter.x ?
+		m_MovementDir = { -200, 0, 0 } :
 		m_MovementDir = { 200, 0, 0 };
-	}
 }
 
-void dae::BeeComponent::DoArcing(float elapsed)
+void dae::BeeComponent::DoArcing(const float elapsed)
 {
 	auto curPos = m_pTransform->GetWorldPosition();
 
@@ -101,19 +101,18 @@ void dae::BeeComponent::DoArcing(float elapsed)
 
 	m_CurArcTime += elapsed;
 
-	if (m_CurArcTime > 2)
-	{
-		m_CurAttackState = AttackStates::Returning;
+	if (m_CurArcTime < MAX_ARC_TIME)
+		return;
 
-		m_MovementDir = (m_FormationPosition - curPos);
+	m_CurAttackState = AttackStates::Returning;
 
-		m_MovementDir /= glm::length(m_MovementDir);
-		m_MovementDir *= 200;
-	}
+	m_MovementDir = (m_FormationPosition - curPos);
 
+	m_MovementDir /= glm::length(m_MovementDir);
+	m_MovementDir *= 200;
 }
 
-void dae::BeeComponent::DoReturning(float elapsed)
+void dae::BeeComponent::DoReturning(const float elapsed)
 {
 	auto curPos = m_pTransform->GetWorldPosition();
 
@@ -121,9 +120,10 @@ void dae::BeeComponent::DoReturning(float elapsed)
 
 	m_pTransform->SetLocalPosition(curPos);
 
-	if (glm::length(m_FormationPosition - curPos) < 1)
-	{
-		m_CurAttackState = AttackStates::Idle;
-		m_IsAttacking = false;
-	}
+	if (glm::length(m_FormationPosition - curPos) > 1)
+		return;
+
+
+	m_CurAttackState = AttackStates::Idle;
+	m_IsAttacking = false;
 }

@@ -41,6 +41,8 @@
     <ClCompile Include="Components\Enemies\EnemyControllerComponent.cpp" />
     <ClCompile Include="Components\Enemies\BaseEnemyComponent.cpp" />
     <ClCompile Include="Components\Enemies\BeeComponent.cpp" />
+    <ClCompile Include="Components\Enemies\ButterflyComponent.cpp" />
+    <ClCompile Include="Components\Enemies\BossComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
@@ -87,5 +89,7 @@
     <ClInclude Include="Components\Enemies\BaseEnemyComponent.h" />
     <ClInclude Include="Components\Enemies\BeeComponent.h" />
     <ClInclude Include="Events\GameEvents.h" />
+    <ClInclude Include="Components\Enemies\ButterflyComponent.h" />
+    <ClInclude Include="Components\Enemies\BossComponent.h" />
   </ItemGroup>
 </Project>

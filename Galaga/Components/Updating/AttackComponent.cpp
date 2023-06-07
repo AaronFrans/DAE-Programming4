@@ -48,15 +48,15 @@ void dae::AttackComponent::Attack()
 	);
 
 	bullet->AddComponent<ImageComponent>()->SetTexture(m_AttackTexture);
-	bullet->AddComponent<BulletMovementComponent>();
+	bullet->AddComponent<BulletMovementComponent>()->SetMoveSpeed(500);
 
 	bullet->AddComponent<dae::ImageRenderComponent>();
 
 	auto collision = bullet->AddComponent<dae::CollisionComponent>();
 	collision->SetCollisionData({ "PlayerAttack", bullet.get() });
 
-	float collisionWidht{ 11 }, collisionHeight{ 22 };
-	collision->SetBounds(collisionWidht, collisionHeight);
+	float collisionWidth{ 11 }, collisionHeight{ 22 };
+	collision->SetBounds(collisionWidth, collisionHeight);
 
 
 	auto boundHitCallback = std::bind(&AttackComponent::BulletHitCallback, this, std::placeholders::_1, std::placeholders::_2);
@@ -71,7 +71,7 @@ void dae::AttackComponent::Attack()
 	m_FiredBullets.push_back(bullet);
 
 	//TODO: find a better way to handle sound ids
-	m_Sound->NotifySound(SoundData{ 1, 0.1f, SoundData::SoundType::SoundEffect });
+	m_Sound->HandleSoundData(SoundData{ 1, 0.1f, SoundData::SoundType::SoundEffect });
 
 }
 

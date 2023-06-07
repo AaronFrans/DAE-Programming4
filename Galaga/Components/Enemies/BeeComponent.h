@@ -12,7 +12,7 @@ namespace dae
 		void OnHitCallback(const CollisionData& collisionOwner, const CollisionData& hitObject);
 
 		BeeComponent(GameObject* owner);
-		~BeeComponent();
+		~BeeComponent() = default;
 
 		BeeComponent(const BeeComponent& other) = delete;
 		BeeComponent(BeeComponent&& other) = delete;
@@ -20,8 +20,6 @@ namespace dae
 		BeeComponent& operator=(BeeComponent&& other) = delete;
 
 		void Update() override;
-
-		void SetMaxYPos(float yPos);
 
 
 	private:
@@ -37,20 +35,16 @@ namespace dae
 
 		AttackStates m_CurAttackState{ AttackStates::Idle };
 
-		void DoDiving(float elapsed);
-		void DoArcing(float elapsed);
-		void DoReturning(float elapsed);
+		void DoDiving(const float elapsed);
+		void DoArcing(const float elapsed);
+		void DoReturning(const float elapsed);
 
 
+
+		static constexpr float MAX_ARC_TIME{ 1 };
 		float m_CurArcTime{ 0 };
 
 		glm::vec3 m_MovementDir{0, 100, 0};
-
-		TransformComponent* m_pTransform{};
-
-
-
-		float m_MaxYPos{ 600 };
 	};
 
 }

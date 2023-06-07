@@ -46,7 +46,7 @@ void dae::GameObject::Render() const
 
 }
 
-void dae::GameObject::SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition)
+void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
 	auto transformLocked = m_Transform;
 	if (!parent)
@@ -63,7 +63,7 @@ void dae::GameObject::SetParent(std::shared_ptr<GameObject> parent, bool keepWor
 
 	if (m_Parent)
 		m_Parent->RemoveChild(shared_from_this());
-	m_Parent = parent.get();
+	m_Parent = parent;
 	if (m_Parent)
 		m_Parent->AddChild(shared_from_this());
 }
@@ -95,8 +95,6 @@ int dae::GameObject::GetDrawDepth()
 
 void dae::GameObject::MarkForDestroy()
 {
-
-
 	std::unique_ptr<Event> event = std::make_unique<Event>();
 	event->eventType = "GameObject Destroyed";
 
