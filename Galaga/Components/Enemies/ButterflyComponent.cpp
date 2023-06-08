@@ -2,6 +2,7 @@
 #include <Engine/Timer.h>
 #include <Components/TransformComponent.h>
 #include <Components/Collision/CollisionComponent.h>
+#include <Components/Enemies/EnemyControllerComponent.h>
 
 #include <Events/EventManager.h>
 #include "Events/GameEvents.h"
@@ -85,22 +86,31 @@ void dae::ButterflyComponent::OnHitCallback(const CollisionData& collisionOwner,
 		return;
 
 
-	std::unique_ptr<PointEvent> event = std::make_unique<PointEvent>();
-	event->eventType = "EnemyDied";
+	std::unique_ptr<PointEvent> pointEvent = std::make_unique<PointEvent>();
+	pointEvent->eventType = "EnemyDied";
 
 	switch (m_CurAttackState)
 	{
 	case dae::ButterflyComponent::AttackStates::Idle:
-		event->NrPoints = 80;
+		pointEvent->nrPoints = 80;
 		break;
 	case dae::ButterflyComponent::AttackStates::Zigzagging:
 	case dae::ButterflyComponent::AttackStates::Arcing:
 	case dae::ButterflyComponent::AttackStates::Returning:
-		event->NrPoints = 160;
+		pointEvent->nrPoints = 160;
 		break;
 	}
 
-	EventManager::GetInstance().SendEventMessage(std::move(event));
+	EventManager::GetInstance().SendEventMessage(std::move(pointEvent));
+
+	std::unique_ptr<ButterflyDestroyedEvent> deathEvent = std::make_unique<ButterflyDestroyedEvent>();
+	deathEvent->eventType = "ButterflyDied";
+
+	auto pConteroller = GetOwner()->GetComponent<EnemyControllerComponent>().get();
+
+	deathEvent->butterfly = pConteroller;
+
+	EventManager::GetInstance().SendEventMessage(std::move(deathEvent));
 
 	collisionOwner.owningObject->MarkForDestroy();
 }

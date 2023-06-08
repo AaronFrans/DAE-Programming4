@@ -17,6 +17,11 @@ namespace dae
 
 		void Update() override;
 
+		void AddMinDelayOffset(float offset) { m_MinAttackDelay += offset; };
+
+		void ForceAttack();
+		bool IsAlreadyAttacking();
+
 	private:
 		BaseEnemyComponent* m_pControlledEnemy{};
 

@@ -21,7 +21,7 @@ namespace dae
 		bool IsAttacking();
 
 		void SetFormationPosition(glm::vec3 pos);
-		void SetPlayerTransform(const TransformComponent* player);
+		void SetPlayerTransform(TransformComponent* player);
 		void SetScreenCenter(const glm::vec3 center);
 		virtual void SetScene(const std::string& sceneName);
 		void SetMaxYPos(const float maxYPos);
@@ -49,7 +49,7 @@ namespace dae
 		glm::vec3 m_FormationPosition{};
 		glm::vec3 m_ScreenCenter{};
 
-		const TransformComponent* m_pPlayerTransform{};
+		TransformComponent* m_pPlayerTransform{};
 		TransformComponent* m_pTransform{};
 
 		bool m_IsAttacking{ false };

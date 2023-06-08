@@ -3,6 +3,8 @@
 #include <glm/glm.hpp>
 
 namespace dae {
+
+	struct Event;
 	class TransformComponent;
 	class RestrictedMovementCommand final : public Command
 	{
@@ -16,12 +18,19 @@ namespace dae {
 		void SetMaxPoint(glm::vec3 maxPoint) { m_MaxPoint = maxPoint; };
 		void SetMoveSpeed(float moveSpeed) { m_MoveSpeed = moveSpeed; };
 
+		void SetPlayerIndex(unsigned playerIndex) { m_PlayerIndex = playerIndex; };
+
 	private:
 
 
 		TransformComponent* m_pGameObjectTransform{ nullptr };
 
 
+		unsigned m_PlayerIndex{ 0 };
+
+		void PlayerGrabbed(const Event* e);
+
+		bool m_CanPlayerMove{ true };
 
 		glm::vec3 m_MinPoint{};
 		glm::vec3 m_MaxPoint{};

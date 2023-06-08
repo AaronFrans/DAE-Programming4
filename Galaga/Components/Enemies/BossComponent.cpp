@@ -11,9 +11,7 @@
 
 void dae::BossComponent::SetupCollision()
 {
-	auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
-	auto textureHeight = m_TractorBeamDisplay->GetTextureHeight();
-	m_TractorCollision->SetBounds(textureWidth, textureHeight);
+	m_TractorCollision->SetBounds(0, 0);
 	m_pScene->AddCollision(m_TractorCollision);
 	m_TractorCollision->SetScene(m_pScene);
 	m_TractorCollision->EnableDebugSquare();
@@ -27,7 +25,7 @@ void dae::BossComponent::Update()
 		return;
 
 	const auto elapsed = Timer::GetInstance().GetDeltaTime();
-	if (m_pPlayer)
+	if (m_HasGrabbedPlayer)
 	{
 		HandlePlayerCaught(elapsed);
 		return;
@@ -54,18 +52,38 @@ void dae::BossComponent::Update()
 	}
 }
 
+void dae::BossComponent::OnButterflyDeath(const Event* e)
+{
+	if (strcmp(e->eventType, "ButterflyDied") != 0)
+		return;
+	if (const ButterflyDestroyedEvent* event = dynamic_cast<const ButterflyDestroyedEvent*>(e))
+	{
+		m_Butterflies.erase(std::remove(m_Butterflies.begin(), m_Butterflies.end(), event->butterfly), m_Butterflies.end());
+	}
+
+}
+
 void dae::BossComponent::TractorBeamCallback(const CollisionData&, const CollisionData& hitObject)
 {
-	if (m_pPlayer)
+	if (m_HasGrabbedPlayer)
 		return;
 
 	if (!(strcmp(hitObject.ownerType.c_str(), "Player") == 0))
 		return;
 
-	m_pPlayer = hitObject.owningObject->GetTransform().get();
-	m_PlayerDragDir = m_pTransform->GetWorldPosition() - m_pPlayer->GetWorldPosition();
+	std::unique_ptr<PlayerEvent> event = std::make_unique<PlayerEvent>();
+	event->eventType = "PlayerGrabbed";
+	event->playerIndex = 0;
+
+
+	EventManager::GetInstance().SendEventMessage<PlayerEvent>(std::move(event));
+	m_HasGrabbedPlayer = true;
+	m_PlayerOriginalPos = m_pPlayerTransform->GetWorldPosition();
+	m_PlayerDragDir = m_pTransform->GetWorldPosition() - m_PlayerOriginalPos;
 	m_PlayerDragDir = glm::normalize(m_PlayerDragDir);
 	m_PlayerDragDir *= 200;
+
+
 }
 
 void dae::BossComponent::DoArcing(const float elapsed)
@@ -130,9 +148,36 @@ void dae::BossComponent::DoDiving(const float elapsed)
 
 void dae::BossComponent::HandlePlayerCaught(const float elapsed)
 {
-	auto newPos = m_pPlayer->GetWorldPosition();
-	newPos += m_PlayerDragDir * elapsed;
-	m_pPlayer->SetLocalPosition(newPos);
+	auto newPlayerPos = m_pPlayerTransform->GetWorldPosition();
+	newPlayerPos += m_PlayerDragDir * elapsed;
+	m_pPlayerTransform->SetLocalPosition(newPlayerPos);
+
+	auto curPos = m_pTransform->GetWorldPosition();
+
+	if (glm::length(curPos - newPlayerPos) > 1)
+		return;
+
+	m_HasGrabbedPlayer = false;
+
+	m_CurAttackState = AttackStates::Returning;
+	m_MovementDir = (m_FormationPosition - curPos);
+
+	m_MovementDir /= glm::length(m_MovementDir);
+	m_MovementDir *= 200;
+
+	m_TractorBeamRender->SetActive(false);
+
+	std::unique_ptr<PlayerEvent> event = std::make_unique<PlayerEvent>();
+	event->eventType = "PlayerDied";
+	event->playerIndex = 0;
+	EventManager::GetInstance().SendEventMessage(std::move(event));
+
+	m_pPlayerTransform->SetLocalPosition(m_PlayerOriginalPos);
+	m_CurTractorIndex = 0;
+	m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
+	auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
+	auto textureHeight = m_TractorBeamDisplay->GetTextureHeight();
+	m_TractorCollision->SetBounds(textureWidth, textureHeight);
 }
 
 void dae::BossComponent::DoTractorBeam(const float elapsed)
@@ -157,6 +202,8 @@ void dae::BossComponent::DoTractorBeam(const float elapsed)
 
 	if (m_CurTractorIndex == m_TractorBeamTextures.size())
 	{
+
+
 		m_CurAttackState = AttackStates::Returning;
 
 		m_MovementDir = (m_FormationPosition - curPos);
@@ -189,19 +236,43 @@ void dae::BossComponent::Attack()
 	m_IsAttacking = true;
 	m_MovementDir = { 0, 200, 0 };
 
-	//bool doTracktorBeam = rand() % 1;
-	//if (doTracktorBeam)
-	//{
-	m_CurAttackState = AttackStates::Tractor;
-	m_CurTractorIndex = 0;
+	bool doTracktorBeam = rand() % 1;
+	if (doTracktorBeam)
+	{
+		m_CurAttackState = AttackStates::Tractor;
+		m_CurTractorIndex = 0;
 
-	m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
-	auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
-	auto textureHeight = m_TractorBeamDisplay->GetTextureHeight();
-	m_TractorCollision->SetBounds(textureWidth, textureHeight);
-	//}
-	//else
-	//	m_CurAttackState = AttackStates::Diving;
+		m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
+		auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
+		auto textureHeight = m_TractorBeamDisplay->GetTextureHeight();
+		m_TractorCollision->SetBounds(textureWidth, textureHeight);
+
+		m_MovementDir = m_pPlayerTransform->GetWorldPosition(); -m_pTransform->GetWorldPosition();
+
+		m_MovementDir /= glm::length(m_MovementDir);
+		m_MovementDir *= 200;
+	}
+	else
+	{
+		m_CurAttackState = AttackStates::Diving;
+
+
+		std::vector<int> freeIndexes;
+
+		for (int i = 0; i < m_Butterflies.size(); ++i) {
+			if (!m_Butterflies[i]->IsAlreadyAttacking()) {
+				freeIndexes.push_back(i);
+			}
+		}
+
+		if (!freeIndexes.empty()) {
+			// Generate a random index from the free indexes
+			int randomIndex = freeIndexes[std::rand() % freeIndexes.size()];
+			EnemyControllerComponent* randomButterfly = m_Butterflies[randomIndex];
+			randomButterfly->ForceAttack();
+		}
+
+	}
 
 }
 
@@ -226,13 +297,13 @@ void dae::BossComponent::OnHitCallback(const CollisionData& collisionOwner, cons
 	switch (m_CurAttackState)
 	{
 	case dae::BossComponent::AttackStates::Idle:
-		event->NrPoints = 150;
+		event->nrPoints = 150;
 		break;
 	case dae::BossComponent::AttackStates::Diving:
 	case dae::BossComponent::AttackStates::Tractor:
 	case dae::BossComponent::AttackStates::Arcing:
 	case dae::BossComponent::AttackStates::Returning:
-		event->NrPoints = 400;
+		event->nrPoints = 400;
 		break;
 	}
 
@@ -270,4 +341,12 @@ dae::BossComponent::BossComponent(GameObject* owner)
 	m_DamagedTexture = ResourceManager::GetInstance().LoadTexture("Images\\Galaga_Boss_Damaged.png");
 
 	m_TractorCollision = pTractor->AddComponent<CollisionComponent>().get();
+
+	m_TractorCollision->SetCollisionData({ "TractorBeam", pTractor.get() });
+
+
+	auto boundButterflyDied = std::bind(&BossComponent::OnButterflyDeath, this, std::placeholders::_1);
+	PlayerEvent event;
+	event.eventType = "ButterflyDied";
+	EventManager::GetInstance().AddObserver(event, boundButterflyDied);
 }

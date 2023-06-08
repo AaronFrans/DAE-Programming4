@@ -1,11 +1,15 @@
 #pragma once
+#pragma once
 #include "BaseEnemyComponent.h"
+#include "Components/Enemies/EnemyControllerComponent.h"
 
 namespace dae
 {
 	class ImageComponent;
 	class ImageRenderComponent;
 	class CollisionComponent;
+	class EnemyControllerComponent;
+	struct Event;
 	class BossComponent final : public BaseEnemyComponent
 	{
 	public:
@@ -20,8 +24,12 @@ namespace dae
 		BossComponent& operator=(const BossComponent& other) = delete;
 		BossComponent& operator=(BossComponent&& other) = delete;
 
+		void SetButterflies(std::vector<EnemyControllerComponent*>& butterflies) { m_Butterflies = butterflies; };
+
 		void SetupCollision();
 		void Update() override;
+
+
 
 	private:
 		enum class AttackStates
@@ -33,6 +41,8 @@ namespace dae
 			Returning
 		};
 
+
+		void OnButterflyDeath(const Event* e);
 
 		void TractorBeamCallback(const CollisionData& collisionOwner, const CollisionData& hitObject);
 
@@ -67,9 +77,12 @@ namespace dae
 
 
 
-		void HandlePlayerCaught(const float elapsed);
-		TransformComponent* m_pPlayer{};
 
+
+		std::vector<EnemyControllerComponent*> m_Butterflies{};
+		void HandlePlayerCaught(const float elapsed);
+		bool m_HasGrabbedPlayer{ false };
+		glm::vec3 m_PlayerOriginalPos{};
 		glm::vec3 m_PlayerDragDir{};
 	};
 }

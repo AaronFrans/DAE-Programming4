@@ -8,6 +8,8 @@
 #include <Sounds/SoundManager.h>
 #include <Sounds/SoundSystem.h>
 
+#include "Events/EventManager.h"
+
 #include "Components/TransformComponent.h"
 #include "Components/ImageComponent.h"
 #include "Components/ImageRenderComponent.h"
@@ -28,10 +30,17 @@ dae::AttackComponent::AttackComponent(GameObject* owner)
 	m_BulletStartOffset = { playerSpriteDimensions.x / 2.0f + BulletSpriteDimensions.x / 2.0f, playerSpriteDimensions.y / 2.0f };
 	m_Sound = SoundManager::GetInstance().GetSoundSystem();
 
+	auto boundPlayerGrabbed = std::bind(&AttackComponent::PlayerGrabbed, this, std::placeholders::_1);
+	PlayerEvent event;
+	event.eventType = "PlayerGrabbed";
+	EventManager::GetInstance().AddObserver(event, boundPlayerGrabbed);
+
 }
 
 void dae::AttackComponent::Attack()
 {
+	if (!m_CanPlayerShoot)
+		return;
 	assert(m_pScene && "No scene set for AttackComponent, use AttackComponent::SetScene to set the scene");
 
 	if (m_FiredBullets.size() == 2)
@@ -108,4 +117,20 @@ void dae::AttackComponent::BulletHitCallback(const dae::CollisionData& collision
 		return;
 
 	collisionOwner.owningObject->MarkForDestroy();
+}
+
+
+void dae::AttackComponent::PlayerGrabbed(const Event* e)
+{
+	if (strcmp(e->eventType, "PlayerGrabbed") != 0)
+		return;
+
+	if (const PlayerEvent* event = dynamic_cast<const PlayerEvent*>(e))
+	{
+		if (event->playerIndex != m_PlayerIndex)
+			return;
+
+		m_CanPlayerShoot = false;
+	}
+
 }

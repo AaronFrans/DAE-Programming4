@@ -31,12 +31,12 @@ void dae::BeeComponent::OnHitCallback(const CollisionData& collisionOwner, const
 	switch (m_CurAttackState)
 	{
 	case dae::BeeComponent::AttackStates::Idle:
-		event->NrPoints = 50;
+		event->nrPoints = 50;
 		break;
 	case dae::BeeComponent::AttackStates::Diving:
 	case dae::BeeComponent::AttackStates::Arcing:
 	case dae::BeeComponent::AttackStates::Returning:
-		event->NrPoints = 100;
+		event->nrPoints = 100;
 		break;
 	}
 

@@ -1,9 +1,7 @@
 !!!avoid magic nr => make them variables!!!
 
 Enemies
-    bee -> done except shooting at player
-    butterfly
-    boss
+    boss -> Butterfly attacks with boss, player movement disabled when grabbed
 Player ui
     lives
     score

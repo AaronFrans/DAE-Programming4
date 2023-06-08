@@ -1,6 +1,7 @@
 #include "PlayerScoreComponent.h"
 #include "Components/Component.h"
 #include "Events/EventManager.h"
+#include "Events/GameEvents.h"
 #include "Components/TextComponent.h"
 #include <memory>
 
@@ -57,14 +58,11 @@ void dae::PlayerScoreComponent::EarnPoints(const Event* e)
 {
 	if (strcmp(e->eventType, "EnemyDied") == 0)
 	{
-		if (const PlayerEvent* event = dynamic_cast<const PlayerEvent*>(e))
+		if (const PointEvent* event = dynamic_cast<const PointEvent*>(e))
 		{
-			if (event->playerIndex == m_PlayerIndex)
-			{
-				m_PointsEarned += POINT_FOR_ENEMY;
+				m_PointsEarned += event->nrPoints;
 
 				SetPointsText();
-			}
 		}
 	}
 

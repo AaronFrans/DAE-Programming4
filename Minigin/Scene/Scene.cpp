@@ -108,8 +108,6 @@ void Scene::Update()
 	{
 		objectCollision->IsOverlappingOtherCollision(m_ObjectCollisions);
 	}
-
-
 }
 
 void Scene::Render() const

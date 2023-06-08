@@ -41,14 +41,15 @@ void dae::LivesLeftComponent::CheckForRequiredComponents()
 {
 	if (!m_pTextComponent)
 	{
-		throw std::invalid_argument("TextRendererComponent needs a TextComponent, currently expired");
+		throw std::invalid_argument("TextRendererComponent needs a TextComponent, currently nullptr");
 	}
 }
 
 void dae::LivesLeftComponent::SetLivesLeftText()
 {
-	std::string text = "Lives Left: " + std::to_string(m_LivesLeft);
+	std::string text = std::to_string(m_LivesLeft);
 	m_pTextComponent->SetText(text);
+
 }
 
 void dae::LivesLeftComponent::LoseLife(const Event* e)

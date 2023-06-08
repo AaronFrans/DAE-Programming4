@@ -17,7 +17,7 @@ void dae::BaseEnemyComponent::SetFormationPosition(glm::vec3 pos)
 	m_FormationPosition = pos;
 }
 
-void dae::BaseEnemyComponent::SetPlayerTransform(const TransformComponent* player)
+void dae::BaseEnemyComponent::SetPlayerTransform(TransformComponent* player)
 {
 	m_pPlayerTransform = player;
 }
@@ -61,6 +61,9 @@ void dae::BaseEnemyComponent::BulletHitCallback(const dae::CollisionData& collis
 void dae::BaseEnemyComponent::DoShooting(const float elapsed, const glm::vec3 curPos)
 {
 	m_CurFireCooldownTime += elapsed;
+
+	if (curPos.y > m_MaxYPos / 2.0f)
+		return;
 
 	if (m_CurFireCooldownTime < MIN_FIRE_COOLDOWN)
 		return;

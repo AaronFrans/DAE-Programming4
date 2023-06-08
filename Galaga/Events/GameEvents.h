@@ -5,6 +5,12 @@ namespace dae
 {
 	struct PointEvent : public  Event
 	{
-		int NrPoints{};
+		int nrPoints{};
+	};
+
+	class EnemyControllerComponent;
+	struct ButterflyDestroyedEvent : public  Event
+	{
+		EnemyControllerComponent* butterfly{};
 	};
 }

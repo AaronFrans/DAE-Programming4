@@ -24,3 +24,13 @@ void dae::EnemyControllerComponent::Update()
 	m_pControlledEnemy->Attack();
 	m_CurAttackDelay = 0;
 }
+
+void dae::EnemyControllerComponent::ForceAttack()
+{
+	m_pControlledEnemy->Attack();
+}
+
+bool dae::EnemyControllerComponent::IsAlreadyAttacking()
+{
+	return m_pControlledEnemy->IsAttacking();
+}
