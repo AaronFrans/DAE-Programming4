@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
-      <Filter>imgui\Backend Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Commands\EarnPointsCommand.cpp" />
     <ClCompile Include="Commands\RestrictedMovementCommand.cpp" />
@@ -43,35 +40,9 @@
     <ClCompile Include="Components\Enemies\BeeComponent.cpp" />
     <ClCompile Include="Components\Enemies\ButterflyComponent.cpp" />
     <ClCompile Include="Components\Enemies\BossComponent.cpp" />
+    <ClCompile Include="FileReading\FileReader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_internal.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
-      <Filter>imgui\Backend Files\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
-      <Filter>imgui\Backend Files\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Commands\EarnPointsCommand.h" />
     <ClInclude Include="Commands\RestrictedMovementCommand.h" />
     <ClInclude Include="Commands\TakeDamageCommand.h" />
@@ -91,5 +62,44 @@
     <ClInclude Include="Events\GameEvents.h" />
     <ClInclude Include="Components\Enemies\ButterflyComponent.h" />
     <ClInclude Include="Components\Enemies\BossComponent.h" />
+    <ClInclude Include="RapidJson\error\en.h" />
+    <ClInclude Include="RapidJson\error\error.h" />
+    <ClInclude Include="RapidJson\internal\biginteger.h" />
+    <ClInclude Include="RapidJson\internal\clzll.h" />
+    <ClInclude Include="RapidJson\internal\diyfp.h" />
+    <ClInclude Include="RapidJson\internal\dtoa.h" />
+    <ClInclude Include="RapidJson\internal\ieee754.h" />
+    <ClInclude Include="RapidJson\internal\itoa.h" />
+    <ClInclude Include="RapidJson\internal\meta.h" />
+    <ClInclude Include="RapidJson\internal\pow10.h" />
+    <ClInclude Include="RapidJson\internal\regex.h" />
+    <ClInclude Include="RapidJson\internal\stack.h" />
+    <ClInclude Include="RapidJson\internal\strfunc.h" />
+    <ClInclude Include="RapidJson\internal\strtod.h" />
+    <ClInclude Include="RapidJson\internal\swap.h" />
+    <ClInclude Include="RapidJson\msinttypes\inttypes.h" />
+    <ClInclude Include="RapidJson\msinttypes\stdint.h" />
+    <ClInclude Include="RapidJson\allocators.h" />
+    <ClInclude Include="RapidJson\cursorstreamwrapper.h" />
+    <ClInclude Include="RapidJson\document.h" />
+    <ClInclude Include="RapidJson\encodedstream.h" />
+    <ClInclude Include="RapidJson\encodings.h" />
+    <ClInclude Include="RapidJson\filereadstream.h" />
+    <ClInclude Include="RapidJson\filewritestream.h" />
+    <ClInclude Include="RapidJson\fwd.h" />
+    <ClInclude Include="RapidJson\istreamwrapper.h" />
+    <ClInclude Include="RapidJson\memorybuffer.h" />
+    <ClInclude Include="RapidJson\memorystream.h" />
+    <ClInclude Include="RapidJson\ostreamwrapper.h" />
+    <ClInclude Include="RapidJson\pointer.h" />
+    <ClInclude Include="RapidJson\prettywriter.h" />
+    <ClInclude Include="RapidJson\rapidjson.h" />
+    <ClInclude Include="RapidJson\reader.h" />
+    <ClInclude Include="RapidJson\schema.h" />
+    <ClInclude Include="RapidJson\stream.h" />
+    <ClInclude Include="RapidJson\stringbuffer.h" />
+    <ClInclude Include="RapidJson\uri.h" />
+    <ClInclude Include="RapidJson\writer.h" />
+    <ClInclude Include="FileReading\FileReader.h" />
   </ItemGroup>
 </Project>

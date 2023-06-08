@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;$(SolutionDir)3rdParty\RapidJson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -118,7 +118,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;$(SolutionDir)3rdParty\RapidJson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -143,7 +143,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;$(SolutionDir)3rdParty\RapidJson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -168,7 +168,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Galaga;$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.89.4\backends;$(SolutionDir)3rdParty\imgui-1.89.4;$(SolutionDir)3rdParty\RapidJson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -188,7 +188,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp" />
     <ClCompile Include="Components\Enemies\BossComponent.cpp" />
     <ClCompile Include="Components\Enemies\ButterflyComponent.cpp" />
     <ClCompile Include="Components\Enemies\BeeComponent.cpp" />
@@ -207,18 +206,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="Components\Rendering\TutorialComponent.cpp" />
     <ClCompile Include="Components\Updating\RotatorComponent.cpp" />
     <ClCompile Include="Components\Enemies\EnemyControllerComponent.cpp" />
+    <ClCompile Include="FileReading\FileReader.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_internal.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h" />
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h" />
     <ClInclude Include="Components\Enemies\BossComponent.h" />
     <ClInclude Include="Components\Enemies\ButterflyComponent.h" />
     <ClInclude Include="Components\Enemies\BeeComponent.h" />
@@ -238,6 +229,45 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="Components\Enemies\EnemyControllerComponent.h" />
     <ClInclude Include="Components\Enemies\BaseEnemyComponent.h" />
     <ClInclude Include="Events\GameEvents.h" />
+    <ClInclude Include="FileReading\FileReader.h" />
+    <ClInclude Include="RapidJson\allocators.h" />
+    <ClInclude Include="RapidJson\cursorstreamwrapper.h" />
+    <ClInclude Include="RapidJson\document.h" />
+    <ClInclude Include="RapidJson\encodedstream.h" />
+    <ClInclude Include="RapidJson\encodings.h" />
+    <ClInclude Include="RapidJson\error\en.h" />
+    <ClInclude Include="RapidJson\error\error.h" />
+    <ClInclude Include="RapidJson\filereadstream.h" />
+    <ClInclude Include="RapidJson\filewritestream.h" />
+    <ClInclude Include="RapidJson\fwd.h" />
+    <ClInclude Include="RapidJson\internal\biginteger.h" />
+    <ClInclude Include="RapidJson\internal\clzll.h" />
+    <ClInclude Include="RapidJson\internal\diyfp.h" />
+    <ClInclude Include="RapidJson\internal\dtoa.h" />
+    <ClInclude Include="RapidJson\internal\ieee754.h" />
+    <ClInclude Include="RapidJson\internal\itoa.h" />
+    <ClInclude Include="RapidJson\internal\meta.h" />
+    <ClInclude Include="RapidJson\internal\pow10.h" />
+    <ClInclude Include="RapidJson\internal\regex.h" />
+    <ClInclude Include="RapidJson\internal\stack.h" />
+    <ClInclude Include="RapidJson\internal\strfunc.h" />
+    <ClInclude Include="RapidJson\internal\strtod.h" />
+    <ClInclude Include="RapidJson\internal\swap.h" />
+    <ClInclude Include="RapidJson\istreamwrapper.h" />
+    <ClInclude Include="RapidJson\memorybuffer.h" />
+    <ClInclude Include="RapidJson\memorystream.h" />
+    <ClInclude Include="RapidJson\msinttypes\inttypes.h" />
+    <ClInclude Include="RapidJson\msinttypes\stdint.h" />
+    <ClInclude Include="RapidJson\ostreamwrapper.h" />
+    <ClInclude Include="RapidJson\pointer.h" />
+    <ClInclude Include="RapidJson\prettywriter.h" />
+    <ClInclude Include="RapidJson\rapidjson.h" />
+    <ClInclude Include="RapidJson\reader.h" />
+    <ClInclude Include="RapidJson\schema.h" />
+    <ClInclude Include="RapidJson\stream.h" />
+    <ClInclude Include="RapidJson\stringbuffer.h" />
+    <ClInclude Include="RapidJson\uri.h" />
+    <ClInclude Include="RapidJson\writer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

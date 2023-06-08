@@ -21,33 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_internal.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h">
-      <Filter>imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
-      <Filter>imgui\Backend Files\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
-      <Filter>imgui\Backend Files\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Commands\Command.h" />
     <ClInclude Include="Commands\MoveCommand.h" />
     <ClInclude Include="Components\Component.h" />
@@ -76,32 +49,17 @@
     <ClInclude Include="Components\Collision\CollisionComponent.h" />
     <ClInclude Include="Sounds\SoundSystem.h" />
     <ClInclude Include="Sounds\NullSoundSystem.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_internal.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_plot.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h" />
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_demo.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_draw.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_tables.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp">
-      <Filter>imgui\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
-      <Filter>imgui\Backend Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp">
-      <Filter>imgui\Backend Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Commands\Command.cpp" />
     <ClCompile Include="Commands\MoveCommand.cpp" />
     <ClCompile Include="Components\Component.cpp" />
@@ -128,5 +86,13 @@
     <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
     <ClCompile Include="Sounds\SoundSystem.cpp" />
     <ClCompile Include="Sounds\NullSoundSystem.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_demo.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_draw.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_plot.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_tables.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp" />
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp" />
   </ItemGroup>
 </Project>
