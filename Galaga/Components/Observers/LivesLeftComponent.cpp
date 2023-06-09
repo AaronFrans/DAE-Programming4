@@ -66,4 +66,12 @@ void dae::LivesLeftComponent::LoseLife(const Event* e)
 			SetLivesLeftText();
 		}
 	}
+
+	if (m_LivesLeft > 0)
+		return;
+
+	std::unique_ptr<Event> event = std::make_unique<Event>();
+	event->eventType = "OutOfLives";
+
+	EventManager::GetInstance().SendEventMessage(std::move(event));
 }

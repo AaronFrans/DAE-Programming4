@@ -78,6 +78,11 @@ const dae::GameObject* dae::GameObject::GetParent() const
 	return m_Parent;
 }
 
+void dae::GameObject::ClearChildren()
+{
+	m_Children.clear();
+}
+
 std::vector<std::shared_ptr<dae::GameObject>> dae::GameObject::GetChildren() const
 {
 	return m_Children;

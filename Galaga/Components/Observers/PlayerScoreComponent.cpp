@@ -4,6 +4,7 @@
 #include "Events/GameEvents.h"
 #include "Components/TextComponent.h"
 #include <memory>
+#include <iostream>
 
 dae::PlayerScoreComponent::PlayerScoreComponent(GameObject* owner)
 	:Component(owner)
@@ -17,6 +18,17 @@ dae::PlayerScoreComponent::PlayerScoreComponent(GameObject* owner)
 	PlayerEvent event;
 	event.eventType = "EnemyDied";
 	EventManager::GetInstance().AddObserver(event, boundLoseLife);
+
+	auto boundOutOfLives = std::bind(&PlayerScoreComponent::FinalScore, this, std::placeholders::_1);
+	Event outOfLivesEvent;
+	outOfLivesEvent.eventType = "OutOfLives";
+	EventManager::GetInstance().AddObserver(outOfLivesEvent, boundOutOfLives);
+
+
+	auto boundEnemiesDead = std::bind(&PlayerScoreComponent::FinalScore, this, std::placeholders::_1);
+	Event enemiesDeadEvent;
+	enemiesDeadEvent.eventType = "AllEnemiesDead";
+	EventManager::GetInstance().AddObserver(enemiesDeadEvent, boundEnemiesDead);
 }
 
 void dae::PlayerScoreComponent::SetPlayerIndex(unsigned playerIndex)
@@ -56,14 +68,25 @@ void dae::PlayerScoreComponent::SetPointsText()
 
 void dae::PlayerScoreComponent::EarnPoints(const Event* e)
 {
-	if (strcmp(e->eventType, "EnemyDied") == 0)
+	if (strcmp(e->eventType, "EnemyDied") != 0)
+		return;
+
+	if (const PointEvent* event = dynamic_cast<const PointEvent*>(e))
 	{
-		if (const PointEvent* event = dynamic_cast<const PointEvent*>(e))
-		{
-				m_PointsEarned += event->nrPoints;
+		m_PointsEarned += event->nrPoints;
 
-				SetPointsText();
-		}
+		SetPointsText();
 	}
+}
 
+void dae::PlayerScoreComponent::FinalScore(const Event* e)
+{
+	std::cout << "Out of Lives || AllEnemiesDead";
+	if (!(strcmp(e->eventType, "OutOfLives") == 0) && !(strcmp(e->eventType, "AllEnemiesDead") == 0))
+		return;
+
+	std::unique_ptr<PointEvent> event = std::make_unique<PointEvent>();
+	event->eventType = "FinalScore";
+	event->nrPoints = m_PointsEarned;
+	EventManager::GetInstance().SendEventMessage(std::move(event));
 }

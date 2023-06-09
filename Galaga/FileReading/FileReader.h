@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include <string>
+#include <vector>
 namespace dae
 {
 
@@ -10,6 +11,9 @@ namespace dae
 		void Init(const std::string& dataPath);
 
 		void TestRead(const std::string& filePath);
+
+		std::vector<int> ReadHighscores(const std::string& filePath);
+		void WriteHighscores(const std::string& filePath, std::vector<int> scores);
 
 	private: 
 		friend class Singleton<FileReader>;

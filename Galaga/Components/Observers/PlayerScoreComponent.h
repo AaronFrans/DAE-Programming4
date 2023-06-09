@@ -5,7 +5,6 @@
 
 namespace dae
 {
-	class SteamAchievements;
 	class TextComponent;
 	class PlayerScoreComponent final : public Component
 	{
@@ -39,8 +38,7 @@ namespace dae
 
 		int m_PointsEarned{ 0 };
 
-		std::shared_ptr<SteamAchievements> m_GameAchievements{};
-
+		void FinalScore(const Event* e);
 
 		TextComponent* m_pTextComponent{ nullptr };
 	};

@@ -56,6 +56,7 @@ void dae::BossComponent::OnButterflyDeath(const Event* e)
 {
 	if (strcmp(e->eventType, "ButterflyDied") != 0)
 		return;
+
 	if (const ButterflyDestroyedEvent* event = dynamic_cast<const ButterflyDestroyedEvent*>(e))
 	{
 		m_Butterflies.erase(std::remove(m_Butterflies.begin(), m_Butterflies.end(), event->butterfly), m_Butterflies.end());
@@ -309,6 +310,7 @@ void dae::BossComponent::OnHitCallback(const CollisionData& collisionOwner, cons
 
 	EventManager::GetInstance().SendEventMessage(std::move(event));
 
+
 	collisionOwner.owningObject->MarkForDestroy();
 
 }
@@ -349,4 +351,13 @@ dae::BossComponent::BossComponent(GameObject* owner)
 	PlayerEvent event;
 	event.eventType = "ButterflyDied";
 	EventManager::GetInstance().AddObserver(event, boundButterflyDied);
+}
+
+dae::BossComponent::~BossComponent()
+{
+
+	auto boundButterflyDied = std::bind(&BossComponent::OnButterflyDeath, this, std::placeholders::_1);
+	PlayerEvent event;
+	event.eventType = "ButterflyDied";
+	EventManager::GetInstance().RemoveObserver(event, boundButterflyDied);
 }

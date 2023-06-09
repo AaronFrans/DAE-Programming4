@@ -67,6 +67,9 @@ namespace dae {
 
 		std::function<void(const CollisionData& collisionOwner, const CollisionData& hitObject)> m_OnHitCallback{};
 
+
+		bool m_IsActive
+
 	};
 }
 

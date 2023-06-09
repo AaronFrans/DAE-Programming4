@@ -207,6 +207,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="Components\Updating\RotatorComponent.cpp" />
     <ClCompile Include="Components\Enemies\EnemyControllerComponent.cpp" />
     <ClCompile Include="FileReading\FileReader.cpp" />
+    <ClCompile Include="Components\HighScores\HighScoreComponent.cpp" />
+    <ClCompile Include="Components\Game\GameOverseerComponent.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +232,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="Components\Enemies\BaseEnemyComponent.h" />
     <ClInclude Include="Events\GameEvents.h" />
     <ClInclude Include="FileReading\FileReader.h" />
+    <ClInclude Include="Components\HighScores\HighScoreComponent.h" />
+    <ClInclude Include="Components\Game\GameOverseerComponent.h" />
     <ClInclude Include="RapidJson\allocators.h" />
     <ClInclude Include="RapidJson\cursorstreamwrapper.h" />
     <ClInclude Include="RapidJson\document.h" />

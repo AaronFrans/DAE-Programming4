@@ -24,6 +24,7 @@ namespace dae
 		unsigned controllerIndex{  };
 		XboxController::ControllerButton controllerKey{ };
 		ButtonState buttonsState{  };
+		std::string sceneName {};
 
 	};
 
@@ -31,19 +32,22 @@ namespace dae
 	{
 		return lhs.controllerIndex == rhs.controllerIndex &&
 			lhs.controllerKey == rhs.controllerKey &&
-			lhs.buttonsState == rhs.buttonsState;
+			lhs.buttonsState == rhs.buttonsState &&
+			lhs.sceneName == rhs.sceneName;
 	}
 
 	struct KeyboardInput
 	{
 		SDL_Scancode keyboardScancode{ };
-		ButtonState buttonsState{  };
+		ButtonState buttonsState{ };
+		std::string sceneName { };
 	};
 
 	inline bool operator==(const KeyboardInput& lhs, const KeyboardInput& rhs)
 	{
 		return lhs.keyboardScancode == rhs.keyboardScancode &&
-			lhs.buttonsState == rhs.buttonsState;
+			lhs.buttonsState == rhs.buttonsState &&
+			lhs.sceneName == rhs.sceneName;
 	}
 
 }

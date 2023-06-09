@@ -1,8 +1,12 @@
 #include "RestrictedMovementCommand.h"
 #include "Engine/GameObject.h"
 #include "Engine/Timer.h"
+
 #include "Components/TransformComponent.h"
+
 #include "Events/EventManager.h"
+
+#include "Scene/SceneManager.h"
 
 dae::RestrictedMovementCommand::RestrictedMovementCommand(GameObject* actor)
 {

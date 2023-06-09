@@ -2,6 +2,8 @@
 #include <imgui_impl_sdl2.h>
 #include <iostream>
 #include "InputManager.h"
+#include <Scene/SceneManager.h>
+#include <Scene/Scene.h>
 
 bool dae::InputManager::ProccesCommands()
 {
@@ -51,12 +53,18 @@ void dae::InputManager::HandleConrollerInputs()
 		controller->Update();
 	}
 
+	const auto activeSceneName = SceneManager::GetInstance().GetActiveScene().GetName();
 	for (auto& controllerCommand : m_ControllerCommands)
 	{
+		const auto scene = controllerCommand.first.sceneName;
+		if (activeSceneName != scene)
+			continue;
+
 		const unsigned index = controllerCommand.first.controllerIndex;
 		const ButtonState buttonState = controllerCommand.first.buttonsState;
 		const XboxController::ControllerButton button = controllerCommand.first.controllerKey;
 		const auto command = controllerCommand.second.get();
+
 
 		switch (buttonState)
 		{
@@ -79,8 +87,13 @@ void dae::InputManager::HandleConrollerInputs()
 
 void dae::InputManager::HandleKeyboardInputs()
 {
+	const auto activeSceneName = SceneManager::GetInstance().GetActiveScene().GetName();
+
 	for (auto& keyboardCommand : m_KeyboardCommands)
 	{
+		const auto scene = keyboardCommand.first.sceneName;
+		if (activeSceneName != scene)
+			continue;
 		const unsigned scancode = keyboardCommand.first.keyboardScancode;
 		const ButtonState buttonState = keyboardCommand.first.buttonsState;
 		const auto command = keyboardCommand.second.get();

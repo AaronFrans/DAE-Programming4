@@ -17,7 +17,7 @@ namespace dae
 		void OnHitCallback(const CollisionData& collisionOwner, const CollisionData& hitObject);
 
 		BossComponent(GameObject* owner);
-		~BossComponent() = default;
+		~BossComponent();
 
 		BossComponent(const BossComponent& other) = delete;
 		BossComponent(BossComponent&& other) = delete;

@@ -31,6 +31,9 @@ namespace dae
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
+		bool IsActive() { return m_IsActive; };
+		void SetActive(bool isActive) { m_IsActive = isActive; };
+
 	private:
 		explicit Scene(const std::string& name);
 
@@ -38,6 +41,8 @@ namespace dae
 		std::vector <std::shared_ptr<GameObject>> m_Objects{};
 		std::vector <CollisionComponent*> m_ObjectCollisions{};
 
+
+		bool m_IsActive{ false };
 		void SortGameObjectUpdate();
 		void NormalUpdate();
 		void CleanUpdate();

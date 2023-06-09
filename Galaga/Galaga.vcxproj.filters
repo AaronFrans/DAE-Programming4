@@ -41,6 +41,8 @@
     <ClCompile Include="Components\Enemies\ButterflyComponent.cpp" />
     <ClCompile Include="Components\Enemies\BossComponent.cpp" />
     <ClCompile Include="FileReading\FileReader.cpp" />
+    <ClCompile Include="Components\HighScores\HighScoreComponent.cpp" />
+    <ClCompile Include="Components\Game\GameOverseerComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\EarnPointsCommand.h" />
@@ -101,5 +103,7 @@
     <ClInclude Include="RapidJson\uri.h" />
     <ClInclude Include="RapidJson\writer.h" />
     <ClInclude Include="FileReading\FileReader.h" />
+    <ClInclude Include="Components\HighScores\HighScoreComponent.h" />
+    <ClInclude Include="Components\Game\GameOverseerComponent.h" />
   </ItemGroup>
 </Project>

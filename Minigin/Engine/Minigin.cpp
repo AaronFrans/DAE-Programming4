@@ -80,15 +80,13 @@ dae::Minigin::Minigin(const std::string& dataPath, unsigned windowWidth, unsigne
 	sounds.Init(dataPath);
 
 	sounds.SetSoundSystem(std::make_unique<SDLSoundSystem>());
-
-
-	std::cout << "test";
 }
 
 dae::Minigin::~Minigin()
 {
 	Renderer::GetInstance().Destroy();
 	SoundManager::GetInstance().Quit();
+	SceneManager::GetInstance().Quit();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 	SDL_Quit();

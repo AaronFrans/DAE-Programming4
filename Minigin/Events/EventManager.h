@@ -18,6 +18,8 @@ namespace dae
 
 		void AddObserver(const Event& e, const std::function<void(const Event* e)>& observer);
 
+		void RemoveObserver(const Event& e, const std::function<void(const Event* e)>& observer);
+
 		void HandleEvents();
 
 	private:

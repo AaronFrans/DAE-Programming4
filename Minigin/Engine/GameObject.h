@@ -34,6 +34,8 @@ namespace dae
 
 		const GameObject* GetParent() const;
 
+		void ClearChildren();
+
 		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
 
 		bool IsDestroyed();

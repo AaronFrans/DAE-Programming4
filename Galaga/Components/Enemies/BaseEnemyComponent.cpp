@@ -1,11 +1,15 @@
 
 #include "Components/Enemies/BaseEnemyComponent.h"
 #include "Components/TransformComponent.h"
+
 #include "Rendering/ResourceManager.h"
+
 #include <Components/ImageComponent.h>
 #include <Components/ImageRenderComponent.h>
 #include <Components/Updating/BulletMovementComponent.h>
 #include <Components/Collision/CollisionComponent.h>
+
+#include <Events/EventManager.h>
 
 bool dae::BaseEnemyComponent::IsAttacking()
 {
@@ -45,6 +49,11 @@ dae::BaseEnemyComponent::BaseEnemyComponent(GameObject* owner)
 
 	m_pTransform = owner->GetTransform().get();;
 	m_AttackTexture = ResourceManager::GetInstance().LoadTexture("Images\\Enemy_Attack.png");
+
+	std::unique_ptr<Event> event = std::make_unique<Event>();
+	event->eventType = "EnemySpawned";
+
+	EventManager::GetInstance().SendEventMessage(std::move(event));
 }
 
 

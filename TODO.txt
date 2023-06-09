@@ -1,19 +1,9 @@
 !!!avoid magic nr => make them variables!!!
 
-Enemies
-    boss -> Butterfly attacks with boss, player movement disabled when grabbed
-Player ui
-    lives
-    score
-Files Reading
-    use rapidjson
-HighScores
-    write to file
-    show top 5 scores
 Levels
     main menu
     read from file
-    load in level 1 -> start -> on separate thread load other level
+    load in level 1 -> start -> on separate thread load next level
     when done back to main menu
 multiplayer
     coop
