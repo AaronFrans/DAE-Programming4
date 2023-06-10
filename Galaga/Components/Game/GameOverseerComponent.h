@@ -22,6 +22,8 @@ namespace dae
 
 		void SetDetails(DetailsComponent* details);
 
+		void SkipLevel();
+
 	private:
 
 		void EnemyDead(const Event* e);

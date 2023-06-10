@@ -4,7 +4,7 @@
 namespace dae
 {
 	class HighScoreComponent;
-	class BackToMainMenuCommand : public Command
+	class BackToMainMenuCommand  final : public Command
 	{
 	public:
 		BackToMainMenuCommand(GameObject* actor);

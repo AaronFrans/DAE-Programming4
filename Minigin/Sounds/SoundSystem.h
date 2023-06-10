@@ -37,6 +37,8 @@ namespace dae
 		virtual void Init(const std::string& m_DataPath) = 0;
 		virtual void Quit() = 0;
 
+		virtual void Mute() = 0;
+
 		virtual void HandleSoundData(SoundData soundData) = 0;
 	};
 

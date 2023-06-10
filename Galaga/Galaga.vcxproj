@@ -218,6 +218,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="Components\Rendering\MainMenuComponent.cpp" />
     <ClCompile Include="Commands\SwitchButtonCommand.cpp" />
     <ClCompile Include="Commands\StartNextLevelCommand.cpp" />
+    <ClCompile Include="Commands\SkipLevelCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\BackToMainMenuCommand.h" />
@@ -288,6 +289,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="RapidJson\writer.h" />
     <ClInclude Include="Commands\SwitchButtonCommand.h" />
     <ClInclude Include="Commands\StartNextLevelCommand.h" />
+    <ClInclude Include="Commands\SkipLevelCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

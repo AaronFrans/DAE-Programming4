@@ -26,6 +26,8 @@ namespace dae
 		SDLSoundSystem& operator=(SDLSoundSystem&& other) = delete;
 
 		void Init(const std::string& dataPath) override;
+
+		void Mute() override;
 		void Quit() override;
 
 

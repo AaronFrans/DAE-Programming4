@@ -4,7 +4,7 @@
 namespace dae
 {
 	class MainMenuComponent;
-	class ConfirmCommand : public Command
+	class ConfirmCommand  final : public Command
 	{
 	public:
 		ConfirmCommand(GameObject* actor);

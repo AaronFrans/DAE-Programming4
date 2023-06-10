@@ -18,6 +18,8 @@
 #include "DetailsComponent.h"
 #include "TutorialComponent.h"
 
+#include "Commands/SkipLevelCommand.h"
+
 #include <FileReading/FileReader.h>
 
 dae::MainMenuComponent::MainMenuComponent(GameObject* owner)
@@ -105,7 +107,6 @@ void dae::MainMenuComponent::SelectButton()
 	m_pButtons[m_ActiveButton]->DoClick();
 }
 
-
 void dae::MainMenuComponent::LoadLevels(dae::DetailsComponent* pDetails)
 {
 
@@ -138,7 +139,6 @@ void dae::MainMenuComponent::ResetLevels(const Event* e)
 
 }
 
-
 void dae::MainMenuComponent::LoadLevelFromFile(const std::string& sceneName, const std::string& filePath,
 	const std::string& nextScene, dae::DetailsComponent* details)
 {
@@ -158,6 +158,10 @@ void dae::MainMenuComponent::LoadLevelFromFile(const std::string& sceneName, con
 	overseer->Init();
 
 	scene.Add(overseer);
+
+
+	inputManager.AddKeyboardCommand<dae::SkipLevelCommand>(std::make_unique<dae::SkipLevelCommand>(overseer.get()),
+		dae::KeyboardInput{ SDL_SCANCODE_F2, dae::ButtonState::Up, sceneName });
 
 	auto pOverseerComp = overseer->AddComponent<dae::GameOverseerComponent>();
 	pOverseerComp->SetSceneName(sceneName);

@@ -21,8 +21,6 @@ namespace dae
 
 		void LoadLevels(dae::DetailsComponent* details);
 	private:
-
-
 		void ResetLevels(const Event* e);
 		void LoadLevelFromFile(const std::string& sceneName, const std::string& filePath,
 			const std::string& nextScene, dae::DetailsComponent* details);

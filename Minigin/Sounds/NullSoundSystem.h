@@ -8,9 +8,9 @@ namespace dae
 	{
 
 		void Init(const std::string&) override {};
-		virtual void Quit() override {};
-
-		virtual void HandleSoundData(SoundData) {};
+		void Quit() override {};
+		void Mute() override {};
+		void HandleSoundData(SoundData) override {};
 	};
 
 }

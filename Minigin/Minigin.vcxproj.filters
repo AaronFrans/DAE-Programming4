@@ -58,6 +58,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h" />
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h" />
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h" />
+    <ClInclude Include="Commands\MuteCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Commands\Command.cpp" />
@@ -94,5 +95,6 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="Commands\MuteCommand.cpp" />
   </ItemGroup>
 </Project>

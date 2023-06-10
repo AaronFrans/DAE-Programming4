@@ -225,6 +225,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h" />
     <ClInclude Include="Commands\Command.h" />
     <ClInclude Include="Commands\MoveCommand.h" />
+    <ClInclude Include="Commands\MuteCommand.h" />
     <ClInclude Include="Components\Collision\CollisionComponent.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Components\FpsCounterComponent.h" />
@@ -263,6 +264,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp" />
     <ClCompile Include="Commands\Command.cpp" />
     <ClCompile Include="Commands\MoveCommand.cpp" />
+    <ClCompile Include="Commands\MuteCommand.cpp" />
     <ClCompile Include="Components\Collision\CollisionComponent.cpp" />
     <ClCompile Include="Components\Component.cpp" />
     <ClCompile Include="Components\FpsCounterComponent.cpp" />

@@ -4,7 +4,7 @@
 namespace dae
 {
 	class AttackComponent;
-	class AttackCommand : public Command
+	class AttackCommand final : public Command
 	{
 	public:
 		AttackCommand(GameObject* actor);

@@ -24,11 +24,15 @@ public:
 
 	bool IsSoundLoaded(unsigned short id);
 
+	void Mute();
 
 	void Quit();
 private:
 
 	std::unordered_map<unsigned short, Mix_Chunk*> m_LoadedSounds;
+
+	bool m_IsMuted{ false };
+
 };
 
 void SDLSoundSystem::SDLMixerImpl::Init()
@@ -108,6 +112,26 @@ bool SDLSoundSystem::SDLMixerImpl::IsSoundLoaded(unsigned short id)
 	return m_LoadedSounds.find(id) != m_LoadedSounds.end();
 }
 
+void SDLSoundSystem::SDLMixerImpl::Mute()
+{
+	if (m_IsMuted)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			Mix_Volume(i, 128);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			Mix_Volume(i, 0);
+		}
+	}
+
+	m_IsMuted = !m_IsMuted;
+}
+
 void SDLSoundSystem::SDLMixerImpl::Quit()
 {
 	for (auto& sound : m_LoadedSounds)
@@ -148,6 +172,11 @@ void SDLSoundSystem::Init(const std::string& dataPath)
 	m_ThreadRunning = true;
 	m_SoundThread = std::jthread(&SDLSoundSystem::SoundThread, this);
 
+}
+
+void dae::SDLSoundSystem::Mute()
+{
+	m_pImpl->Mute();
 }
 
 void dae::SDLSoundSystem::Quit()

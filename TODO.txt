@@ -1,14 +1,10 @@
 !!!avoid magic nr => make them variables!!!
 Enemies
     which will fly into formation from the top and sides of the screen.
-Sounds
-    mute button -> F1
-
-fix no more lives
 
 Levels
-fix crash on reset
-    Skip level button -> F2
+    fix crash on reset
+
 multiplayer
     coop
     vs

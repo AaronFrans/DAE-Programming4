@@ -117,4 +117,7 @@ void dae::LivesLeftComponent::LoseLife(const Event* e)
 	event->sceneName = SceneManager::GetInstance().GetActiveScene().GetName();
 
 	EventManager::GetInstance().SendEventMessage(std::move(event));
+	SceneManager::GetInstance().SetActiveScene("Highscores");
+
+
 }

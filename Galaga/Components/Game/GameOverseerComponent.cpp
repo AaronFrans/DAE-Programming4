@@ -60,6 +60,11 @@ void dae::GameOverseerComponent::SetDetails(DetailsComponent* details)
 	m_pDetails = details;
 }
 
+void dae::GameOverseerComponent::SkipLevel()
+{
+	SceneManager::GetInstance().SetActiveScene(m_NextSceneName);
+}
+
 void dae::GameOverseerComponent::EnemyDead(const Event* e)
 {
 

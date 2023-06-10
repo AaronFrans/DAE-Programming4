@@ -5,7 +5,7 @@
 namespace dae
 {
 	class EarnPointsComponent;
-	class EarnPointsCommand : public Command
+	class EarnPointsCommand final : public Command
 	{
 	public:
 		EarnPointsCommand(GameObject* actor);

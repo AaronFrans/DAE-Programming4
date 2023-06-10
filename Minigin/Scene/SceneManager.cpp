@@ -1,6 +1,10 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+#include "Input/InputManager.h"
+
+#include "Commands/MuteCommand.h"
+
 void dae::SceneManager::Update()
 {
 	m_ActiveScene->Update();
@@ -17,6 +21,7 @@ void dae::SceneManager::Quit()
 	m_ActiveScene = nullptr;
 }
 
+
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
@@ -27,6 +32,11 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 
 	m_ActiveScene = scene;
 	m_ActiveScene->SetActive(true);
+
+
+
+	InputManager::GetInstance().AddKeyboardCommand<dae::MuteCommand>(std::make_unique<dae::MuteCommand>(),
+		dae::KeyboardInput{ SDL_SCANCODE_F1, dae::ButtonState::Up, name });
 
 	return *scene;
 }
