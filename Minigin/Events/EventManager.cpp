@@ -17,7 +17,7 @@ void dae::EventManager::RemoveObserver(const Event& e, const std::function<void(
 		end(observerIt),
 		[&](std::function<void(const Event* e)>& func)
 		{
-			return func.target<void>() == observer.target<void>();
+			return *func.target<void(const Event*)>() == *observer.target<void(const Event*)>();
 		}));
 }
 
@@ -31,6 +31,11 @@ void dae::EventManager::HandleEvents()
 			observer(e);
 		}
 	}
+}
+
+void dae::EventManager::Quit()
+{
+	m_Observers.clear();
 }
 
 bool dae::EventManager::PollEvents(Event*& e)

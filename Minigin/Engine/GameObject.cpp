@@ -39,7 +39,7 @@ void dae::GameObject::Render() const
 		component->Render();
 		component->RenderImGui();
 	}
-	for (auto& child : m_Children)
+ 	for (auto& child : m_Children)
 	{
 		child->Render();
 	}

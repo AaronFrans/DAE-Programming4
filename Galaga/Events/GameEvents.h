@@ -11,6 +11,13 @@ namespace dae
 	class EnemyControllerComponent;
 	struct ButterflyDestroyedEvent : public  Event
 	{
+		std::string sceneName{};
 		EnemyControllerComponent* butterfly{};
+	};
+
+	struct SceneEvent : public  Event
+	{
+		std::string sceneName{};
+		int nrPoints{};
 	};
 }

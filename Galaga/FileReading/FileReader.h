@@ -5,6 +5,12 @@
 namespace dae
 {
 
+	struct EnemyFileData
+	{
+		float x{}, y{};
+		int enemyType{};
+	};
+
 	class FileReader final : public Singleton<FileReader>
 	{
 	public:
@@ -15,6 +21,8 @@ namespace dae
 		std::vector<int> ReadHighscores(const std::string& filePath);
 		void WriteHighscores(const std::string& filePath, std::vector<int> scores);
 
+
+		std::vector<EnemyFileData> ReadEnemies(const std::string& filePath);
 	private: 
 		friend class Singleton<FileReader>;
 

@@ -14,9 +14,28 @@ dae::RestrictedMovementCommand::RestrictedMovementCommand(GameObject* actor)
 
 
 	auto boundPlayerGrabbed = std::bind(&RestrictedMovementCommand::PlayerGrabbed, this, std::placeholders::_1);
-	PlayerEvent event;
-	event.eventType = "PlayerGrabbed";
-	EventManager::GetInstance().AddObserver(event, boundPlayerGrabbed);
+	PlayerEvent grabbedEvent;
+	grabbedEvent.eventType = "PlayerGrabbed";
+	EventManager::GetInstance().AddObserver(grabbedEvent, boundPlayerGrabbed);
+
+	auto boundPlayerRespawn = std::bind(&RestrictedMovementCommand::PlayerRespawn, this, std::placeholders::_1);
+	PlayerEvent respawnEvent;
+	respawnEvent.eventType = "PlayerRespawn";
+	EventManager::GetInstance().AddObserver(respawnEvent, boundPlayerRespawn);
+}
+
+dae::RestrictedMovementCommand::~RestrictedMovementCommand()
+{
+	auto boundPlayerGrabbed = std::bind(&RestrictedMovementCommand::PlayerGrabbed, this, std::placeholders::_1);
+	PlayerEvent grabbedEvent;
+	grabbedEvent.eventType = "PlayerGrabbed";
+	EventManager::GetInstance().RemoveObserver(grabbedEvent, boundPlayerGrabbed);
+
+	auto boundPlayerRespawn = std::bind(&RestrictedMovementCommand::PlayerRespawn, this, std::placeholders::_1);
+	PlayerEvent respawnEvent;
+	respawnEvent.eventType = "PlayerRespawn";
+	EventManager::GetInstance().RemoveObserver(respawnEvent, boundPlayerRespawn);
+
 }
 
 void dae::RestrictedMovementCommand::Execute()
@@ -43,6 +62,21 @@ void dae::RestrictedMovementCommand::PlayerGrabbed(const Event* e)
 			return;
 
 		m_CanPlayerMove = false;
+	}
+
+}
+
+void dae::RestrictedMovementCommand::PlayerRespawn(const Event* e)
+{
+	if (strcmp(e->eventType, "PlayerRespawn") != 0)
+		return;
+
+	if (const PlayerEvent* event = dynamic_cast<const PlayerEvent*>(e))
+	{
+		if (event->playerIndex != m_PlayerIndex)
+			return;
+
+		m_CanPlayerMove = true;
 	}
 
 }

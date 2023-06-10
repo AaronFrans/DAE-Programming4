@@ -86,8 +86,10 @@ void dae::ButterflyComponent::OnHitCallback(const CollisionData& collisionOwner,
 		return;
 
 
-	std::unique_ptr<PointEvent> pointEvent = std::make_unique<PointEvent>();
+
+	std::unique_ptr<SceneEvent> pointEvent = std::make_unique<SceneEvent>();
 	pointEvent->eventType = "EnemyDied";
+	pointEvent->sceneName = m_SceneName;
 
 	switch (m_CurAttackState)
 	{
@@ -105,6 +107,7 @@ void dae::ButterflyComponent::OnHitCallback(const CollisionData& collisionOwner,
 
 	std::unique_ptr<ButterflyDestroyedEvent> deathEvent = std::make_unique<ButterflyDestroyedEvent>();
 	deathEvent->eventType = "ButterflyDied";
+	deathEvent->sceneName = m_SceneName;
 
 	auto pConteroller = GetOwner()->GetComponent<EnemyControllerComponent>().get();
 

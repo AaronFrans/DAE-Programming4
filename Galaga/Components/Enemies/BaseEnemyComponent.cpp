@@ -10,6 +10,7 @@
 #include <Components/Collision/CollisionComponent.h>
 
 #include <Events/EventManager.h>
+#include <Events/GameEvents.h>
 
 bool dae::BaseEnemyComponent::IsAttacking()
 {
@@ -36,6 +37,12 @@ void dae::BaseEnemyComponent::SetScene(const std::string& sceneName)
 	m_SceneName = sceneName;
 
 	m_pScene = &SceneManager::GetInstance().GetSceneByName(m_SceneName);
+
+	std::unique_ptr<SceneEvent> event = std::make_unique<SceneEvent>();
+	event->eventType = "EnemySpawned";
+	event->sceneName = m_SceneName;
+
+	EventManager::GetInstance().SendEventMessage(std::move(event));
 }
 
 void dae::BaseEnemyComponent::SetMaxYPos(const float maxYPos)
@@ -50,10 +57,7 @@ dae::BaseEnemyComponent::BaseEnemyComponent(GameObject* owner)
 	m_pTransform = owner->GetTransform().get();;
 	m_AttackTexture = ResourceManager::GetInstance().LoadTexture("Images\\Enemy_Attack.png");
 
-	std::unique_ptr<Event> event = std::make_unique<Event>();
-	event->eventType = "EnemySpawned";
 
-	EventManager::GetInstance().SendEventMessage(std::move(event));
 }
 
 

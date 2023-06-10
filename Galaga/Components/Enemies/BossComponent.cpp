@@ -17,6 +17,7 @@ void dae::BossComponent::SetupCollision()
 	m_TractorCollision->EnableDebugSquare();
 	auto boundHitCallback = std::bind(&BossComponent::TractorBeamCallback, this, std::placeholders::_1, std::placeholders::_2);
 	m_TractorCollision->SetCallback(boundHitCallback);
+	m_TractorCollision->SetActive(false);
 }
 
 void dae::BossComponent::Update()
@@ -59,6 +60,9 @@ void dae::BossComponent::OnButterflyDeath(const Event* e)
 
 	if (const ButterflyDestroyedEvent* event = dynamic_cast<const ButterflyDestroyedEvent*>(e))
 	{
+		if (event->sceneName != m_SceneName)
+			return;
+
 		m_Butterflies.erase(std::remove(m_Butterflies.begin(), m_Butterflies.end(), event->butterfly), m_Butterflies.end());
 	}
 
@@ -167,6 +171,7 @@ void dae::BossComponent::HandlePlayerCaught(const float elapsed)
 	m_MovementDir *= 200;
 
 	m_TractorBeamRender->SetActive(false);
+	m_TractorCollision->SetActive(false);
 
 	std::unique_ptr<PlayerEvent> event = std::make_unique<PlayerEvent>();
 	event->eventType = "PlayerDied";
@@ -212,6 +217,8 @@ void dae::BossComponent::DoTractorBeam(const float elapsed)
 		m_MovementDir /= glm::length(m_MovementDir);
 		m_MovementDir *= 200;
 		m_TractorBeamRender->SetActive(false);
+		m_TractorCollision->SetActive(false);
+
 		return;
 	}
 
@@ -237,11 +244,13 @@ void dae::BossComponent::Attack()
 	m_IsAttacking = true;
 	m_MovementDir = { 0, 200, 0 };
 
-	bool doTracktorBeam = rand() % 1;
-	if (doTracktorBeam)
-	{
+	//bool doTracktorBeam = rand() % 2;
+	//if (doTracktorBeam)
+	//{
 		m_CurAttackState = AttackStates::Tractor;
 		m_CurTractorIndex = 0;
+
+		m_TractorCollision->SetActive(true);
 
 		m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
 		auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
@@ -252,28 +261,28 @@ void dae::BossComponent::Attack()
 
 		m_MovementDir /= glm::length(m_MovementDir);
 		m_MovementDir *= 200;
-	}
-	else
-	{
-		m_CurAttackState = AttackStates::Diving;
-
-
-		std::vector<int> freeIndexes;
-
-		for (int i = 0; i < m_Butterflies.size(); ++i) {
-			if (!m_Butterflies[i]->IsAlreadyAttacking()) {
-				freeIndexes.push_back(i);
-			}
-		}
-
-		if (!freeIndexes.empty()) {
-			// Generate a random index from the free indexes
-			int randomIndex = freeIndexes[std::rand() % freeIndexes.size()];
-			EnemyControllerComponent* randomButterfly = m_Butterflies[randomIndex];
-			randomButterfly->ForceAttack();
-		}
-
-	}
+	//}
+	//else
+	//{
+	//	m_CurAttackState = AttackStates::Diving;
+	//
+	//
+	//	std::vector<int> freeIndexes;
+	//
+	//	for (int i = 0; i < m_Butterflies.size(); ++i) {
+	//		if (!m_Butterflies[i]->IsAlreadyAttacking()) {
+	//			freeIndexes.push_back(i);
+	//		}
+	//	}
+	//
+	//	if (!freeIndexes.empty()) {
+	//		// Generate a random index from the free indexes
+	//		int randomIndex = freeIndexes[std::rand() % freeIndexes.size()];
+	//		EnemyControllerComponent* randomButterfly = m_Butterflies[randomIndex];
+	//		randomButterfly->ForceAttack();
+	//	}
+	//
+	//}
 
 }
 
@@ -292,8 +301,9 @@ void dae::BossComponent::OnHitCallback(const CollisionData& collisionOwner, cons
 	}
 
 
-	std::unique_ptr<PointEvent> event = std::make_unique<PointEvent>();
+	std::unique_ptr<SceneEvent> event = std::make_unique<SceneEvent>();
 	event->eventType = "EnemyDied";
+	event->sceneName = m_SceneName;
 
 	switch (m_CurAttackState)
 	{

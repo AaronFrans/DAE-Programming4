@@ -5,6 +5,12 @@
 #include <Scene/SceneManager.h>
 #include <Scene/Scene.h>
 
+void dae::InputManager::Quit()
+{
+	m_ControllerCommands.clear();
+	m_KeyboardCommands.clear();
+}
+
 bool dae::InputManager::ProccesCommands()
 {
 	if (!ProcessInput()) return false;

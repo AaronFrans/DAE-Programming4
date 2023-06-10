@@ -13,6 +13,8 @@ dae::TextRendererComponent::TextRendererComponent(GameObject* owner)
 
 void dae::TextRendererComponent::Render() const
 {
+	if (!m_IsActive)
+		return;
 
 	const auto& pos = m_Transform->GetWorldPosition();
 
@@ -22,13 +24,14 @@ void dae::TextRendererComponent::Render() const
 
 void dae::TextRendererComponent::CheckForRequiredComponents() const
 {
+
 	if (!m_Text)
 	{
 		throw std::invalid_argument("TextRendererComponent needs a TextComponent, currently expired");
 	}
 }
 
-void dae::TextRendererComponent::SetupRequiredComponents() 
+void dae::TextRendererComponent::SetupRequiredComponents()
 {
 	auto Owner = GetOwner();
 	if (!m_Text)

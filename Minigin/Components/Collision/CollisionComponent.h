@@ -38,6 +38,9 @@ namespace dae {
 		void SetCallback(std::function<void(const CollisionData& owner, const CollisionData& hitObject)> callbackFunc);
 
 
+		void SetActive(bool isActive) { m_IsActive = isActive; };
+		bool IsActive() { return m_IsActive; };
+
 		void SetScene(Scene* scene);
 
 		void IsOverlappingOtherCollision(const std::vector<CollisionComponent*>& collisionsToCheck) const;
@@ -68,7 +71,7 @@ namespace dae {
 		std::function<void(const CollisionData& collisionOwner, const CollisionData& hitObject)> m_OnHitCallback{};
 
 
-		bool m_IsActive
+		bool m_IsActive{ true };
 
 	};
 }

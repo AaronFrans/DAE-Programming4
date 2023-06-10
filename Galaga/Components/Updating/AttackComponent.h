@@ -16,7 +16,7 @@ namespace dae {
 		AttackComponent(GameObject* owner);
 
 
-		~AttackComponent() = default;
+		~AttackComponent();
 		AttackComponent(const AttackComponent& other) = delete;
 		AttackComponent(AttackComponent&& other) = delete;
 		AttackComponent& operator=(const AttackComponent& other) = delete;
@@ -36,6 +36,7 @@ namespace dae {
 		void BulletHitCallback(const dae::CollisionData&, const dae::CollisionData& hitObject);
 
 		void PlayerGrabbed(const Event* e);
+		void PlayerRespawn(const Event* e);
 
 		SoundSystem* m_Sound{};
 		std::vector<std::shared_ptr<GameObject>> m_FiredBullets{};

@@ -43,6 +43,14 @@
     <ClCompile Include="FileReading\FileReader.cpp" />
     <ClCompile Include="Components\HighScores\HighScoreComponent.cpp" />
     <ClCompile Include="Components\Game\GameOverseerComponent.cpp" />
+    <ClCompile Include="Components\Rendering\ButtonComponent.cpp" />
+    <ClCompile Include="Components\Rendering\MainMenuComponent.cpp" />
+    <ClCompile Include="Commands\SwitchButtonCommand.cpp" />
+    <ClCompile Include="Commands\ConfirmCommand.cpp" />
+    <ClCompile Include="Components\Rendering\DetailsComponent.cpp" />
+    <ClCompile Include="Commands\StartNextLevelCommand.cpp" />
+    <ClCompile Include="Commands\BackToMainMenuCommand.cpp" />
+    <ClCompile Include="FactoryFunctions\Factories.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\EarnPointsCommand.h" />
@@ -105,5 +113,13 @@
     <ClInclude Include="FileReading\FileReader.h" />
     <ClInclude Include="Components\HighScores\HighScoreComponent.h" />
     <ClInclude Include="Components\Game\GameOverseerComponent.h" />
+    <ClInclude Include="Components\Rendering\ButtonComponent.h" />
+    <ClInclude Include="Components\Rendering\MainMenuComponent.h" />
+    <ClInclude Include="Commands\SwitchButtonCommand.h" />
+    <ClInclude Include="Commands\ConfirmCommand.h" />
+    <ClInclude Include="Components\Rendering\DetailsComponent.h" />
+    <ClInclude Include="Commands\StartNextLevelCommand.h" />
+    <ClInclude Include="Commands\BackToMainMenuCommand.h" />
+    <ClInclude Include="FactoryFunctions\Factories.h" />
   </ItemGroup>
 </Project>

@@ -22,7 +22,12 @@ namespace dae
 
 		void HandleEvents();
 
+		void Quit();
+
 	private:
+		friend class Singleton<EventManager>;
+
+		EventManager() = default;
 
 		bool PollEvents(Event*& e);
 

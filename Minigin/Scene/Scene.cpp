@@ -106,7 +106,8 @@ void Scene::Update()
 	//Collision Checks
 	for (auto& objectCollision : m_ObjectCollisions)
 	{
-		objectCollision->IsOverlappingOtherCollision(m_ObjectCollisions);
+		if (objectCollision->IsActive())
+			objectCollision->IsOverlappingOtherCollision(m_ObjectCollisions);
 	}
 }
 

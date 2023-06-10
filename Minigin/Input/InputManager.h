@@ -1,4 +1,6 @@
 #pragma once
+#pragma once
+#include <SDL.h>
 #include <utility>
 #include <unordered_map>
 #include <vector>
@@ -92,6 +94,8 @@ namespace dae
 		using KeyboardCommandsMap = std::unordered_map<KeyboardInput, std::unique_ptr<Command>>;
 
 
+		void Quit();
+
 		bool ProccesCommands();
 
 		unsigned AddController();
@@ -132,7 +136,7 @@ namespace dae
 
 		T* toReturn = command.get();
 
-		m_ControllerCommands.insert({ input , std::move(command) });
+		m_ControllerCommands[input] = std::move(command);
 
 		return toReturn;
 	}
@@ -144,7 +148,7 @@ namespace dae
 
 		T* toReturn = command.get();
 
-		m_KeyboardCommands.insert({ input , std::move(command) });
+		m_KeyboardCommands[input] = std::move(command);
 
 		return toReturn;
 	}

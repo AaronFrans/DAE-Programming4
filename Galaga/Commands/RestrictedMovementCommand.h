@@ -10,6 +10,12 @@ namespace dae {
 	{
 	public:
 		RestrictedMovementCommand(GameObject* actor);
+		~RestrictedMovementCommand();
+		RestrictedMovementCommand(const RestrictedMovementCommand& other) = delete;
+		RestrictedMovementCommand(RestrictedMovementCommand&& other) = delete;
+		RestrictedMovementCommand& operator=(const RestrictedMovementCommand& other) = delete;
+		RestrictedMovementCommand& operator=(RestrictedMovementCommand&& other) = delete;
+
 
 		void Execute() override;
 
@@ -29,6 +35,7 @@ namespace dae {
 		unsigned m_PlayerIndex{ 0 };
 
 		void PlayerGrabbed(const Event* e);
+		void PlayerRespawn(const Event* e);
 
 		bool m_CanPlayerMove{ true };
 

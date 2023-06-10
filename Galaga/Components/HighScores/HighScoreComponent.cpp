@@ -26,6 +26,8 @@ dae::HighScoreComponent::HighScoreComponent(GameObject* owner)
 	PointEvent spawnEvent;
 	spawnEvent.eventType = "FinalScore";
 	EventManager::GetInstance().AddObserver(spawnEvent, boundEnemySpawned);
+
+	ReplaceChildren();
 }
 
 dae::HighScoreComponent::~HighScoreComponent()
@@ -65,6 +67,16 @@ void dae::HighScoreComponent::ReplaceChildren()
 	}
 }
 
+void dae::HighScoreComponent::ToMainMenu()
+{
+
+	SceneManager::GetInstance().SetActiveScene("MainMenu");
+	std::unique_ptr<Event> event = std::make_unique<Event>();
+	event->eventType = "Reset";
+
+	EventManager::GetInstance().SendEventMessage<Event>(std::move(event));
+}
+
 void dae::HighScoreComponent::FinalScoreSent(const Event* e)
 {
 
@@ -78,8 +90,6 @@ void dae::HighScoreComponent::FinalScoreSent(const Event* e)
 		m_Scores.push_back(points);
 
 		std::sort(m_Scores.begin(), m_Scores.end(), std::greater<int>());
-
-		SceneManager::GetInstance().SetActiveScene("Highscores");
 
 		ReplaceChildren();
 	}

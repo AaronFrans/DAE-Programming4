@@ -4,6 +4,9 @@
 #include "Rendering/Font.h"
 #include "Rendering/Renderer.h"
 #include "Rendering/Texture2D.h"
+#include "Scene/SceneManager.h"
+#include "Scene/Scene.h"
+#include <iostream>
 
 
 
@@ -17,7 +20,7 @@ void dae::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
-	
+
 }
 
 std::shared_ptr<dae::Texture2D> dae::TextComponent::GetTexture()
@@ -41,6 +44,9 @@ void dae::TextComponent::SetTexture()
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
 
+	std::cout << m_Text.c_str() << '\n';
+	std::cout << SceneManager::GetInstance().GetActiveScene().GetName() << '\n';
+
 
 	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
 	if (texture == nullptr)
@@ -48,7 +54,9 @@ void dae::TextComponent::SetTexture()
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
-	m_Texture = std::make_shared<Texture2D>(texture);
+
+	auto test = std::make_shared<Texture2D>(texture);
+	m_Texture = test;
 
 }
 

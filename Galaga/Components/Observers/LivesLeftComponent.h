@@ -11,7 +11,7 @@ namespace dae
 		LivesLeftComponent(GameObject* owner);
 
 
-		~LivesLeftComponent() = default;
+		~LivesLeftComponent();
 		LivesLeftComponent(const LivesLeftComponent& other) = delete;
 		LivesLeftComponent(LivesLeftComponent&& other) = delete;
 		LivesLeftComponent& operator=(const LivesLeftComponent& other) = delete;
@@ -20,7 +20,12 @@ namespace dae
 		void SetPlayerIndex(unsigned playerIndex);
 
 
+		void Update() override;
+
 	private:
+
+		bool m_IsHit{false};
+		float m_InvincibleTime{ 0 };
 
 		void SetupRequiredComponents();
 		void CheckForRequiredComponents();

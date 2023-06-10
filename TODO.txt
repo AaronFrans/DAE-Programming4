@@ -1,10 +1,14 @@
 !!!avoid magic nr => make them variables!!!
+Enemies
+    which will fly into formation from the top and sides of the screen.
+Sounds
+    mute button -> F1
+
+fix no more lives
 
 Levels
-    main menu
-    read from file
-    load in level 1 -> start -> on separate thread load next level
-    when done back to main menu
+fix crash on reset
+    Skip level button -> F2
 multiplayer
     coop
     vs

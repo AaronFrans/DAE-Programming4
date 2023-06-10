@@ -25,9 +25,9 @@ void dae::BeeComponent::OnHitCallback(const CollisionData& collisionOwner, const
 		return;
 
 
-	std::unique_ptr<PointEvent> event = std::make_unique<PointEvent>();
+	std::unique_ptr<SceneEvent> event = std::make_unique<SceneEvent>();
 	event->eventType = "EnemyDied";
-
+	event->sceneName = m_SceneName;
 	switch (m_CurAttackState)
 	{
 	case dae::BeeComponent::AttackStates::Idle:
@@ -41,6 +41,7 @@ void dae::BeeComponent::OnHitCallback(const CollisionData& collisionOwner, const
 	}
 
 	EventManager::GetInstance().SendEventMessage(std::move(event));
+
 
 	collisionOwner.owningObject->MarkForDestroy();
 }

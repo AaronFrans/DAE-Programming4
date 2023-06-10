@@ -19,6 +19,8 @@ namespace dae
 
 		void ReplaceChildren();
 
+		void ToMainMenu();
+
 	private:
 
 		void FinalScoreSent(const Event* e);

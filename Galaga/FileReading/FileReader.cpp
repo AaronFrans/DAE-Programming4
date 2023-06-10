@@ -87,3 +87,52 @@ void dae::FileReader::WriteHighscores(const std::string& filePath, std::vector<i
 
 	}
 }
+
+std::vector<dae::EnemyFileData> dae::FileReader::ReadEnemies(const std::string& filePath)
+{
+
+	std::vector<EnemyFileData> enemies{};
+	auto totalPath = m_DataPath + filePath;
+
+	bool isBossRead{ false };
+
+	assert(std::filesystem::exists(totalPath) && "Level json file could not be found");
+
+	if (std::ifstream is{ totalPath })
+	{
+		using namespace rapidjson;
+		IStreamWrapper isw{ is };
+		Document document;
+		document.ParseStream(isw);
+
+		assert(document.IsArray() && "Level files is an array of { \"type\": 0,\"x\" : 240,\"y\" : 120} objects");
+
+		for (SizeType i = 0; i < document.Size(); i++) {
+			const Value& object = document[i];
+
+			assert(object.IsObject() && "Level files is an array of { \"type\": 0,\"x\" : 240,\"y\" : 120} objects");
+
+			assert(object.HasMember("type") && object.HasMember("x") && object.HasMember("y") &&
+				"Level files is an array of { \"type\": 0,\"x\" : 240,\"y\" : 120} objects");
+
+
+			EnemyFileData enemy;
+			enemy.x = object["x"].GetFloat();
+			enemy.y = object["y"].GetFloat();
+			enemy.enemyType = object["type"].GetInt();
+
+
+			assert(!(isBossRead && enemy.enemyType != 2) && "Enemies with id 2 need to be last in the list");
+
+			if (enemy.enemyType == 2)
+				isBossRead = true;
+
+			enemies.push_back(enemy);
+
+		}
+
+
+
+	}
+	return enemies;
+}

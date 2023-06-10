@@ -15,6 +15,7 @@
 #include "Components/ImageRenderComponent.h"
 
 #include "Components/Updating/BulletMovementComponent.h"
+#include <Events/GameEvents.h>
 
 dae::AttackComponent::AttackComponent(GameObject* owner)
 	:Component(owner)
@@ -35,6 +36,24 @@ dae::AttackComponent::AttackComponent(GameObject* owner)
 	event.eventType = "PlayerGrabbed";
 	EventManager::GetInstance().AddObserver(event, boundPlayerGrabbed);
 
+	auto boundPlayerRespawn = std::bind(&AttackComponent::PlayerRespawn, this, std::placeholders::_1);
+	PlayerEvent respawnEvent;
+	respawnEvent.eventType = "PlayerRespawn";
+	EventManager::GetInstance().AddObserver(respawnEvent, boundPlayerRespawn);
+
+}
+
+dae::AttackComponent::~AttackComponent()
+{
+	auto boundPlayerGrabbed = std::bind(&AttackComponent::PlayerGrabbed, this, std::placeholders::_1);
+	PlayerEvent event;
+	event.eventType = "PlayerGrabbed";
+	EventManager::GetInstance().RemoveObserver(event, boundPlayerGrabbed);
+
+	auto boundPlayerRespawn = std::bind(&AttackComponent::PlayerRespawn, this, std::placeholders::_1);
+	PlayerEvent respawnEvent;
+	respawnEvent.eventType = "PlayerRespawn";
+	EventManager::GetInstance().RemoveObserver(respawnEvent, boundPlayerRespawn);
 }
 
 void dae::AttackComponent::Attack()
@@ -79,6 +98,12 @@ void dae::AttackComponent::Attack()
 
 	m_FiredBullets.push_back(bullet);
 
+	std::unique_ptr<SceneEvent> hitEvent = std::make_unique<SceneEvent>();
+	hitEvent->eventType = "BulletFired";
+	hitEvent->sceneName = m_SceneName;
+	EventManager::GetInstance().SendEventMessage(std::move(hitEvent));
+
+
 	//TODO: find a better way to handle sound ids
 	m_Sound->HandleSoundData(SoundData{ 1, 0.1f, SoundData::SoundType::SoundEffect });
 
@@ -116,6 +141,12 @@ void dae::AttackComponent::BulletHitCallback(const dae::CollisionData& collision
 	if (!(strcmp(hitObject.ownerType.c_str(), "Enemy") == 0))
 		return;
 
+
+	std::unique_ptr<SceneEvent> hitEvent = std::make_unique<SceneEvent>();
+	hitEvent->eventType = "EnemyHit";
+	hitEvent->sceneName = m_SceneName;
+	EventManager::GetInstance().SendEventMessage(std::move(hitEvent));
+
 	collisionOwner.owningObject->MarkForDestroy();
 }
 
@@ -131,6 +162,23 @@ void dae::AttackComponent::PlayerGrabbed(const Event* e)
 			return;
 
 		m_CanPlayerShoot = false;
+	}
+
+}
+
+void dae::AttackComponent::PlayerRespawn(const Event* e)
+{
+
+
+	if (strcmp(e->eventType, "PlayerRespawn") != 0)
+		return;
+
+	if (const PlayerEvent* event = dynamic_cast<const PlayerEvent*>(e))
+	{
+		if (event->playerIndex != m_PlayerIndex)
+			return;
+
+		m_CanPlayerShoot = true;
 	}
 
 }

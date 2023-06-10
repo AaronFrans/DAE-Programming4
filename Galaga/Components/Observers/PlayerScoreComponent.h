@@ -12,7 +12,7 @@ namespace dae
 		PlayerScoreComponent(GameObject* owner);
 
 
-		~PlayerScoreComponent() = default;
+		~PlayerScoreComponent();
 		PlayerScoreComponent(const PlayerScoreComponent& other) = delete;
 		PlayerScoreComponent(PlayerScoreComponent&& other) = delete;
 		PlayerScoreComponent& operator=(const PlayerScoreComponent& other) = delete;
@@ -20,7 +20,8 @@ namespace dae
 
 		void SetPlayerIndex(unsigned playerIndex);
 
-
+		void SetSceneName(const std::string& name) { m_SceneName = name; };
+		void SetNextSceneName(const std::string& name) { m_NextSceneName = name; };
 	private:
 
 		const static int POINT_FOR_ENEMY{ 100 };
@@ -38,7 +39,13 @@ namespace dae
 
 		int m_PointsEarned{ 0 };
 
+		std::string m_SceneName{};
+		std::string m_NextSceneName{};
+
 		void FinalScore(const Event* e);
+
+		void NextScene(const Event* e);
+		void NextSceneLoaded(const Event* e);
 
 		TextComponent* m_pTextComponent{ nullptr };
 	};

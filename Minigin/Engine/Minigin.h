@@ -8,8 +8,8 @@ namespace dae
 	{
 	public:
 		explicit Minigin(const std::string& dataPath, unsigned windowWidth = 640,unsigned windowHeight = 480);
-		~Minigin();
 		void Run(const std::function<void()>& load);
+		~Minigin();
 
 		Minigin(const Minigin& other) = delete;
 		Minigin(Minigin&& other) = delete;

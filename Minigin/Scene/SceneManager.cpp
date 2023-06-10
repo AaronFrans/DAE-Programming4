@@ -14,6 +14,7 @@ void dae::SceneManager::Render()
 void dae::SceneManager::Quit()
 {
 	m_Scenes.clear();
+	m_ActiveScene = nullptr;
 }
 
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
@@ -28,6 +29,14 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 	m_ActiveScene->SetActive(true);
 
 	return *scene;
+}
+
+
+void  dae::SceneManager::RemoveScene(const std::string& name)
+{
+	m_Scenes.erase(std::remove_if(m_Scenes.begin(), m_Scenes.end(), [&](std::shared_ptr<Scene> pScene) {
+		return pScene->GetName() == name;
+		}));
 }
 
 dae::Scene& dae::SceneManager::GetSceneByName(const std::string& name)

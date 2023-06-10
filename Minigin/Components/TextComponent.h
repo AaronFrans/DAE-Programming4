@@ -15,7 +15,7 @@ namespace dae
 		TextComponent(GameObject* owner);
 
 
-		virtual ~TextComponent() = default;
+		~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(const TextComponent& other) = delete;

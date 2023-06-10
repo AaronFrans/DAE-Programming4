@@ -188,6 +188,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Commands\BackToMainMenuCommand.cpp" />
+    <ClCompile Include="Components\Rendering\ButtonComponent.cpp" />
     <ClCompile Include="Components\Enemies\BossComponent.cpp" />
     <ClCompile Include="Components\Enemies\ButterflyComponent.cpp" />
     <ClCompile Include="Components\Enemies\BeeComponent.cpp" />
@@ -206,12 +208,20 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClCompile Include="Components\Rendering\TutorialComponent.cpp" />
     <ClCompile Include="Components\Updating\RotatorComponent.cpp" />
     <ClCompile Include="Components\Enemies\EnemyControllerComponent.cpp" />
+    <ClCompile Include="Commands\ConfirmCommand.cpp" />
+    <ClCompile Include="Components\Rendering\DetailsComponent.cpp" />
+    <ClCompile Include="FactoryFunctions\Factories.cpp" />
     <ClCompile Include="FileReading\FileReader.cpp" />
     <ClCompile Include="Components\HighScores\HighScoreComponent.cpp" />
     <ClCompile Include="Components\Game\GameOverseerComponent.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Components\Rendering\MainMenuComponent.cpp" />
+    <ClCompile Include="Commands\SwitchButtonCommand.cpp" />
+    <ClCompile Include="Commands\StartNextLevelCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Commands\BackToMainMenuCommand.h" />
+    <ClInclude Include="Components\Rendering\ButtonComponent.h" />
     <ClInclude Include="Components\Enemies\BossComponent.h" />
     <ClInclude Include="Components\Enemies\ButterflyComponent.h" />
     <ClInclude Include="Components\Enemies\BeeComponent.h" />
@@ -230,10 +240,14 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="Components\Updating\RotatorComponent.h" />
     <ClInclude Include="Components\Enemies\EnemyControllerComponent.h" />
     <ClInclude Include="Components\Enemies\BaseEnemyComponent.h" />
+    <ClInclude Include="Commands\ConfirmCommand.h" />
+    <ClInclude Include="Components\Rendering\DetailsComponent.h" />
     <ClInclude Include="Events\GameEvents.h" />
+    <ClInclude Include="FactoryFunctions\Factories.h" />
     <ClInclude Include="FileReading\FileReader.h" />
     <ClInclude Include="Components\HighScores\HighScoreComponent.h" />
     <ClInclude Include="Components\Game\GameOverseerComponent.h" />
+    <ClInclude Include="Components\Rendering\MainMenuComponent.h" />
     <ClInclude Include="RapidJson\allocators.h" />
     <ClInclude Include="RapidJson\cursorstreamwrapper.h" />
     <ClInclude Include="RapidJson\document.h" />
@@ -272,6 +286,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputP
     <ClInclude Include="RapidJson\stringbuffer.h" />
     <ClInclude Include="RapidJson\uri.h" />
     <ClInclude Include="RapidJson\writer.h" />
+    <ClInclude Include="Commands\SwitchButtonCommand.h" />
+    <ClInclude Include="Commands\StartNextLevelCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

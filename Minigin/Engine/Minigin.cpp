@@ -84,9 +84,11 @@ dae::Minigin::Minigin(const std::string& dataPath, unsigned windowWidth, unsigne
 
 dae::Minigin::~Minigin()
 {
+	SceneManager::GetInstance().Quit();
 	Renderer::GetInstance().Destroy();
 	SoundManager::GetInstance().Quit();
-	SceneManager::GetInstance().Quit();
+	InputManager::GetInstance().Quit();
+	EventManager::GetInstance().Quit();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 	SDL_Quit();

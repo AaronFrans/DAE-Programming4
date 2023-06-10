@@ -21,12 +21,16 @@ namespace dae
 
 		void Render() const override;
 
+		void SetActive(bool isActive) { m_IsActive = isActive; };
+
 	private:
 		void CheckForRequiredComponents() const;
 		void SetupRequiredComponents();
 
 		TextComponent* m_Text{};
 		TransformComponent* m_Transform{};
+
+		bool m_IsActive{ true };
 
 	};
 }
