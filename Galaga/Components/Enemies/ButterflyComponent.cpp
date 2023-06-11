@@ -26,7 +26,7 @@ void dae::ButterflyComponent::DoArcing(const float elapsed)
 		m_MovementDir = (m_FormationPosition - curPos);
 
 		m_MovementDir /= glm::length(m_MovementDir);
-		m_MovementDir *= 200;
+		m_MovementDir *= m_FlySpeed;
 	}
 
 }
@@ -69,15 +69,15 @@ void dae::ButterflyComponent::DoZigzagging(const float elapsed)
 	m_CurArcTime = 0;
 
 	curPos.x > m_ScreenCenter.x ?
-		m_MovementDir = { -200, 0, 0 } :
-		m_MovementDir = { 200, 0, 0 };
+		m_MovementDir = { -m_FlySpeed, 0, 0 } :
+		m_MovementDir = { m_FlySpeed, 0, 0 };
 }
 
 void dae::ButterflyComponent::Attack()
 {
 	m_IsAttacking = true;
 	m_CurAttackState = AttackStates::Zigzagging;
-	m_MovementDir = { 0, 200, 0 };
+	m_MovementDir = { 0, m_FlySpeed, 0 };
 }
 
 void dae::ButterflyComponent::OnHitCallback(const CollisionData& collisionOwner, const CollisionData& hitObject)
@@ -126,6 +126,8 @@ dae::ButterflyComponent::ButterflyComponent(GameObject* owner)
 
 void dae::ButterflyComponent::Update()
 {
+	if (!m_HasFlownIn)
+		BaseEnemyComponent::Update();
 
 	if (!m_IsAttacking)
 		return;

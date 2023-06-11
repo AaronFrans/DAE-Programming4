@@ -19,6 +19,8 @@
 #include <Rendering/ResourceManager.h>
 
 #include <Commands/RestrictedMovementCommand.h>
+#include <Commands/DiveCommand.h>
+#include <Commands/TractorCommand.h>
 #include <Commands/AttackCommand.h>
 
 #include <Events/EventManager.h>
@@ -27,7 +29,8 @@
 #include "Input/InputManager.h"
 
 
-dae::GameObject* dae::AddPlayerGO(Scene& scene, InputManager& input, unsigned playerIndex, bool useKeyboard)
+dae::GameObject* dae::AddPlayerGO(Scene& scene, InputManager& input, unsigned playerIndex, bool useKeyboard
+	, const std::string& playerTexture)
 {
 
 	auto player = std::make_shared<dae::GameObject>(1);
@@ -35,7 +38,7 @@ dae::GameObject* dae::AddPlayerGO(Scene& scene, InputManager& input, unsigned pl
 	scene.Add(player);
 	auto playerImage = player->AddComponent<dae::ImageComponent>();
 
-	playerImage->SetTexture("Images\\Player_Ship.png");
+	playerImage->SetTexture(playerTexture);
 
 	const float imageWidth = playerImage->GetTextureWidth();
 	const float imageHeight = playerImage->GetTextureHeight();
@@ -117,19 +120,19 @@ dae::GameObject* dae::AddPlayerGO(Scene& scene, InputManager& input, unsigned pl
 
 	auto collision = player->AddComponent<dae::CollisionComponent>();
 	scene.AddCollision(collision.get());
-	collision->SetCollisionData({ "Player", player.get() });
+	collision->SetCollisionData({ "Player", player.get(), static_cast<int>(playerIndex) });
 
 	float collisionWidth{ imageWidth }, collisionHeight{ imageHeight };
 	collision->SetBounds(collisionWidth, collisionHeight);
 
-	collision->SetCallback([&](const dae::CollisionData&, const dae::CollisionData& hitObject) {
+	collision->SetCallback([&](const dae::CollisionData& ownerObject, const dae::CollisionData& hitObject) {
 
 		if ((strcmp(hitObject.ownerType.c_str(), "EnemyAttack") != 0) && (strcmp(hitObject.ownerType.c_str(), "Enemy") != 0))
 			return;
 
 		std::unique_ptr<dae::PlayerEvent> event = std::make_unique<dae::PlayerEvent>();
 		event->eventType = "PlayerDied";
-		event->playerIndex = 0;
+		event->playerIndex = ownerObject.playerIndex;
 		dae::EventManager::GetInstance().SendEventMessage(std::move(event));
 		});
 
@@ -148,14 +151,16 @@ void dae::AddEnemyTexture(std::shared_ptr<GameObject> enemy, const std::string& 
 }
 
 
-dae::GameObject* dae::AddEnemyGO(dae::Scene& scene, TransformComponent* pPlayer, glm::vec3 pos, dae::EnemyTypes enemyType,
+dae::GameObject* dae::AddEnemyGO(dae::Scene& scene, std::vector<TransformComponent*>& pPlayer, glm::vec3 formationPos, dae::EnemyTypes enemyType,
 	std::vector<EnemyControllerComponent*>& butterflies)
 {
+
+
 	auto enemy = std::make_shared<dae::GameObject>(0);
 	enemy->Init();
 	scene.Add(enemy);
 
-	enemy->GetTransform()->SetLocalPosition(pos);
+	enemy->GetTransform()->SetLocalPosition(formationPos - glm::vec3{0, 200, 0});
 
 	int minOffset{ 0 };
 	int maxOffset{ 8000 };
@@ -192,8 +197,8 @@ dae::GameObject* dae::AddEnemyGO(dae::Scene& scene, TransformComponent* pPlayer,
 
 
 	auto attacking = enemy->GetComponent<dae::BaseEnemyComponent>();
-	attacking->SetFormationPosition(pos);
-	attacking->SetPlayerTransform(pPlayer);
+	attacking->SetFormationPosition(formationPos);
+	attacking->SetPlayerTransforms(pPlayer);
 	attacking->SetScreenCenter({ dae::g_WindowWidth / 2.0f, dae::g_WindowHeight / 2.0f, 0 });
 	attacking->SetScene(scene.GetName());
 	attacking->SetMaxYPos(dae::g_WindowHeight - 20);
@@ -222,10 +227,68 @@ dae::GameObject* dae::AddEnemyGO(dae::Scene& scene, TransformComponent* pPlayer,
 
 	collision->SetScene(&scene);
 
+
 	return enemy.get();
 }
 
-void dae::LoadUI(dae::Scene& scene, const std::string& nextScene)
+dae::GameObject* dae::AddPlayerEnemyGO(dae::Scene& scene, std::vector<TransformComponent*>& pPlayer, glm::vec3 formationPos, std::vector<EnemyControllerComponent*>& butterflies)
+{
+
+	auto sceneName = scene.GetName();
+
+	auto enemy = std::make_shared<dae::GameObject>(0);
+	enemy->Init();
+	scene.Add(enemy);
+
+	enemy->GetTransform()->SetLocalPosition(formationPos - glm::vec3{0, 200, 0});
+
+
+	AddEnemyTexture(enemy, "Images\\Player_Galaga_Boss.png");
+	auto boss = enemy->AddComponent<dae::BossComponent>();
+	boss->SetButterflies(butterflies);
+
+	boss->SetFormationPosition(formationPos);
+	boss->SetPlayerTransforms(pPlayer);
+	boss->SetScreenCenter({ dae::g_WindowWidth / 2.0f, dae::g_WindowHeight / 2.0f, 0 });
+	boss->SetScene(scene.GetName());
+	boss->SetMaxYPos(dae::g_WindowHeight - 20);
+	boss->SetDamagedTexture(ResourceManager::GetInstance().LoadTexture("Images\\Player_Galaga_Boss_Damaged.png"));
+	boss->SetupCollision();
+
+
+	auto playerImage = enemy->GetComponent<dae::ImageComponent>();
+
+	const float imageWidth = playerImage->GetTextureWidth(),
+		imageHeight = playerImage->GetTextureHeight();
+
+	auto collision = enemy->AddComponent<dae::CollisionComponent>();
+	scene.AddCollision(collision.get());
+	collision->SetCollisionData({ "Enemy", enemy.get() });
+
+	float collisionWidth{ imageWidth }, collisionHeight{ imageHeight };
+	collision->SetBounds(collisionWidth, collisionHeight);
+	//collision->EnableDebugSquare();
+
+	auto boundHitCallback = std::bind(&dae::BaseEnemyComponent::OnHitCallback, boss, std::placeholders::_1, std::placeholders::_2);
+	collision->SetCallback(boundHitCallback);
+
+	collision->SetScene(&scene);
+
+
+	auto& inputManager = dae::InputManager::GetInstance();
+
+
+	inputManager.AddXboxCommand<dae::TractorCommand>(std::make_unique<dae::TractorCommand>(enemy.get()),
+		dae::XboxControllerInput{ 0, dae::XboxController::ControllerButton::ButtonA, dae::ButtonState::Up, sceneName });
+
+	inputManager.AddXboxCommand<dae::DiveCommand>(std::make_unique<dae::DiveCommand>(enemy.get()),
+		dae::XboxControllerInput{ 0, dae::XboxController::ControllerButton::ButtonB, dae::ButtonState::Up, sceneName });
+
+	return enemy.get();
+
+}
+
+void dae::LoadUI(dae::Scene& scene, const std::string& nextScene, bool useSecondPlayer)
 {
 
 	auto pUI = std::make_shared<dae::GameObject>();
@@ -233,6 +296,23 @@ void dae::LoadUI(dae::Scene& scene, const std::string& nextScene)
 	scene.Add(pUI);
 
 	auto sceneName = scene.GetName();
+	auto fontUI = dae::ResourceManager::GetInstance().LoadFont("Galaga.ttf", 15);
+
+	//Score Display -> text render
+	auto pPointsTextDisplay = std::make_shared<dae::GameObject>(5);
+	pPointsTextDisplay->Init();
+	auto pScoreComp = pPointsTextDisplay->AddComponent<dae::PlayerScoreComponent>();
+	pScoreComp->SetPlayerIndex(0);
+	pScoreComp->SetSceneName(sceneName);
+	pScoreComp->SetNextSceneName(nextScene);
+	pPointsTextDisplay->AddComponent<dae::TextRendererComponent>();
+	auto pText = pPointsTextDisplay->GetComponent<dae::TextComponent>();
+
+	pText->SetFont(fontUI);
+
+	pPointsTextDisplay->GetTransform()->SetLocalPosition({ dae::g_WindowWidth - 230,21,0 });
+	pPointsTextDisplay->SetParent(pUI.get(), true);
+
 
 	//Health Display -> image render + text render
 	auto pLivesImageDisplay = std::make_shared<dae::GameObject>(5);
@@ -246,27 +326,34 @@ void dae::LoadUI(dae::Scene& scene, const std::string& nextScene)
 	pLivesTextDisplay->Init();
 	pLivesTextDisplay->AddComponent<dae::LivesLeftComponent>()->SetPlayerIndex(0);
 	pLivesTextDisplay->AddComponent<dae::TextRendererComponent>();
-	auto pText = pLivesTextDisplay->GetComponent<dae::TextComponent>();
+	pText = pLivesTextDisplay->GetComponent<dae::TextComponent>();
 
-	auto fontUI = dae::ResourceManager::GetInstance().LoadFont("Galaga.ttf", 15);
 	pText->SetFont(fontUI);
 
 	pLivesTextDisplay->GetTransform()->SetLocalPosition({ 45,21,0 });
 	pLivesTextDisplay->SetParent(pUI.get(), true);
 
-	//Score Display -> text render
-	auto pPointsTextDisplay = std::make_shared<dae::GameObject>(5);
-	pPointsTextDisplay->Init();
-	auto pScoreComp = pPointsTextDisplay->AddComponent<dae::PlayerScoreComponent>();
-	pScoreComp->SetPlayerIndex(0);
-	pScoreComp->SetSceneName(sceneName);
-	pScoreComp->SetNextSceneName(nextScene);
-	pPointsTextDisplay->AddComponent<dae::TextRendererComponent>();
-	pText = pPointsTextDisplay->GetComponent<dae::TextComponent>();
+	if (!useSecondPlayer)
+		return;
+
+	auto pSecondLivesImageDisplay = std::make_shared<dae::GameObject>(5);
+	pSecondLivesImageDisplay->Init();
+	pSecondLivesImageDisplay->AddComponent<dae::ImageComponent>()->SetTexture("Images\\Player_2_Ship_Small.png");
+	pSecondLivesImageDisplay->AddComponent<dae::ImageRenderComponent>();
+	pSecondLivesImageDisplay->GetTransform()->SetLocalPosition({ 20,40,0 });
+	pSecondLivesImageDisplay->SetParent(pUI.get(), true);
+
+	auto pSecondLivesTextDisplay = std::make_shared<dae::GameObject>(5);
+	pSecondLivesTextDisplay->Init();
+	pLivesTextDisplay->AddComponent<dae::LivesLeftComponent>()->SetPlayerIndex(1);
+	pSecondLivesTextDisplay->AddComponent<dae::LivesLeftComponent>()->SetPlayerIndex(0);
+	pSecondLivesTextDisplay->AddComponent<dae::TextRendererComponent>();
+	pText = pSecondLivesTextDisplay->GetComponent<dae::TextComponent>();
 
 	pText->SetFont(fontUI);
 
-	pPointsTextDisplay->GetTransform()->SetLocalPosition({ dae::g_WindowWidth - 150,21,0 });
-	pPointsTextDisplay->SetParent(pUI.get(), true);
+	pSecondLivesTextDisplay->GetTransform()->SetLocalPosition({ 45,41,0 });
+	pSecondLivesTextDisplay->SetParent(pUI.get(), true);
+
 
 }

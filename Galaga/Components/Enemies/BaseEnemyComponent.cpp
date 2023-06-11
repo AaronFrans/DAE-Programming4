@@ -3,6 +3,7 @@
 #include "Components/TransformComponent.h"
 
 #include "Rendering/ResourceManager.h"
+#include "Engine/Timer.h"
 
 #include <Components/ImageComponent.h>
 #include <Components/ImageRenderComponent.h>
@@ -12,9 +13,30 @@
 #include <Events/EventManager.h>
 #include <Events/GameEvents.h>
 
+void dae::BaseEnemyComponent::Update()
+{
+	const glm::vec3 flyInDir{0, 1, 0};
+
+	auto curPos = m_pTransform->GetLocalPosition();
+
+	curPos += flyInDir * m_FlySpeed * Timer::GetInstance().GetDeltaTime();
+
+	m_pTransform->SetLocalPosition(curPos);
+
+	if (glm::length(curPos - m_FormationPosition) > 1)
+		return;
+
+	m_HasFlownIn = true;
+}
+
 bool dae::BaseEnemyComponent::IsAttacking()
 {
 	return m_IsAttacking;
+}
+
+bool dae::BaseEnemyComponent::HasFlownIn()
+{
+	return m_HasFlownIn;
 }
 
 void dae::BaseEnemyComponent::SetFormationPosition(glm::vec3 pos)
@@ -22,9 +44,9 @@ void dae::BaseEnemyComponent::SetFormationPosition(glm::vec3 pos)
 	m_FormationPosition = pos;
 }
 
-void dae::BaseEnemyComponent::SetPlayerTransform(TransformComponent* player)
+void dae::BaseEnemyComponent::SetPlayerTransforms(std::vector<TransformComponent*>& player)
 {
-	m_pPlayerTransform = player;
+	m_pPlayerTransforms = player;
 }
 
 void dae::BaseEnemyComponent::SetScreenCenter(const glm::vec3 center)
@@ -83,7 +105,10 @@ void dae::BaseEnemyComponent::DoShooting(const float elapsed, const glm::vec3 cu
 
 	m_CurFireCooldownTime = 0;
 
-	auto playerPos = m_pPlayerTransform->GetLocalPosition();
+
+	int randomIndex = std::rand() % m_pPlayerTransforms.size();
+
+	auto playerPos = m_pPlayerTransforms[randomIndex]->GetLocalPosition();
 
 	auto shootDir = playerPos - curPos;
 

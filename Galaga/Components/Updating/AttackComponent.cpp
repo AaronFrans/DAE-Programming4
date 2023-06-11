@@ -10,6 +10,8 @@
 
 #include "Events/EventManager.h"
 
+#include "Engine/Timer.h"
+
 #include "Components/TransformComponent.h"
 #include "Components/ImageComponent.h"
 #include "Components/ImageRenderComponent.h"
@@ -58,8 +60,13 @@ dae::AttackComponent::~AttackComponent()
 
 void dae::AttackComponent::Attack()
 {
+	if (!m_IsIntroDone)
+		return;
+
 	if (!m_CanPlayerShoot)
 		return;
+
+
 	assert(m_pScene && "No scene set for AttackComponent, use AttackComponent::SetScene to set the scene");
 
 	if (m_FiredBullets.size() == 2)
@@ -111,6 +118,23 @@ void dae::AttackComponent::Attack()
 
 void dae::AttackComponent::Update()
 {
+
+
+	if (!m_IsIntroDone)
+	{
+		// TODO: change to event
+		constexpr int introTime{ 1 };
+
+		static float timeSinceStart{ 0 };
+
+		timeSinceStart += Timer::GetInstance().GetDeltaTime();
+
+		if (timeSinceStart >= introTime)
+		{
+			m_IsIntroDone = true;
+		}
+	}
+
 	for (auto& bullet : m_FiredBullets)
 	{
 		if (bullet->IsDestroyed())
@@ -146,6 +170,8 @@ void dae::AttackComponent::BulletHitCallback(const dae::CollisionData& collision
 	hitEvent->eventType = "EnemyHit";
 	hitEvent->sceneName = m_SceneName;
 	EventManager::GetInstance().SendEventMessage(std::move(hitEvent));
+
+	SoundManager::GetInstance().GetSoundSystem()->HandleSoundData(dae::SoundData{ 3, 0.1, });
 
 	collisionOwner.owningObject->MarkForDestroy();
 }

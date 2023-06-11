@@ -9,6 +9,8 @@ namespace dae
 	class ImageRenderComponent;
 	class CollisionComponent;
 	class EnemyControllerComponent;
+	class TractorCommand;
+	class DiveCommand;
 	struct Event;
 	class BossComponent final : public BaseEnemyComponent
 	{
@@ -26,12 +28,18 @@ namespace dae
 
 		void SetButterflies(std::vector<EnemyControllerComponent*>& butterflies) { m_Butterflies = butterflies; };
 
+		void SetDamagedTexture(std::shared_ptr<Texture2D> texture) { m_DamagedTexture = texture; };
+
 		void SetupCollision();
 		void Update() override;
 
 
 
 	private:
+
+		friend class DiveCommand;
+		friend class TractorCommand;
+
 		enum class AttackStates
 		{
 			Idle,
@@ -41,6 +49,9 @@ namespace dae
 			Returning
 		};
 
+
+		void DoDivingAttack();
+		void DoTractorBeamAttack();
 
 		void OnButterflyDeath(const Event* e);
 
@@ -82,6 +93,8 @@ namespace dae
 		std::vector<EnemyControllerComponent*> m_Butterflies{};
 		void HandlePlayerCaught(const float elapsed);
 		bool m_HasGrabbedPlayer{ false };
+		TransformComponent* m_CaughtPlayer{};
+		int m_CaughtPlayerIndex{ 0 };
 		glm::vec3 m_PlayerOriginalPos{};
 		glm::vec3 m_PlayerDragDir{};
 	};

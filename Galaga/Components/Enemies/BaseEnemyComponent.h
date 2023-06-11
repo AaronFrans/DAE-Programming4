@@ -18,10 +18,13 @@ namespace dae
 		virtual void OnHitCallback(const CollisionData& collisionOwner, const CollisionData& hitObject) = 0;
 
 
+		void Update() override;
+
 		bool IsAttacking();
+		bool HasFlownIn();
 
 		void SetFormationPosition(glm::vec3 pos);
-		void SetPlayerTransform(TransformComponent* player);
+		void SetPlayerTransforms(std::vector<TransformComponent*>& player);
 		void SetScreenCenter(const glm::vec3 center);
 		virtual void SetScene(const std::string& sceneName);
 		void SetMaxYPos(const float maxYPos);
@@ -34,6 +37,11 @@ namespace dae
 		BaseEnemyComponent& operator=(BaseEnemyComponent&& other) = delete;
 
 	protected:
+
+
+		bool m_HasFlownIn{false};
+
+		float m_FlySpeed{ 200 };
 
 		void BulletHitCallback(const dae::CollisionData&, const dae::CollisionData& hitObject);
 
@@ -49,7 +57,7 @@ namespace dae
 		glm::vec3 m_FormationPosition{};
 		glm::vec3 m_ScreenCenter{};
 
-		TransformComponent* m_pPlayerTransform{};
+		std::vector<TransformComponent*>  m_pPlayerTransforms{};
 		TransformComponent* m_pTransform{};
 
 		bool m_IsAttacking{ false };

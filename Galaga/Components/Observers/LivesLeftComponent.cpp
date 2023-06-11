@@ -7,6 +7,8 @@
 #include <Events/GameEvents.h>
 #include <Scene/Scene.h>
 #include <Scene/SceneManager.h>
+#include <Sounds/SoundManager.h>
+#include <Sounds/SoundSystem.h>
 
 dae::LivesLeftComponent::LivesLeftComponent(GameObject* owner)
 	:Component(owner)
@@ -108,6 +110,8 @@ void dae::LivesLeftComponent::LoseLife(const Event* e)
 
 		}
 	}
+
+	SoundManager::GetInstance().GetSoundSystem()->HandleSoundData(dae::SoundData{ 2, 1,});
 
 	if (m_LivesLeft >= 0)
 		return;

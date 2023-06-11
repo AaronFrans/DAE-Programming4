@@ -54,6 +54,9 @@ namespace dae {
 		bool m_HasDestroyedBullet{ false };
 
 
+		bool m_IsIntroDone{ false };
+
+
 	};
 }
 

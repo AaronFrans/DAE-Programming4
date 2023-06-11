@@ -32,7 +32,8 @@ dae::MainMenuComponent::MainMenuComponent(GameObject* owner)
 	pSingleButton->SetButtonText("Single Player");
 	pSingleButton->SetActive(true);
 
-	pSingleButton->SetOnClick([]() {
+	pSingleButton->SetOnClick([&]() {
+		LoadLevels();
 		SceneManager::GetInstance().SetActiveScene("Level1");
 		});
 
@@ -46,7 +47,8 @@ dae::MainMenuComponent::MainMenuComponent(GameObject* owner)
 	auto pCoopButton = coopButtonGO->AddComponent<ButtonComponent>();
 	pCoopButton->SetButtonText("CO-OP");
 
-	pCoopButton->SetOnClick([]() {
+	pCoopButton->SetOnClick([&]() {
+		LoadMultiplayerLevels();
 		SceneManager::GetInstance().SetActiveScene("Level1");
 		});
 
@@ -62,7 +64,8 @@ dae::MainMenuComponent::MainMenuComponent(GameObject* owner)
 	auto pVersusButton = versusButtonGO->AddComponent<ButtonComponent>();
 	pVersusButton->SetButtonText("Versus");
 
-	pVersusButton->SetOnClick([]() {
+	pVersusButton->SetOnClick([&]() {
+		LoadVersusLevels();
 		SceneManager::GetInstance().SetActiveScene("Level1");
 		});
 
@@ -107,14 +110,41 @@ void dae::MainMenuComponent::SelectButton()
 	m_pButtons[m_ActiveButton]->DoClick();
 }
 
-void dae::MainMenuComponent::LoadLevels(dae::DetailsComponent* pDetails)
+void dae::MainMenuComponent::SetDetailsLevels(dae::DetailsComponent* pDetails)
 {
 
 	m_pDetails = pDetails;
+}
 
-	LoadLevelFromFile("Level1", "JsonFiles/Level1.json", "Level2", pDetails);
-	LoadLevelFromFile("Level2", "JsonFiles/Level2.json", "Level3", pDetails);
-	LoadLevelFromFile("Level3", "JsonFiles/Level3.json", "Highscores", pDetails);
+void dae::MainMenuComponent::LoadLevels()
+{
+
+	LoadLevelFromFile("Level1", "JsonFiles/Level1.json", "Level2", m_pDetails, GameMode::SinglePlayer);
+	LoadLevelFromFile("Level2", "JsonFiles/Level2.json", "Level3", m_pDetails, GameMode::SinglePlayer);
+	LoadLevelFromFile("Level3", "JsonFiles/Level3.json", "Highscores", m_pDetails, GameMode::SinglePlayer);
+
+
+	SceneManager::GetInstance().SetActiveScene("MainMenu");
+}
+
+void dae::MainMenuComponent::LoadMultiplayerLevels()
+{
+	LoadLevelFromFile("Level1", "JsonFiles/Level1.json", "Level2", m_pDetails, GameMode::COOP);
+	LoadLevelFromFile("Level2", "JsonFiles/Level2.json", "Level3", m_pDetails, GameMode::COOP);
+	LoadLevelFromFile("Level3", "JsonFiles/Level3.json", "Highscores", m_pDetails, GameMode::COOP);
+
+
+	SceneManager::GetInstance().SetActiveScene("MainMenu");
+}
+
+void dae::MainMenuComponent::LoadVersusLevels()
+{
+	LoadLevelFromFile("Level1", "JsonFiles/Level1.json", "Level2", m_pDetails, GameMode::Versus);
+	LoadLevelFromFile("Level2", "JsonFiles/Level2.json", "Level3", m_pDetails, GameMode::Versus);
+	LoadLevelFromFile("Level3", "JsonFiles/Level3.json", "Highscores", m_pDetails, GameMode::Versus);
+
+
+	SceneManager::GetInstance().SetActiveScene("MainMenu");
 }
 
 void dae::MainMenuComponent::ResetLevels(const Event* e)
@@ -130,17 +160,11 @@ void dae::MainMenuComponent::ResetLevels(const Event* e)
 		sceneManager.RemoveScene(name);
 	}
 	m_LevelNames.clear();
-	LoadLevelFromFile("Level1", "JsonFiles/Level1.json", "Level2", m_pDetails);
-	LoadLevelFromFile("Level2", "JsonFiles/Level2.json", "Level3", m_pDetails);
-	LoadLevelFromFile("Level3", "JsonFiles/Level3.json", "Highscores", m_pDetails);
-
-
-	sceneManager.SetActiveScene("MainMenu");
 
 }
 
 void dae::MainMenuComponent::LoadLevelFromFile(const std::string& sceneName, const std::string& filePath,
-	const std::string& nextScene, dae::DetailsComponent* details)
+	const std::string& nextScene, dae::DetailsComponent* details, GameMode mode)
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene(sceneName);
 	auto& inputManager = dae::InputManager::GetInstance();
@@ -168,19 +192,61 @@ void dae::MainMenuComponent::LoadLevelFromFile(const std::string& sceneName, con
 	pOverseerComp->SetNextSceneName(nextScene);
 	pOverseerComp->SetDetails(details);
 
-	auto pPlayer = AddPlayerGO(scene, inputManager, 0, true);
-	auto pPlayerTransform = pPlayer->GetTransform().get();
+	std::vector<TransformComponent*> pPlayerTransforms{};
+
+	switch (mode)
+	{
+	case dae::MainMenuComponent::GameMode::SinglePlayer: 
+	{
+		auto pPlayer = AddPlayerGO(scene, inputManager, 0, true, "Images/Player_Ship.png");
+		pPlayerTransforms.emplace_back(pPlayer->GetTransform().get());
+	}
+	break;
+	case dae::MainMenuComponent::GameMode::Versus:
+	{
+		auto pPlayer = AddPlayerGO(scene, inputManager, 1, true, "Images/Player_Ship.png");
+		pPlayerTransforms.emplace_back(pPlayer->GetTransform().get());
+	}
+	break;
+	case dae::MainMenuComponent::GameMode::COOP:
+	{
+		auto pPlayer = AddPlayerGO(scene, inputManager, 1, true, "Images/Player_Ship.png");
+		pPlayer->GetTransform()->SetLocalPosition(pPlayer->GetTransform()->GetLocalPosition() - glm::vec3{20, 0, 0});
+		pPlayerTransforms.emplace_back(pPlayer->GetTransform().get());
+		auto pPlayer2 = AddPlayerGO(scene, inputManager, 0, false, "Images/Player_2_Ship.png");
+
+		pPlayer2->GetTransform()->SetLocalPosition(pPlayer2->GetTransform()->GetLocalPosition() + glm::vec3{20, 0, 0});
+		pPlayerTransforms.emplace_back(pPlayer2->GetTransform().get());
+	}
+	break;
+	}
 
 
-	//LoadEnemiePosFromFile
 	std::vector<dae::EnemyControllerComponent*> butterflyControllers{};
 	auto fileEnemies = dae::FileReader::GetInstance().ReadEnemies(filePath);
 	for (auto& enemy : fileEnemies)
 	{
-		dae::AddEnemyGO(scene, pPlayerTransform, glm::vec3{ enemy.x, enemy.y, 0 }, static_cast<dae::EnemyTypes>(enemy.enemyType), butterflyControllers);
+		dae::AddEnemyGO(scene, pPlayerTransforms, glm::vec3{ enemy.x, enemy.y, 0 }, static_cast<dae::EnemyTypes>(enemy.enemyType), butterflyControllers);
 	}
 
-	dae::LoadUI(scene, nextScene);
+	
+	if (mode == MainMenuComponent::GameMode::Versus)
+	{
+		dae::AddPlayerEnemyGO(scene, pPlayerTransforms, glm::vec3{ 300, 60, 0 }, butterflyControllers);
+	}
+
+	switch (mode)
+	{
+	case dae::MainMenuComponent::GameMode::SinglePlayer:
+	case dae::MainMenuComponent::GameMode::Versus:
+	{
+		dae::LoadUI(scene, nextScene);
+	}
+	break;
+	case dae::MainMenuComponent::GameMode::COOP:
+		dae::LoadUI(scene, nextScene, true);
+		break;
+	}
 
 	auto tutorial = std::make_shared<dae::GameObject>();
 	tutorial->Init();

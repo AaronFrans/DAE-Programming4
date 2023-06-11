@@ -3,6 +3,8 @@
 
 namespace dae
 {
+
+
 	struct Event;
 	class ButtonComponent;
 	class DetailsComponent;
@@ -19,11 +21,25 @@ namespace dae
 		void SwitchButton(bool nextButton);
 		void SelectButton();
 
-		void LoadLevels(dae::DetailsComponent* details);
+		void SetDetailsLevels(dae::DetailsComponent* details);
 	private:
+
+
+
+		enum class GameMode
+		{
+			SinglePlayer,
+			COOP,
+			Versus
+		};
+
 		void ResetLevels(const Event* e);
+		void LoadLevels();
+		void LoadMultiplayerLevels();
+		void LoadVersusLevels();
+
 		void LoadLevelFromFile(const std::string& sceneName, const std::string& filePath,
-			const std::string& nextScene, dae::DetailsComponent* details);
+			const std::string& nextScene, dae::DetailsComponent* details, GameMode mode);
 
 		int m_ActiveButton{ 0 };
 

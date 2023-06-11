@@ -25,12 +25,15 @@ namespace dae
 	class Scene;
 
 
-	GameObject* AddPlayerGO(Scene& scene, InputManager& input, unsigned playerIndex, bool useKeyboard = false);
+	GameObject* AddPlayerGO(Scene& scene, InputManager& input, unsigned playerIndex, bool useKeyboard, const std::string& playerTexture);
 
 	void AddEnemyTexture(std::shared_ptr<GameObject> enemy, const std::string& texturePath);
 
-	dae::GameObject* AddEnemyGO(dae::Scene& scene, TransformComponent* pPlayer, glm::vec3 pos,
+	dae::GameObject* AddEnemyGO(dae::Scene& scene, std::vector<TransformComponent*>& pPlayer, glm::vec3 pos,
 		dae::EnemyTypes enemyType, std::vector<EnemyControllerComponent*>& butterflies);
 
-	void LoadUI(dae::Scene& scene, const std::string& nextScene);
+	dae::GameObject* AddPlayerEnemyGO(dae::Scene& scene, std::vector<TransformComponent*>& pPlayer, glm::vec3 pos,
+		 std::vector<EnemyControllerComponent*>& butterflies);
+
+	void LoadUI(dae::Scene& scene, const std::string& nextScene, bool useSecondPlayer = false);
 }

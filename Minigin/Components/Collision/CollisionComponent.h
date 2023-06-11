@@ -11,6 +11,8 @@ namespace dae {
 	{
 		std::string ownerType{ "" };
 		GameObject* owningObject{};
+		//-1 if not a player or not used
+		int playerIndex = -1;
 	};
 
 

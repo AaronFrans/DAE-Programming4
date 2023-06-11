@@ -1,13 +1,18 @@
 #include "BossComponent.h"
 #include <Engine/Timer.h>
+
 #include <Components/TransformComponent.h>
 #include <Components/ImageComponent.h>
 #include <Components/Collision/CollisionComponent.h>
+#include <Components/ImageRenderComponent.h>
+
+#include "Commands/DiveCommand.h"
+#include "Commands/TractorCommand.h"
+
 #include "Rendering/ResourceManager.h"
 
 #include <Events/EventManager.h>
 #include "Events/GameEvents.h"
-#include <Components/ImageRenderComponent.h>
 
 void dae::BossComponent::SetupCollision()
 {
@@ -22,6 +27,9 @@ void dae::BossComponent::SetupCollision()
 
 void dae::BossComponent::Update()
 {
+	if (!m_HasFlownIn)
+		BaseEnemyComponent::Update();
+
 	if (!m_IsAttacking)
 		return;
 
@@ -76,17 +84,23 @@ void dae::BossComponent::TractorBeamCallback(const CollisionData&, const Collisi
 	if (!(strcmp(hitObject.ownerType.c_str(), "Player") == 0))
 		return;
 
+	m_CaughtPlayerIndex = hitObject.playerIndex;
+
 	std::unique_ptr<PlayerEvent> event = std::make_unique<PlayerEvent>();
 	event->eventType = "PlayerGrabbed";
-	event->playerIndex = 0;
+	event->playerIndex = hitObject.playerIndex;
 
 
 	EventManager::GetInstance().SendEventMessage<PlayerEvent>(std::move(event));
 	m_HasGrabbedPlayer = true;
-	m_PlayerOriginalPos = m_pPlayerTransform->GetWorldPosition();
+
+
+	m_CaughtPlayer = hitObject.owningObject->GetTransform().get();
+
+	m_PlayerOriginalPos = m_CaughtPlayer->GetWorldPosition();
 	m_PlayerDragDir = m_pTransform->GetWorldPosition() - m_PlayerOriginalPos;
 	m_PlayerDragDir = glm::normalize(m_PlayerDragDir);
-	m_PlayerDragDir *= 200;
+	m_PlayerDragDir *= m_FlySpeed;
 
 
 }
@@ -108,7 +122,7 @@ void dae::BossComponent::DoArcing(const float elapsed)
 		m_MovementDir = (m_FormationPosition - curPos);
 
 		m_MovementDir /= glm::length(m_MovementDir);
-		m_MovementDir *= 200;
+		m_MovementDir *= m_FlySpeed;
 	}
 }
 
@@ -147,15 +161,17 @@ void dae::BossComponent::DoDiving(const float elapsed)
 	m_CurArcTime = 0;
 
 	curPos.x > m_ScreenCenter.x ?
-		m_MovementDir = { -200, 0, 0 } :
-		m_MovementDir = { 200, 0, 0 };
+		m_MovementDir = { -m_FlySpeed, 0, 0 } :
+		m_MovementDir = { m_FlySpeed, 0, 0 };
 }
 
 void dae::BossComponent::HandlePlayerCaught(const float elapsed)
 {
-	auto newPlayerPos = m_pPlayerTransform->GetWorldPosition();
+
+
+	auto newPlayerPos = m_CaughtPlayer->GetWorldPosition();
 	newPlayerPos += m_PlayerDragDir * elapsed;
-	m_pPlayerTransform->SetLocalPosition(newPlayerPos);
+	m_CaughtPlayer->SetLocalPosition(newPlayerPos);
 
 	auto curPos = m_pTransform->GetWorldPosition();
 
@@ -168,17 +184,17 @@ void dae::BossComponent::HandlePlayerCaught(const float elapsed)
 	m_MovementDir = (m_FormationPosition - curPos);
 
 	m_MovementDir /= glm::length(m_MovementDir);
-	m_MovementDir *= 200;
+	m_MovementDir *= m_FlySpeed;
 
 	m_TractorBeamRender->SetActive(false);
 	m_TractorCollision->SetActive(false);
 
 	std::unique_ptr<PlayerEvent> event = std::make_unique<PlayerEvent>();
 	event->eventType = "PlayerDied";
-	event->playerIndex = 0;
+	event->playerIndex = m_CaughtPlayerIndex;
 	EventManager::GetInstance().SendEventMessage(std::move(event));
 
-	m_pPlayerTransform->SetLocalPosition(m_PlayerOriginalPos);
+	m_CaughtPlayer->SetLocalPosition(m_PlayerOriginalPos);
 	m_CurTractorIndex = 0;
 	m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
 	auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
@@ -215,7 +231,7 @@ void dae::BossComponent::DoTractorBeam(const float elapsed)
 		m_MovementDir = (m_FormationPosition - curPos);
 
 		m_MovementDir /= glm::length(m_MovementDir);
-		m_MovementDir *= 200;
+		m_MovementDir *= m_FlySpeed;
 		m_TractorBeamRender->SetActive(false);
 		m_TractorCollision->SetActive(false);
 
@@ -241,49 +257,65 @@ void dae::BossComponent::DoTractorBeamDive(const float elapsed, glm::vec3 curPos
 
 void dae::BossComponent::Attack()
 {
+
+	bool doTracktorBeam = rand() % 2;
+	if (doTracktorBeam)
+	{
+		DoTractorBeamAttack();
+	}
+	else
+	{
+		DoDivingAttack();
+	}
+
+}
+
+void dae::BossComponent::DoDivingAttack()
+{
+	m_CurAttackState = AttackStates::Diving;
+
 	m_IsAttacking = true;
-	m_MovementDir = { 0, 200, 0 };
+	m_MovementDir = { 0, m_FlySpeed, 0 };
 
-	//bool doTracktorBeam = rand() % 2;
-	//if (doTracktorBeam)
-	//{
-		m_CurAttackState = AttackStates::Tractor;
-		m_CurTractorIndex = 0;
+	std::vector<int> freeIndexes;
 
-		m_TractorCollision->SetActive(true);
+	for (int i = 0; i < m_Butterflies.size(); ++i) {
+		if (!m_Butterflies[i]->IsAlreadyAttacking()) {
+			freeIndexes.push_back(i);
+		}
+	}
 
-		m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
-		auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
-		auto textureHeight = m_TractorBeamDisplay->GetTextureHeight();
-		m_TractorCollision->SetBounds(textureWidth, textureHeight);
+	if (!freeIndexes.empty()) {
+		// Generate a random index from the free indexes
+		int randomIndex = freeIndexes[std::rand() % freeIndexes.size()];
+		EnemyControllerComponent* randomButterfly = m_Butterflies[randomIndex];
+		randomButterfly->ForceAttack();
+	}
+}
 
-		m_MovementDir = m_pPlayerTransform->GetWorldPosition(); -m_pTransform->GetWorldPosition();
+void dae::BossComponent::DoTractorBeamAttack()
+{
+	m_CurAttackState = AttackStates::Tractor;
 
-		m_MovementDir /= glm::length(m_MovementDir);
-		m_MovementDir *= 200;
-	//}
-	//else
-	//{
-	//	m_CurAttackState = AttackStates::Diving;
-	//
-	//
-	//	std::vector<int> freeIndexes;
-	//
-	//	for (int i = 0; i < m_Butterflies.size(); ++i) {
-	//		if (!m_Butterflies[i]->IsAlreadyAttacking()) {
-	//			freeIndexes.push_back(i);
-	//		}
-	//	}
-	//
-	//	if (!freeIndexes.empty()) {
-	//		// Generate a random index from the free indexes
-	//		int randomIndex = freeIndexes[std::rand() % freeIndexes.size()];
-	//		EnemyControllerComponent* randomButterfly = m_Butterflies[randomIndex];
-	//		randomButterfly->ForceAttack();
-	//	}
-	//
-	//}
+	m_IsAttacking = true;
+	m_MovementDir = { 0, m_FlySpeed, 0 };
 
+	m_CurTractorIndex = 0;
+
+	m_TractorCollision->SetActive(true);
+
+	m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
+	auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
+	auto textureHeight = m_TractorBeamDisplay->GetTextureHeight();
+	m_TractorCollision->SetBounds(textureWidth, textureHeight);
+
+
+	int randomIndex = std::rand() % m_pPlayerTransforms.size();
+
+	m_MovementDir = m_pPlayerTransforms[randomIndex]->GetWorldPosition(); -m_pTransform->GetWorldPosition();
+
+	m_MovementDir /= glm::length(m_MovementDir);
+	m_MovementDir *= m_FlySpeed;
 }
 
 void dae::BossComponent::OnHitCallback(const CollisionData& collisionOwner, const CollisionData& hitObject)
@@ -296,7 +328,6 @@ void dae::BossComponent::OnHitCallback(const CollisionData& collisionOwner, cons
 	{
 		m_IsDamaged = true;
 		m_DisplayComponent->SetTexture(m_DamagedTexture);
-
 		return;
 	}
 

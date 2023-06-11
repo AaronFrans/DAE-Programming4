@@ -16,7 +16,7 @@ void dae::BeeComponent::Attack()
 {
 	m_IsAttacking = true;
 	m_CurAttackState = AttackStates::Diving;
-	m_MovementDir = { 0, 200, 0 };
+	m_MovementDir = { 0, m_FlySpeed, 0 };
 }
 
 void dae::BeeComponent::OnHitCallback(const CollisionData& collisionOwner, const CollisionData& hitObject)
@@ -48,6 +48,9 @@ void dae::BeeComponent::OnHitCallback(const CollisionData& collisionOwner, const
 
 void dae::BeeComponent::Update()
 {
+	if (!m_HasFlownIn)
+		BaseEnemyComponent::Update();
+
 	if (!m_IsAttacking)
 		return;
 
@@ -88,8 +91,8 @@ void dae::BeeComponent::DoDiving(const float elapsed)
 	m_CurArcTime = 0;
 
 	curPos.x > m_ScreenCenter.x ?
-		m_MovementDir = { -200, 0, 0 } :
-		m_MovementDir = { 200, 0, 0 };
+		m_MovementDir = { -m_FlySpeed, 0, 0 } :
+		m_MovementDir = { m_FlySpeed, 0, 0 };
 }
 
 void dae::BeeComponent::DoArcing(const float elapsed)
@@ -110,7 +113,7 @@ void dae::BeeComponent::DoArcing(const float elapsed)
 	m_MovementDir = (m_FormationPosition - curPos);
 
 	m_MovementDir /= glm::length(m_MovementDir);
-	m_MovementDir *= 200;
+	m_MovementDir *= m_FlySpeed;
 }
 
 void dae::BeeComponent::DoReturning(const float elapsed)

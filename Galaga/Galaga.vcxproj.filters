@@ -52,6 +52,8 @@
     <ClCompile Include="Commands\BackToMainMenuCommand.cpp" />
     <ClCompile Include="FactoryFunctions\Factories.cpp" />
     <ClCompile Include="Commands\SkipLevelCommand.cpp" />
+    <ClCompile Include="Commands\TractorCommand.cpp" />
+    <ClCompile Include="Commands\DiveCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands\EarnPointsCommand.h" />
@@ -123,5 +125,7 @@
     <ClInclude Include="Commands\BackToMainMenuCommand.h" />
     <ClInclude Include="FactoryFunctions\Factories.h" />
     <ClInclude Include="Commands\SkipLevelCommand.h" />
+    <ClInclude Include="Commands\TractorCommand.h" />
+    <ClInclude Include="Commands\DiveCommand.h" />
   </ItemGroup>
 </Project>

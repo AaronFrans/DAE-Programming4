@@ -13,6 +13,9 @@ dae::EnemyControllerComponent::EnemyControllerComponent(GameObject* owner)
 
 void dae::EnemyControllerComponent::Update()
 {
+	if (!m_pControlledEnemy->HasFlownIn())
+		return;
+
 	if (m_pControlledEnemy->IsAttacking())
 		return;
 

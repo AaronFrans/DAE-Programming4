@@ -1,12 +1,9 @@
 !!!avoid magic nr => make them variables!!!
-Enemies
-    which will fly into formation from the top and sides of the screen.
+
+
+Data folder in build
+
+give arno the gluck gluck
 
 Levels
     fix crash on reset
-
-multiplayer
-    coop
-    vs
-
-give arno the gluck gluck
