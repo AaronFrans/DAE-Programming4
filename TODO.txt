@@ -1,9 +1,0 @@
-!!!avoid magic nr => make them variables!!!
-
-
-Data folder in build
-
-give arno the gluck gluck
-
-Levels
-    fix crash on reset

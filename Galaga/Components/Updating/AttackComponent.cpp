@@ -171,7 +171,7 @@ void dae::AttackComponent::BulletHitCallback(const dae::CollisionData& collision
 	hitEvent->sceneName = m_SceneName;
 	EventManager::GetInstance().SendEventMessage(std::move(hitEvent));
 
-	SoundManager::GetInstance().GetSoundSystem()->HandleSoundData(dae::SoundData{ 3, 0.1, });
+	SoundManager::GetInstance().GetSoundSystem()->HandleSoundData(dae::SoundData{ 3, 0.1f, });
 
 	collisionOwner.owningObject->MarkForDestroy();
 }

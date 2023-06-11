@@ -81,7 +81,6 @@ void dae::GameOverseerComponent::EnemyDead(const Event* e)
 
 		if (m_NrEnemies != 0)
 			return;
-		std::cout << "All enemies dead\n";
 
 		m_pDetails->SetActive(true);
 		m_pDetails->SetDetailsText(m_NrShots, m_NrHits);
@@ -94,8 +93,6 @@ void dae::GameOverseerComponent::EnemyDead(const Event* e)
 			event->sceneName = m_SceneName;
 			EventManager::GetInstance().SendEventMessage(std::move(event));
 		}
-
-		std::cout << "going to details\n";
 
 		SceneManager::GetInstance().SetActiveScene("Details");
 

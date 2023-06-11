@@ -19,7 +19,6 @@ void dae::BossComponent::SetupCollision()
 	m_TractorCollision->SetBounds(0, 0);
 	m_pScene->AddCollision(m_TractorCollision);
 	m_TractorCollision->SetScene(m_pScene);
-	m_TractorCollision->EnableDebugSquare();
 	auto boundHitCallback = std::bind(&BossComponent::TractorBeamCallback, this, std::placeholders::_1, std::placeholders::_2);
 	m_TractorCollision->SetCallback(boundHitCallback);
 	m_TractorCollision->SetActive(false);
@@ -195,7 +194,7 @@ void dae::BossComponent::HandlePlayerCaught(const float elapsed)
 	EventManager::GetInstance().SendEventMessage(std::move(event));
 
 	m_CaughtPlayer->SetLocalPosition(m_PlayerOriginalPos);
-	m_CurTractorIndex = 0;
+	m_CurTractorIndex = m_CaughtPlayerIndex;
 	m_TractorBeamDisplay->SetTexture(m_TractorBeamTextures[m_CurTractorIndex]);
 	auto textureWidth = m_TractorBeamDisplay->GetTextureWidth();
 	auto textureHeight = m_TractorBeamDisplay->GetTextureHeight();
@@ -222,7 +221,7 @@ void dae::BossComponent::DoTractorBeam(const float elapsed)
 	m_CurTractorStateChangeTime = 0;
 	++m_CurTractorIndex;
 
-	if (m_CurTractorIndex == m_TractorBeamTextures.size())
+	if (m_CurTractorIndex == static_cast<int>(m_TractorBeamTextures.size()))
 	{
 
 
@@ -279,7 +278,7 @@ void dae::BossComponent::DoDivingAttack()
 
 	std::vector<int> freeIndexes;
 
-	for (int i = 0; i < m_Butterflies.size(); ++i) {
+	for (int i = 0; i < static_cast<int>(m_Butterflies.size()); ++i) {
 		if (!m_Butterflies[i]->IsAlreadyAttacking()) {
 			freeIndexes.push_back(i);
 		}

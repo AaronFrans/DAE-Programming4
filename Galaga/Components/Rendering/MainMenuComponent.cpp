@@ -248,11 +248,5 @@ void dae::MainMenuComponent::LoadLevelFromFile(const std::string& sceneName, con
 		break;
 	}
 
-	auto tutorial = std::make_shared<dae::GameObject>();
-	tutorial->Init();
-	scene.Add(tutorial);
-
-	tutorial->AddComponent<dae::TutorialComponent>();
-
 	m_LevelNames.push_back(sceneName);
 }

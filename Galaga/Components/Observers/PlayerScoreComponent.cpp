@@ -147,11 +147,8 @@ void dae::PlayerScoreComponent::NextScene(const Event* e)
 		return;
 
 
-
-	std::cout << "NextLevel Called -> Calling NextSceneScore\n";
 	if (const SceneEvent* scene = dynamic_cast<const SceneEvent*>(e))
 	{
-		std::cout << "Is " << m_NextSceneName << " = " << scene->sceneName << "?\n";
 		if (m_NextSceneName != scene->sceneName)
 			return;
 
@@ -170,14 +167,10 @@ void dae::PlayerScoreComponent::NextSceneLoaded(const Event* e)
 		return;
 
 
-	std::cout << "NextSceneScore Called -> Checking for scene name\n";
 	if (const SceneEvent* event = dynamic_cast<const SceneEvent*>(e))
 	{
 		if (m_SceneName != event->sceneName)
 			return;
-		std::cout << m_SceneName << " = " << event->sceneName << '\n';
-
-		std::cout << "Loading Level: " << m_SceneName;
 
 		SceneManager::GetInstance().SetActiveScene(m_SceneName);
 		m_PointsEarned = event->nrPoints;

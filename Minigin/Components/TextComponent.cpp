@@ -44,9 +44,6 @@ void dae::TextComponent::SetTexture()
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
 
-	std::cout << m_Text.c_str() << '\n';
-	std::cout << SceneManager::GetInstance().GetActiveScene().GetName() << '\n';
-
 
 	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
 	if (texture == nullptr)
