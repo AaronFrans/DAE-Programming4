@@ -399,5 +399,7 @@ FodyWeavers.xsd
 
 !3rdParty/**/*
 
+Builds/
+
 # Dear Imgui settings file
 imgui.ini
